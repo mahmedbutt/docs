@@ -3,13 +3,13 @@ title: MDX
 ---
 # MDX
 
-With Nextra, all your `.md` and `.mdx` files under the pages directory will be rendered with [MDX](https://mdxjs.com/about), it's an
+With grandeur-mdx, all your `.md` and `.mdx` files under the pages directory will be rendered with [MDX](https://mdxjs.com/about), it's an
 advanced Markdown format with React component support.
 
 You can use import and use React components inside your Markdown files like this:
 
 ```markdown
-import Callout from 'nextra-theme-docs/callout'
+import Callout from 'theme/callout'
 
 **Markdown With React Components**
 
@@ -22,7 +22,7 @@ import Callout from 'nextra-theme-docs/callout'
 
 Generates:
 
-import Callout from 'nextra-theme-docs/callout'
+import Callout from 'theme/callout'
 
 <div className="p-4 border border-gray-200 dark:border-gray-900 rounded mt-6">
 **Markdown With React Components**
@@ -149,7 +149,7 @@ React components and Markdown can be **mixed together**, for instance:
 
 ```markdown
 > <Callout>
->   Give [**Nextra**](https://github.com/shuding/nextra) a star!
+>   Give [**grandeur-mdx**](https://github.com/shuding/grandeur-mdx) a star!
 > </Callout>
 ```
 

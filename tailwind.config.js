@@ -22,8 +22,7 @@ module.exports = {
 
 		// Fonts
 		fontFamily: {
-			sans: ['Poppins', 'sans-serif'],
-			roboto: ['Roboto', 'sans-serif']
+			sans: ['Poppins', 'sans-serif']
 		},
 
 		// Font size

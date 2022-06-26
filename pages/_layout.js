@@ -17,7 +17,7 @@ export default function Layout({children}) {
             <Container column={1} >
 
                 {/* Render children */}
-                <article className="prose lg:prose-xl prose-invert">
+                <article className="prose prose-sm prose-invert prose-headings:font-sans text-white-2">
 
                     {/* Use tailwind typography */}
                     {children}

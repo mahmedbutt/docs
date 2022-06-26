@@ -96,19 +96,19 @@ class Grid extends Component {
                         if (typeof config !== "object") {
                             // Redefine config
                             config = {
-                                xs: config,
-                                sm: config,
-                                md: config,
-                                lg: config
+                                xs: `col-span-${config}`,
+                                sm: `sm:col-span-${config}`,
+                                md: `md:col-span-${config}`,
+                                lg: `lg:col-span-${config}`
                             }
                         }
                         else {
                             // Use config object for responsiveness
                             config = {
-                                xs: config.xs,
-                                sm: config.sm,
-                                md: config.md,
-                                lg: config.lg
+                                xs: config.xs ? `col-span-${config.xs}` : `hidden`,
+                                sm: config.sm ? `${config.xs ? "" : "sm:block"} sm:col-span-${config.sm}` : "sm:hidden",
+                                md: config.md ? `${config.sm ? "" : "md:block"} md:col-span-${config.md}` : "md:hidden",
+                                lg: config.lg ? `${config.md ? "" : "lg:block"} lg:col-span-${config.lg}` : "lg:hidden",
                             }
                         }
 
@@ -116,7 +116,7 @@ class Grid extends Component {
                         var className = Array.isArray(this.state.pass) ? this.state.pass[index] : "";
 
                         // Select a column in grid and align with Grid System
-                        return <div className={`col-span-${config.xs} sm:col-span-${config.sm} md:col-span-${config.md} lg:col-span-${config.lg} ${className}`} key={index}>
+                        return <div className={`${config.xs} ${config.sm} ${config.md} ${config.lg} ${className}`} key={index}>
                             {/* Render content inside Grid div*/}
                             {column}
                         </div>

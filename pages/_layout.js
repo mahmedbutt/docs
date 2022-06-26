@@ -1,6 +1,7 @@
 // Import components
 import Grid from '../components/grid/grid.component';
 import Container from '../components/container/container.component';
+import Sidebar from '../components/sidebar/sidebar.component';
 
 // Export component
 export default function Layout({children}) {
@@ -8,10 +9,10 @@ export default function Layout({children}) {
     // We will use the grid component to create page
     return <div className='absolute inset-0 bg-gray-1 w-full overflow-hidden'>
 
-        <Grid columns={[1, 11]} pass={["", "overflow-x-hidden overflow-y-auto"]} height="full">
+        <Grid columns={[{ xs: 0, sm: 3, md: 2, lg: 2 }, { xs: 12, sm: 9, md: 10, lg: 10 }]} pass={["", "overflow-x-hidden overflow-y-auto"]} height="full">
 
             {/* The first column is about the menu */}
-            <div column={0}></div>
+            <Sidebar column={0} />
 
             {/* Second column is about the content that we want to render */}
             <Container column={1} >

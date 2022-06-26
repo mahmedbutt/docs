@@ -22,7 +22,7 @@ class Container extends Component {
         // and give the page a structure
 
         return (
-            <div className={`md:pr-12 md:px-0 px-6 py-12 animate-fade-in w-full`}>
+            <div className={`px-12 py-12 animate-fade-in w-full`}>
 
                 {this.props.children}
 

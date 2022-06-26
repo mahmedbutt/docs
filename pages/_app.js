@@ -1,11 +1,13 @@
-import '../styles/globals.css'
-import Layout from '../components/layout';
-import routes from './layout.json';
+// Global styles
+import '../styles/globals.css';
+import 'tailwindcss/tailwind.css';
 
-routes = routes.reverse();
+// Core layout component
+import Layout from './_layout';
 
-function MyApp({ Component, pageProps }) {
-  return <Layout routes={routes} ><Component {...pageProps} /></Layout>
+function App({ Component, pageProps }) {
+	// Wrap the page in layout and render
+	return <Layout><Component {...pageProps} /></Layout>
 }
 
-export default MyApp
+export default App

@@ -1,19 +1,39 @@
 // Load our custom plugin to process mdx
-const withMDX = require("./lib/index")({ data: "data", out: "pages" });
+const withMDX = require("./lib/index")({ data: "data", out: "pages/_data" });
 
 // Provide it to next
 module.exports = withMDX({
+    async rewrites() {
+        return [
+            {
+              source: '/:path*',
+              destination: '/_data/:path*',
+            },
+        ]
+    },
+    
 	// Next config
-	trailingSlash: true,
     exportPathMap: async function (defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
-        // Delete default config for 404 page
-        delete defaultPathMap['/404'];
-  
-        // and replace it with 404.html
-        // means basically instead of creating a new directory
-        // simply render the file
-        defaultPathMap['/404.html'] = {page: '/404'}
-  
+
+        // Skip layout page
+        delete defaultPathMap['/_layout'];
+
+        // Now loop on each entry in path map
+        for (var page in defaultPathMap) {
+
+            // If the page is coming from _data
+            if (/^\/_data/.test(page)) {
+
+                // Then remove page
+                delete defaultPathMap[page];
+
+                // and re include without _data prefix
+                defaultPathMap[page.replace("/_data", "/").replace("//", "/")] = { page };
+
+            }
+        
+        }
+
         // Return map
         return defaultPathMap
     }

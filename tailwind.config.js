@@ -31,6 +31,7 @@ module.exports = {
 			'sm': '0.65rem',
 			'base': '0.75rem',
 			'lg': '0.85rem',
+			'xl': '1.2rem',
 			'title': '2rem'
 		},
 
@@ -102,17 +103,9 @@ module.exports = {
 					'loading': 'loading 1s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite'
 			},
 			spacing: {
-				'21': '21em',
-				'22': '22em',
-				'23': '23em',
-				'24': '24em',
-				'25': '25em',
-				'26': '26em',
-				'27': '27em',
-				'28': '28em',
-				'29': '29em',
-				'30': '30em'
-			  }
+				'18': '4.5rem',
+				'22': '5.5rem'
+			}
 		},
 	},
 	

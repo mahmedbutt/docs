@@ -33,7 +33,8 @@ class Grid extends Component {
             placement: props.placement,
             height: props.height,
             px: padding.x ? padding.x : 0,
-            py: padding.y ? padding.y : 0
+            py: padding.y ? padding.y : 0,
+            className: props.className || ""
         }   
     }
 
@@ -69,7 +70,7 @@ class Grid extends Component {
                 }
             }
 
-            return <div className={`grid grid-flow-row gap-3 grid-cols-${config.xs} sm:grid-cols-${config.sm} md:grid-cols-${config.md} lg:grid-cols-${config.lg} ${this.state.height === "full" ? "h-full" : ""} px-${this.state.px} py-${this.state.py}`}>
+            return <div className={`grid grid-flow-row gap-3 grid-cols-${config.xs} sm:grid-cols-${config.sm} md:grid-cols-${config.md} lg:grid-cols-${config.lg} ${this.state.height === "full" ? "h-full" : ""} px-${this.state.px} py-${this.state.py} ${this.state.className}`}>
                 
                 {this.props.children}
 
@@ -85,7 +86,7 @@ class Grid extends Component {
                 this.props.children.forEach(child => child.props.column >= 0? grid[child.props.column].push(child) : null);
             }
 
-            return <div className={`grid grid-flow-row gap-3 grid-cols-12 ${this.state.height === "full" ? "h-full" : ""} px-${this.state.px} py-${this.state.py}`}>
+            return <div className={`grid grid-flow-row gap-3 grid-cols-12 ${this.state.height === "full" ? "h-full" : ""} px-${this.state.px} py-${this.state.py} ${this.state.className}`}>
                 {/* Render columns */}
                 {
                     grid ? grid.map( (column, index) => {

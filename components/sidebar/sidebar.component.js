@@ -2,7 +2,7 @@
 // Custom component to render sitemap and logo
 
 // Libraries
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import cuid from "cuid";
@@ -13,11 +13,16 @@ function Route({ title, path, depth }) {
     // Get router
     const router = useRouter();
 
+    const [ active, setActive ] = useState("text-white-2");
+
     // Determine active state
-    var active = router.asPath === path ? "text-white-1" : "text-white-2"
+    useEffect(() => {
+        // Update state
+        router.asPath === path ? setActive("text-white-1") : setActive("text-white-2");
+    }, [ router.asPath, path ])
 
     // Return the markdown
-    return <div key={cuid()} className={`${active} text-base py-2 cursor-pointer`} style={{ marginLeft: `${ depth * 10 }px` }}>{title}</div>
+    return <Link key={cuid()} href={path}><div className={`${active} text-base py-2 cursor-pointer`} style={{ marginLeft: `${ depth * 10 }px` }}>{title}</div></Link>
 
 }
 
@@ -73,14 +78,10 @@ class Sidebar extends Component {
         // and give the page a structure
 
         return (
-            <div className={`bg-gray-2 px-6 py-12 w-full h-full box-border flex flex-col items-start`}>
-
-                {/* Logo */}
-                <Link href="/"><img src="/images/logo.svg" className="block w-auto h-6 cursor-pointer" alt="Grandeur Logo"/></Link>
+            <div className={`px-6 my-8 w-full box-border flex flex-col items-start`}>
 
                 {/* Render TOC */}
-                <div className='mt-10 overflow-x-hidden overflow-y-auto'>{this.toc(this.state.toc, 0)}</div>
-                
+                {this.toc(this.state.toc, 0)}
 
             </div>
         );

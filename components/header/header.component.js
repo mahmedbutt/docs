@@ -27,10 +27,10 @@ class Header extends Component {
                 {/* Logo */}
                 <Link href="/">
 
-                    <div className="flex h-full items-center">
+                    <div className="flex h-full w-fit cursor-pointer items-center">
                     
                         {/* Add logo */}
-                        <img src="/images/logo-trimmed.svg" className="block w-auto h-full cursor-pointer" alt="Grandeur Logo"/>
+                        <img src="/images/logo-trimmed.svg" className="block w-auto h-full" alt="Grandeur Logo"/>
 
                         {/* And then add title */}
                         <div className="h-fit font-sans font-bold text-white-1 text-xl ml-4">Docs</div>

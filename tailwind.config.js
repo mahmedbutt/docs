@@ -62,9 +62,17 @@ module.exports = {
 			},
 
 			// Defaults 
-			orange: colors.orange,
-			yellow: colors.yellow,
-			red: colors.red
+			danger: {
+				DEFAULT: "#ff4c4c"
+			},
+
+			warning: {
+				DEFAULT: "#fec107"
+			},
+
+			info: {
+				DEFAULT: "#8C8C8C"
+			}
 		},
 		
 

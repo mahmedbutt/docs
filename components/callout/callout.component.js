@@ -8,21 +8,20 @@ export default function Callout({ emoji, type, children }) {
 
     // Determine style 
     useEffect(() => {
+
         // Update state
-        type === "warning" ? setStyle("bg-yellow-700/30 text-yellow-200") : 
-        type === "error" ? setStyle("bg-red-600/30 text-red-200") :
-        setStyle("bg-orange-200/10 text-orange-300")
+        type === "warning" ? setStyle("border-warning") : type === "error" ? setStyle("border-danger") : setStyle("border-info")
 
     }, [ type ])
 
     // Return markdown
-    return <div className={`${style} flex rounded-lg my-6 not-prose`}>
+    return <div className={`${style} border flex rounded-sm my-6 not-prose pt-3 pb-2 w-full`}>
 
         {/* Render emoji */}
-        <div className="pl-3 pr-2 py-2 select-none font-emoji">{emoji}</div>
+        <div className="pl-3 pr-2 select-none font-emoji">{emoji}</div>
 
         {/* Render content */}
-        <div className="pr-4 py-2">{children}</div>
+        <div className="pr-4 text-white-1">{children}</div>
 
     </div>
 }

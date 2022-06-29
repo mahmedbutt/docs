@@ -50,6 +50,7 @@
      -ms-hyphens: none;
      hyphens: none;
      font-size: 1em;
+     width: 100%;
  }
  
  /* Selection */

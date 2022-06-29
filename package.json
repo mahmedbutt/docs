@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/react": "^2.1.2",
     "autoprefixer": "^10.4.7",
     "cuid": "^2.1.8",
     "gray-matter": "^4.0.3",

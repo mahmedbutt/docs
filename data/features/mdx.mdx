@@ -9,7 +9,6 @@ advanced Markdown format with React component support.
 You can use import and use React components inside your Markdown files like this:
 
 ```markdown
-import Callout from 'theme/callout'
 
 **Markdown With React Components**
 
@@ -22,13 +21,53 @@ import Callout from 'theme/callout'
 
 Generates:
 
-import Callout from 'theme/callout'
-
 <div className="p-4 border border-gray-200 dark:border-gray-900 rounded mt-6">
 **Markdown With React Components**
 
+<Callout emoji="✅">
+  **MDX** (the library), at its core, transforms MDX (the syntax) to JSX.
+  It receives an MDX string and outputs a _JSX string_. It does this by parsing
+  the MDX document to a syntax tree and then generates a JSX document from that tree. 
+</Callout>
 
 </div>
+
+Callout can have different types
+
+### Default
+<Callout emoji="👾">
+  **Space Invaders** is a 1978 shoot 'em up arcade game developed by Tomohiro
+  Nishikado.
+</Callout>
+
+``` markdown
+<Callout emoji="👾">
+  **Space Invaders** is a 1978 shoot 'em up arcade game developed by Tomohiro
+  Nishikado.
+</Callout>
+```
+
+### Warning
+<Callout type="warning" emoji="⚠️">
+  This API will be deprecated soon.
+</Callout>
+
+``` markdown
+<Callout type="warning" emoji="⚠️">
+  This API will be deprecated soon.
+</Callout>
+```
+
+### Error
+<Callout type="error" emoji="️🚫">
+  This is a dangerous feature that can cause everything to explode.
+</Callout>
+
+``` markdown
+<Callout type="error" emoji="️🚫">
+  This is a dangerous feature that can cause everything to explode.
+</Callout>
+```
 
 ## Heading
 
@@ -148,9 +187,12 @@ Nested quotes:
 React components and Markdown can be **mixed together**, for instance:
 
 ```markdown
-> <Callout>
+> <Callout emoji="💡">
 >   Give [**grandeur-mdx**](https://github.com/shuding/grandeur-mdx) a star!
 > </Callout>
 ```
 
 Renders:
+> <Callout emoji="💡">
+>   Give [**Nextra**](https://github.com/shuding/nextra) a star!
+> </Callout>

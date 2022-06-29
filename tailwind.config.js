@@ -1,4 +1,5 @@
 // Configuration for Tailwind
+const colors = require('tailwindcss/colors')
 
 module.exports = {
 
@@ -60,8 +61,10 @@ module.exports = {
 				DEFAULT: '#7A15D1',
 			},
 
-			// Danger 
-			'danger': '#95323E',
+			// Defaults 
+			orange: colors.orange,
+			yellow: colors.yellow,
+			red: colors.red
 		},
 		
 

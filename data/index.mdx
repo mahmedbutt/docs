@@ -1,15 +1,31 @@
 ---
-title: Getting Started
+title: Introduction
 ---
-# Getting Started
+# Introduction 
 
-## Hello World
-Nextra itself is basically a plugin that normalizes your Markdown routes in Next.js into structural data, and it doesn't handle any styling related thing. A theme is what renders your actual pages, it works like a layout component in React.
+Building a smart (IoT) product is an art because it is about unifying the physical world with the digital one. When you put a piece of hardware on the web, magic happens, but dealing with a single device is one thing, and forging an automated ecosystem with tens and thousands of these devices is another. Creating that sort of magic comes in with a lot of problems.
 
-Nextra has 2 official themes that you can use:
+What problems you may ask?
 
-Docs Theme
-Blog Theme
-You can also extend your own themes. Here's a great starter example by @jaredpalmer:
+- Huge development stack (Your IoT product which is generally hardware, your web app, your server API, and the communication between all of these).
+- Your database design and management.
+- Setting up and maintaining your servers handling your compute, storage, and networking.
+- Web development (backend of your server, frontend of your web apps).
+- Your IoT product development itself.
+- Scaling your system up to hundreds of thousands of devices as your business grows.
 
-Nextra Blank Custom Theme/Boilerplate Example
+Here comes in Grandeur. A backend as a service (BaaS) platform for IoT. We have designed this platform so that you do not have to worry about the backend of your next big thing and you could focus on what matters the most; your hardware and apps. 
+
+Grandeur is *product-centred*. It is much more than just a medium of communication between your app and your hardware device. Focusing on expediting IoT product development, it offers an ecosystem of the most necessary tools integrated to make the most head-cracking development problems seamless.
+
+## Case Study-Food Delivery
+
+Let’s make it easier for you to understand the problem by a real-life case scenario. 
+
+You’re planning on opening a food delivery service and but you have quite a few apprehensions regarding it. You’ve seen other food delivery systems where orders are misplaced or delivered to the wrong customer. There’ve also been quite a few occurrences of food gone spoilt due to unsuitable conditions. You’re already burdened by the responsibility of actually getting the food setup ready and these problems are bugging you. How will you get such an app ready?
+
+You reach out to a friend from a tech background and he’s more than ready to help you out. He gives you the idea of adding a delivery box with a digital locking mechanism which can only be opened by an OTP. Using OTP, the delivery boy opens the digital lock and delivers the item to the respective customer. He gives you an additional idea of temperature sensors equipped delivery boxes so that optimum temperature can be maintained for the food. You are completely on board with the idea but the hefty sum of actually engineering the app is too much for you as it requires a lot of software engineers. You ask your friend to find out a smart solution. He looks into stuff and  he ultimately discovers a platform named `Grandeur`. 
+
+You wanted to authenticate your users, it had the auth feature in it which could provide you with the OTP to open the delivery box. You needed a online storage space to store your user's details, it came with builtin support for storage. You needed a database to store remote monitoring logs so that the rider can monitor the temperature of the food, it provided a cloud datastore service. You wanted to build a communication bridge between the hardware and the software, Grandeurs’ SDK was available for all the stacks like arduino, web, and mobile.
+
+So your geeky friend single handedly integrated this platform into your app. You simply registered for the platform, created a project and started integrating your apps and hardware with the SDK. Then finally you registered your products to the platform before making them available for sale. Your apps are now live on the store. People loved what you built. You’ve revolutionised the food delivery service!

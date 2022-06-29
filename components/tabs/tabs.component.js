@@ -13,7 +13,7 @@ function Item({ group, label, value, selected, set }) {
         // Compare the value of selected item with the value of the current item
         value === selected ? setActive("bg-gray-3") : setActive("");
  
-    }, [selected])
+    }, [value, selected])
 
     // Function to change selected tab
     const update = () => {
@@ -68,7 +68,7 @@ export default function Tabs({ children, group }) {
         // Set the first item as selected
         if (items.length > 0) setSelected(selected || items[0].value);
 
-    }, [children]);
+    }, [group, children]);
 
     // Listen to changes on storage
     useEffect(() => {
@@ -76,7 +76,7 @@ export default function Tabs({ children, group }) {
         // We are doing so to sync tabs across pages and even on same page
         window.addEventListener("storage", ({ key, newValue }) => key === group && newValue !== selected ? setSelected(newValue) : null);
 
-    }, []);
+    }, [selected, group]);
 
     // Return markdown
     return <div className={`flex flex-col rounded-lg my-6`}>

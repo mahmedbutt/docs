@@ -1,9 +1,46 @@
+/* Custom font */
+
+@font-face {
+  font-family: 'Whyte';
+  src: local('Whyte Regular'), local('Whyte-Regular'),
+      url('../fonts//Whyte-Regular.woff2') format('woff2'),
+      url('../fonts//Whyte-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Whyte';
+  src: local('Whyte Italic'), local('Whyte-Italic'),
+      url('../fonts/Whyte-Italic.woff2') format('woff2'),
+      url('../fonts/Whyte-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Whyte';
+  src: local('Whyte Bold'), local('Whyte-Bold'),
+      url('../fonts/Whyte-Bold.woff2') format('woff2'),
+      url('../fonts/Whyte-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Whyte';
+  src: local('Whyte Bold Italic'), local('Whyte-BoldItalic'),
+      url('../fonts/Whyte-BoldItalic.woff2') format('woff2'),
+      url('../fonts/Whyte-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Whyte' , sans-serif;
 }
 
 a {

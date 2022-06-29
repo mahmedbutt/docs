@@ -3,13 +3,12 @@ title: MDX
 ---
 # MDX
 
-With Nextra, all your `.md` and `.mdx` files under the pages directory will be rendered with [MDX](https://mdxjs.com/about), it's an
+With grandeur-mdx, all your `.md` and `.mdx` files under the pages directory will be rendered with [MDX](https://mdxjs.com/about), it's an
 advanced Markdown format with React component support.
 
 You can use import and use React components inside your Markdown files like this:
 
 ```markdown
-import Callout from 'nextra-theme-docs/callout'
 
 **Markdown With React Components**
 
@@ -22,17 +21,15 @@ import Callout from 'nextra-theme-docs/callout'
 
 Generates:
 
-import Callout from 'nextra-theme-docs/callout'
-
 <div className="p-4 border border-gray-200 dark:border-gray-900 rounded mt-6">
 **Markdown With React Components**
 
 <Callout emoji="✅">
-  **MDX** (the library), at its core, transforms MDX (the syntax) to JSX. It
-  receives an MDX string and outputs a _JSX string_. It does this by parsing the
-  MDX document to a syntax tree and then generates a JSX document from that
-  tree.
+  **MDX** (the library), at its core, transforms MDX (the syntax) to JSX.
+  It receives an MDX string and outputs a _JSX string_. It does this by parsing
+  the MDX document to a syntax tree and then generates a JSX document from that tree. 
 </Callout>
+
 </div>
 
 ## Heading
@@ -153,13 +150,129 @@ Nested quotes:
 React components and Markdown can be **mixed together**, for instance:
 
 ```markdown
-> <Callout>
->   Give [**Nextra**](https://github.com/shuding/nextra) a star!
+> <Callout emoji="💡">
+>   Give [**grandeur-mdx**](https://github.com/shuding/grandeur-mdx) a star!
 > </Callout>
+```
+## Callout
+Callout can have different types
+
+### Default
+<Callout emoji="👾">
+  **Space Invaders** is a 1978 shoot 'em up arcade game developed by Tomohiro
+  Nishikado.
+</Callout>
+
+``` markdown
+<Callout emoji="👾">
+  **Space Invaders** is a 1978 shoot 'em up arcade game developed by Tomohiro
+  Nishikado.
+</Callout>
+```
+
+### Warning
+<Callout type="warning" emoji="⚠️">
+  This API will be deprecated soon.
+</Callout>
+
+``` markdown
+<Callout type="warning" emoji="⚠️">
+  This API will be deprecated soon.
+</Callout>
+```
+
+### Error
+<Callout type="error" emoji="️🚫">
+  This is a dangerous feature that can cause everything to explode.
+</Callout>
+
+``` markdown
+<Callout type="error" emoji="️🚫">
+  This is a dangerous feature that can cause everything to explode.
+</Callout>
 ```
 
 Renders:
-
-> <Callout>
+> <Callout emoji="💡">
 >   Give [**Nextra**](https://github.com/shuding/nextra) a star!
 > </Callout>
+
+## Tabs
+You can use tabs to organize information with label
+
+<Tabs>
+
+  <Item value="0" label="First">**Hello**</Item>
+
+  <Item value="1" label="Second">**World**</Item>
+
+</Tabs>
+
+Tabs can include any based data, like code
+<Tabs>
+
+  <Item value="js" label="JS">
+
+    ```js
+      console.log("hello world");
+    ```
+
+  </Item>
+
+  <Item value="python" label="Python">
+
+    ```py
+      print("hello world")
+    ```
+
+  </Item>
+
+</Tabs>
+
+And you can have synced tabs
+<Tabs group="tab-group-test">
+
+  <Item value="js" label="JS">
+
+    ```js
+      console.log("hello world");
+    ```
+
+  </Item>
+
+  <Item value="python" label="Python">
+
+    ```py
+      print("hello world")
+    ```
+
+  </Item>
+
+</Tabs>
+
+More code
+<Tabs group="tab-group-test">
+
+  <Item value="js" label="JS">
+
+    ```js
+      var a = 2;
+      var b = 5;
+
+      console.log(a + b);
+    ```
+
+  </Item>
+
+  <Item value="python" label="Python">
+
+    ```py
+      a = 2
+      b = 5
+
+      print(a + b)
+    ```
+
+  </Item>
+
+</Tabs>

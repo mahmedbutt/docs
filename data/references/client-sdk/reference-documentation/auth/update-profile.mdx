@@ -1,0 +1,113 @@
+---
+title: Update User Profile
+---
+
+# auth.updateProfile(displayName, displayPicture, phone)
+
+A user profile gets automatically created whenever you register a new user account. This makes it really easy for you as a developer to handle data specific to user. Like you can setup display picture of a user. Which allows you present a unique experience to each user. This is why we have added this method with which you can update the profile of a authenticated user.
+
+Update profile function accepts the following arguments
+
+### Parameters
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| displayPicture   |    string     |   should be a valid URL |
+| displayName |     string        |   can only contains alphabets |
+| phone    |    string     |  should start with country code and
+cannot include spaces e.g. +923336335233 |
+
+
+All the arguments are required. It is important to note that if you execute this method with an updated phone number or in other words if a user tried to update the phone number associated with the account, then we validate the new number first by automatically sending a verification code and will return you a confirmation method in response.
+
+Update profile method returns the following code in form of promise
+
+-PHONE-CODE-SENT
+
+verification code sent to phone number
+and you use the confirmation method returned
+in the response of promise to verify the user.
+
+-PHONE-NUMBER-INVALID
+
+provided phone number format is invalid
+
+-DATA-INVALID
+
+data format is invalid
+
+-AUTH-PROFILE-UPDATED
+
+profile has been updated
+
+-AUTH-PROFILE-UPTODATE
+
+data isn't modified
+
+-AUTH-PROFILE-UPDATE-FAILED
+
+failed to update the profile
+
+***confirm(code)***
+
+We are very particular about the phone number associated with the profile. This is why we validate the phone number whenever a user try to update it. As a result, we return you a confirm function so that you could proceed with the update profile operation after prompting the user about the verification code.
+
+This function receives a single argument as illustrated below
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| code      |    string    | six digit long numeric code|
+
+Upon execution, this method returns the following code in form of promise
+
+-AUTH-PROFILE-UPDATED
+
+profile has been updated
+
+-PHONE-CODE-INVALID
+
+verification code is invalid
+
+-PHONE-CODE-VERIFICATION-FAILED
+
+failed to verify the verification code
+
+-AUTH-PROFILE-UPDATE-FAILED
+
+failed to update the profile
+
+Use of updateProfile method has been illustrated in the example below
+
+```js
+// Variable to hold the confirmProfileUpdate
+// method so that it could be used afterwards
+var confirm = null;
+
+// Get user data from the inputs and
+// Submit request to the server
+auth.updateProfile(displayName, displayPicture, phone).then((res) => {
+  // Got the response
+  // So checkout the response code
+  switch(res.code) {
+    case "PHONE-CODE-SENT": 
+      // Verification code has been sent
+      confirm = res.confirm;
+      break;
+    case "AUTH-PROFILE-UPDATED":
+      // Profile has been updated
+  }
+})
+
+// After getting response from update profile request
+// Prompt the user about the verification code
+// and submit it to server with the confirm 
+// method
+confirm(code).then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "AUTH-PROFILE-UPDATED":
+        // Profile has been updated
+  }
+});
+```
+

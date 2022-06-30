@@ -1,17 +1,17 @@
 ---
-title: Device SDK - Device Data
+title: data().set
 ---
-#data().set
+# data().set
 
-###Arduino
+### Arduino
 >set (path : String, data : any, callback: Callback) : returns void set (path : String, data : any) : returns void
-###py
+### py
 >set(path: str, data: dict, callback: Callable[[str, dict], None]) -> None
 
 
 This method updates a device variable on Grandeur with new data.
 
-###Parameters
+### Parameters
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
@@ -20,7 +20,7 @@ This method updates a device variable on Grandeur with new data.
 | data        |    string    | Path of the device variable using dot notation|
 
 
-###Example-Arduino
+### Example-Arduino
 
 ```
 Grandeur::Project myProject;
@@ -53,7 +53,7 @@ void loop() {
 
 If you do not need to do anything after the successful update of a data variable, you can use the callback-less set function overload.
 
-###Example-py
+### Example-py
 
 ```
 import grandeur.device as grandeur

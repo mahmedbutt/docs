@@ -1,0 +1,68 @@
+---
+title: Device SDK - Device Data
+---
+
+#data().on
+
+##Arduino
+>on (path: String, callback : Callback) : returns void on (callback : Callback) : returns void
+
+##py
+on(path: str, callback: Callable[[str, dict], None]) -> Subscriber
+
+This method schedules a function to be called when a device variable changes on Grandeur.
+
+A variable can be changed by a paired user from an app, dashboard, or any SDKs. All three of these updates would trigger the on-callback, or you can call it the device's data update handler. But updating a device's data variable from the device itself won't trigger its own update handler.
+
+A Tidbit: Update is a special type of event and the function that handles it is called an update handler.
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| path        |    string    | Path of the device variable using dot notation|
+| callback     |    Callback     |  An update handler for the device variable |
+
+
+###Example-Arduino
+
+```
+Grandeur::Project myProject;
+Grandeur::Project::Device myDevice;
+
+void voltageUpdatedCallback(const char* path, int voltage) {
+  // When "voltage" update occurs on Grandeur, this function
+  // writes it to an analog pin.
+  Serial.println("Voltage update occurred!\n");
+  analogWrite(voltage, A0);
+}
+
+void setup() {
+  myProject = grandeur.init(YourApiKey, YourToken);
+  myDevice = myProject.device(YourDeviceID);
+
+  myDevice.data().on("voltage", voltageUpdatedCallback);
+}
+
+void loop() {
+  if(WiFiIsConnected) myProject.loop();
+}
+```
+
+###Example-py
+
+```
+import grandeur.device as grandeur
+
+# Init the sdk
+project = grandeur.init(APIKey, Token)
+
+# Get reference to device class
+device = project.device(DeviceID)
+
+# Function to handle the update from server
+def updateHandler(path, update):
+  print(update)
+
+# Get data of the device
+device.data().on("", updateHandler)
+```

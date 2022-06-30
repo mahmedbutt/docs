@@ -1,0 +1,180 @@
+---
+title: Hardware
+---
+# Hardware 
+
+## Handling the WiFi
+
+You can use a WiFi library corresponding to your microcontroller to handle your device's WiFi. Here are some popular ones:
+
+ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
+Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
+
+Here we illustrate how to handle your ESP8266's WiFi.
+
+```cpp
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project myProject;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  myProject = grandeur.init(YourApiKey, AccessToken);
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+```
+
+## Sending Messages Only When the WiFi is Connected
+loop function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. That's exactly what the statement if(WiFi.status() == WL_CONNECTED) myProject.loop() does. The if-statement decides when the SDK should run and when it should not. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, WiFi.status() == WL_CONNECTED would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
+
+##Handling Connection and Disconnection with Grandeur
+You can also listen on SDK's connection-related events. For example, to run some code when the device makes a successful connection to Grandeur or when the device's connection to Grandeur breaks, you can wrap that code in "a function that takes a bool and returns void" and pass it to Grandeur::Project's onConnection() function.
+
+Here's how you can handle the connection event:
+
+```cpp
+
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project myProject;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void connectionCallback(bool status) {
+  // This method handles the events related to device's connection with Grandeur.
+  switch(status) {
+    case CONNECTED:
+      // If the connection event occurred.
+      Serial.println("Device Connected to Grandeur!\n");
+      break;
+    case DISCONNECTED:
+      // If the disconnection event occurred.
+      Serial.println("Device Disconnected from Grandeur!\n");
+      break;
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  myProject = grandeur.init(YourApiKey, YourDeviceToken);
+  // Setting up listener for device's connection event
+  myProject.onConnection(connectionCallback);
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+
+// **RESULT**
+// Prints "Device Connected to Grandeur!\n" when device connects with Grandeur.
+// And prints "Device Disconnected from Grandeur!\n" when device's connection with
+// Grandeur breaks.
+
+```
+
+
+## Fetching Device Variables and Updating Them
+
+
+In IoT, every device in the network wants to publish some variables for users or other devices in the network to see. On Grandeur, we call these the data of the device. you can store the device variables as key-value pairs, like the device's voltage or current or its ON/OFF state. Keeping the online copy of device variables (aka. data) updated gives you many advantages: you can see if your device is ON or OFF at any moment just by fetching its state from Grandeur.
+
+Both device(deviceId).data().get() and device(deviceId).data().set() are Async functions because they communicate with Grandeur through internet. Communication through internet takes some time (due to Internet latency being in ms while processors run instructions in a fraction of a µs) and we cannot wait for our data to arrive from Grandeur, meanwhile blocking the rest of the program execution. So, what we do is, we schedule a function to be called in future when the variable would have arrived and resume the rest of the device program, forgetting that we ever called device(deviceId).data().get(). When the variable arrives, the SDK calls our scheduled function automatically, giving us access to that variable inside that function.
+
+Read more about Async functions, Callback, and Var here.
+
+Here's how we would get and set device variables:
+
+```cpp
+
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project myProject;
+Grandeur::Project::Device myDevice;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void writeVoltageToA0(const char* code, int voltage) {
+  // This function prints the voltage value and sets the A0 pin with its value.
+  Serial.printf("Voltage: %d\n", voltage);
+  analogWrite(A0, voltage);
+}
+
+void printUpdatedVoltage(const char* code, int voltage) {
+  // This function prints the updated voltage value after the update is completed.
+  Serial.printf("Updated Voltage: %d\n", voltage);
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  myProject = grandeur.init(YourApiKey, AccessToken);
+  myDevice = myProject.device(YourDeviceID);
+}
+
+void loop() {
+  if(myProject.isConnected()) {
+    // Getting voltage variable
+    myDevice.data().get("voltage", writeVoltageToA0);
+    // Updating voltage
+    int voltage = analogRead(A0);
+    myDevice.data().set("voltage", voltage, printUpdatedVoltage);
+  }
+
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+
+// **RESULT**
+// When the loop() starts, voltage is fetched. When it arrives from Grandeur, writeVoltageToA0 is
+// called which prints its value and writes it to the A0 pin.
+// Then the voltage is updated with the new value from the A0 pin. When the update completes,
+// printUpdatedVoltage is called to print the updated value of voltage.
+```
+
+

@@ -1,0 +1,110 @@
+---
+title:Client SDK- auth()
+---
+
+auth.register(email, password, displayName, phone)
+
+This method allows you to add new users to your project through SDK. To create a new user account, simply provide the user email, password, display name and phone number as an argument to this function. Unlike dashboard, where you can create a user account without validation by just filling user details in a form, registering a new user account with SDK is little bit different. Because instead of directly registering the new user, we first verify that either the user is genuine to protect you from bogus users. So when you execute this function, we automatically send a verification code to the phone number provided in the argument and returns you a promise.
+
+With this promise, you can access the confirmation method. So you can get the verification code from user through an input tag in html and validate the user by providing it to the confirmation method. On successful validation, we return you a success message and register the user automatically.
+
+Register function accepts the following arguments
+
+## Table
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| email        |    string    | a valid email address|
+| password     |    string     |   should be minimum six character long |
+| displayName |     string        |   cannot include digits or special characters |
+| phone    |    string     |  should start with country code and
+cannot include spaces e.g. +923336335233 |
+
+
+Register method returns the following code in form of promise
+
+-PHONE-CODE-SENT
+
+verification code sent to phone number
+and you use the confirmation method returned
+in the response of promise to verify the user.
+
+-PHONE-NUMBER-INVALID
+
+provided phone number format is invalid
+
+-DATA-INVALID
+
+data format is invalid
+
+-AUTH-ACCOUNT-DUPLICATE
+
+email is associated to another account
+
+-PHONE-CODE-SENDING-FAILED
+
+failed to send the verification code
+
+***confirm(code)***
+Once you submit the register request, we validate the data and send a code to the provided phone number. We do this to validate the user as a built in security mechanism. This is where we also return you a callback so that you could send us a confirmation request after promoting user about the code.
+
+This function receives a single argument as illustrated below
+
+## Table
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| code.      |    string    | six digit long numeric code|
+
+Upon execution, this method returns the following code in form of promise
+
+-AUTH-ACCOUNT-REGISTERED
+
+user account has been created successfully
+
+-PHONE-CODE-INVALID
+
+verification code is invalid
+
+-PHONE-CODE-VERIFICATION-FAILED
+
+failed to verify the verification code
+
+-AUTH-ACCOUNT-REGISTRATION-FAILED
+
+failed to register the account
+
+Account registration has been illustrated in the example below
+
+```
+// Variable to hold the confirmRegistration
+// method so that it could be used afterwards
+var confirm = null;
+
+// Get user data from the inputs and
+// Submit request to the server
+auth.register(email, password, displayName, phone).then((res) => {
+  // Got the response
+  // So checkout the response code
+  switch(res.code) {
+    case "PHONE-CODE-SENT": 
+      // Verification code has been sent
+      confirm = res.confirm;
+  }
+})
+
+// After getting response from registration request
+// Prompt the user about the verification code
+// and submit it to server with the confirm 
+// method
+confirm(code).then((res) => {
+  // Got the response
+  // Checkout the response code
+  switch(res.code) {
+    case "AUTH-ACCOUNT-REGISTRATION":
+        // Account has been created successfully
+  }
+});
+```
+
+

@@ -1,0 +1,178 @@
+---
+title: Collections
+---
+# Collections
+
+Collections are essentially database tables where all of your information is stored.
+
+**datastore.collection(name)**
+
+From the datastore class, you can get a reference to a collection in order to execute a query or insert new documents into it.
+
+```js
+// Get reference to a collection
+var collection = datastore.collection(name);
+```
+
+It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. You can execute following operations on a collection
+
+**collection.insert(documents)**
+
+This method can be used to insert a json object/document into a collection. It accepts an array of json objects so that you can insert one or many documents into a collection using a single function call. Grandeur automatically assigns a unique id to each document before actually inserting it into the datastore so it can serve as a primary key. 
+
+The usage of this method is illustrated in the example below
+
+```jsx
+// Define an array of json objects
+var documents = [{
+  voltage: 20,
+  current: 2
+}]
+
+// Insert document into a collection
+collection.insert(documents).then((res) => {
+  // Handle Response
+  
+});
+```
+
+ **collection.delete(filter)**
+
+This method can be used to delete a document from a collection. It accepts a json object which specifies the match condition and returns the count of total deleted documents. Running this function without specifying the match condition will result in deletion of all the documents of a collection.
+
+The usage of this method is illustrated in the example below
+
+```jsx
+
+// Case: delete multiple but specific documents
+// Define an array of ids of documents required to be deleted
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.delete({documentID: {$in: documentIDs}}).then((res) => {
+  // Handle the response
+  
+});
+
+// Case: delete in range
+// Run operation with $lt and $gt operator on attributes
+collection.delete({voltage: {$lt: 25, $gt: 30}}).then((res) => {
+  //Handle the response
+});
+
+// Case: delete all
+// Run operation with $in operator
+collection.delete().then((res) => {
+  //Handle the response 
+});
+```
+
+### **collection.update(filter, update)**
+
+This method can be used to update a document in a collection. It accepts a json object which specifies the match condition and returns the count of total updated documents. Running this function without specifying the match condition will update all the documents of a collection. If a matched document got structure similar to
+
+```js
+{
+  voltage: 20,
+  current: 2
+}
+```
+
+and you run this method with update
+
+```js
+{
+  voltage: 30,
+  power: 60
+}
+```
+
+then the document will be updated to
+
+```js
+{
+  voltage: 30,
+  current: 2,
+  power: 60
+}
+```
+
+The usage of this method is illustrated in the example below
+
+```js
+// Define an update
+var update = {
+  voltage: 30,
+  power: 60
+}
+
+// This method can be used in many ways
+
+// Case: update a specific document by providing
+// the document id
+collection.update({documentID: "id"}, update).then((res) => {
+  //Handle Response 
+  
+});
+
+// Case: update multiple but specific documents
+// Define an array of ids of documents required to be updated
+
+
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.update({documentID: {$in: documentIDs}}, update).then((res) => {
+  // Handle the Response
+});
+
+// Case: Update in range
+// Run operation with $lt and $gt operator on attributes
+collection.update({voltage: {$lt: 25, $gt: 30}}, update).then((res) => {
+  //Handle Response 
+});
+```
+
+**collection.search(filter, projection, nPage)**
+
+This method can be used to query documents in a collection. It accepts a match condition and fetches the documents. 
+
+It is important to note here that the method is subjected to rate limiting so maximum 20 results will be returned and then you can use page number argument of the method to get the remaining. So if you have 25 documents in a collection then calling `collection.search()` will return first 20 while calling `collection.search({}, undefined, 1)` will return the remaining 5 documents. Then it is also important to note that projection condition cannot be  empty object to instead pass `undefined` if you don't want to project out fields in matched documents. Whereas the filter can be an empty object in which case all the documents will be returned.
+
+The usage of this method is illustrated in the example below
+
+```jsx
+// This method can be used in many ways
+
+// Case: fetch a specific document by providing
+// the document id
+collection.search({documentID: "id"}).then((res) => 
+//Handle Response
+  });
+
+// Case: fetch multiple but specific documents
+// Define an array of ids of documents. 
+// you can use this on other attributes as well
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.search({documentID: {$in: documentIDs}}).then((res) => {
+  //Handle Response
+});
+
+// Case: search in range
+// Run operation with $lt and $gt operator on attributes
+collection.search({voltage: {$lt: 25, $gt: 30}}).then((res) => {
+  // Handle Response
+});
+
+// Case: fetch all documents by running an empty search
+collection.search().then((res) => {
+  //Handle Response
+});
+
+// Case: you can specify what fields of a documents to be returned and what not to be returned by projection condition
+collection.search({}, {name: 0}).then((res) => {
+  // Hanlde Response
+});
+```

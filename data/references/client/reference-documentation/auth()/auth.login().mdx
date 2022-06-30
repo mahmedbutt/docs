@@ -1,0 +1,50 @@
+---
+title:Client SDK- auth()
+---
+
+#auth.login(email, password)
+
+This method allows you to login a user into his account. Simply provide the user email and password in the argument and execute method. The SDK will automatically obtain the auth token from the server. It is important to note that nearly all the methods of this SDK requires a user to be authenticated first.
+
+Login function accepts the following arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| email        |    string    | a valid email address|
+| password     |    string     |   should be minimum six character long |
+
+Upon execution, this method returns the following code in form of promise
+
+-AUTH-ACCOUNT-LOGGEDIN
+
+user account has been authenticated successfully
+
+-DATA-INVALID
+
+data format is invalid
+
+-AUTH-ACCOUNT-INVALID-EMAIL
+
+email is not associated with any account
+
+-AUTH-ACCOUNT-INVALID-PASSWORD
+
+password is invalid
+
+-AUTH-ACCOUNT-ALREADY-LOGGEDIN
+
+an account is already logged in
+
+-AUTH-ACCOUNT-LOGIN-FAILED
+
+failed to log the user into the account
+
+Login feature application has been illustrated in the example below
+
+```
+// Get email and password from inputs
+// and submit the request to the server
+auth.login(email,password).then((res) => {
+    // Handle response
+});
+```

@@ -1,0 +1,36 @@
+---
+title: Device SDK
+---
+
+#device
+
+
+>device (deviceID: String) : returns Grandeur::Project::Device
+
+This method returns a reference to object of the Device class.
+
+###Example-py
+
+```py
+import grandeur.device as grandeur
+
+# Init the sdk
+project = grandeur.init(APIKey, Token)
+
+# Get reference to device class
+device = project.device(DeviceID)
+```
+
+###Example-Arduino
+
+```cpp
+Grandeur::Project myProject;
+Grandeur::Project::Device myDevice;
+void setup() {
+  myProject = grandeur.init(YourApiKey, YourToken);
+  myDevice = myProject.device(YourDeviceID);
+}
+
+// **RESULT**
+// Gets the object of Device class.
+```

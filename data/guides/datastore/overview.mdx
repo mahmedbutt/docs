@@ -1,0 +1,15 @@
+---
+title: Datastore
+---
+# Datastore
+
+
+Data storage is the basic requirement of a data driven application or device. We have built this feature in order to enable users to store large amount of data like logs of devices. To access this feature simply get a reference to the storage class by calling `datastore()` method with the project object.  This is illustrated as below 
+
+```js
+// Get reference to the datastore class
+// by calling the datastore method
+var datastore = project.datastore();
+```
+
+Datastore of Grandeur is based on no-sql/document based database model. So you can store documents (known as records in sql) into various collections (known as tables in sql). Now once you got the reference to the datastore class, you can simply use all the features by calling the respective methods.

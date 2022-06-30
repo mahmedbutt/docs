@@ -1,0 +1,39 @@
+---
+title:Client SDK- Devices
+---
+
+#devices.count(filter)
+
+This methods returns the total number of online, offline or all devices paired to a user account.
+
+This function receives a single argument with which you can filter the result
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter     |    string    | can be offline, online or empty to get disconnected, connected or all devices paired to an account|
+
+Upon execution, this method returns the following code in form of promise
+
+-DEVICES-COUNT-FETCHED
+
+count of devices has been fetched
+
+-DEVICES-COUNT-FETCH-FAILED
+
+failed to fetch the count of devices
+
+Use of count method has been illustrated in the example below
+
+```
+// Submit request to the server
+devices.count().then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "DEVICES-COUNT-FETCHED": 
+      // Number of online devices has been fetched
+      console.log(res.nDevices);
+  }
+})
+```
+
+

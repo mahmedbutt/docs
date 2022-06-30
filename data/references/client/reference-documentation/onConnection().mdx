@@ -1,0 +1,42 @@
+---
+title:Client SDK- onConnection()
+---
+#onConnection()
+This methods let to keep track of the persistent connection that the SDK tries to establish with the cloud. As mentioned earlier, the persistent connection is the key because this allows us to do realtime communication with the server. Almost all of the SDK features are based on this realtime channel. This is why we have added this function, which can be utilized to verify either we are connected to the server or not.
+
+This method accepts the following arguments
+
+## Table
+
+| Name          |     Type    |  Description |
+| :------------ | :---------: | ----------: |
+| callback      |    function | a valid JS function which will be called whenever connection status changes |
+
+This method returns the following codes in the response to the promise
+
+-CONNECTED
+
+connection has been established
+
+-DISCONNECTED
+
+SDK got disconnected from the server
+
+It is important to note that the update will be directly sent without a response code. So for example if a client gets connected, you will received `CONNECTED` in the argument of callback.
+
+
+The use of this method has been illustrated in the example below
+```
+// Subscribe to the connection status
+project.onConnection((status) => {
+  // This callback gets fired
+  // whenever the connection status
+  // changes
+  switch(status) {
+    case "CONNECTED": 
+      // SDK connected 
+      console.log("Client is connected with the server");
+  }
+});
+```
+

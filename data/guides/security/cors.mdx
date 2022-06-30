@@ -1,0 +1,13 @@
+---
+title: CORS
+---
+
+# CORS - Cross-Origin Resource Sharing
+
+In the real world, you would not want to add a new user or pair a device with that user manually every time someone buys your product. Therefore you delegate a part of your project authorities to the SDK when you plug your project's API Key in. And so a new user gets to sign up, pair, monitor and control your device through your product's companion app.
+
+Just by initialising your project through your API you can interact with its resources including its devices, datastore, and files storage. Hence making your API key as your sole security essential poses as a security threat particularly in case of web apps as API Key can easily be stolen. Even though a user needs to log in first before making any request to Grandeur, a hacker with having your API key can still stir up a storm. For example, registering bogus users to your project or creating a copycat site on your name for phishing to name a few. That's where cross-origin request sharing (CORS) policies come to play. (CORS) is an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
+
+So to allow a web app to interact with your project using the Web SDK, you first need to whitelist the domain name your web app uses via the settings page in the dashboard. You cannot even send a request from your localhost without first whitelisting it.
+
+![alt text](/images/Allow Domain.webm)

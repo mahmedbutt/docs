@@ -1,0 +1,19 @@
+---
+title: Login a User
+---
+# Login a User
+
+****auth.login(email, password)****
+
+This method allows you to login a user into his account , provided that the user has passed the authentication stage. Simply provide the user email and password in the argument and execute the method. The SDK will automatically obtain the auth token from the server. 
+
+Login feature application has been illustrated in the example below
+
+```js
+// Get email and password from inputs
+// and submit the request to the server
+auth.login(email,password).then((res) => {
+   //Handle Response
+});
+```
+![Login a User](/images/login.webm)

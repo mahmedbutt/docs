@@ -1,0 +1,84 @@
+---
+title:Client SDK- Device Data
+---
+
+
+#device.data().on(path, callback)
+
+
+You can also attach a listener to device data. For example if you {voltage: { vpp: 10, vrms: 7}}, current: 1} is stored then you can subscribe to updates on either vpp and current by providing voltage.vpp and current in path field respectively. You can subscribe to root by providing empty path.
+
+It is important to note that it works like pattern subscription. So if you subscribed to voltage then you can also get an update when voltage.vpp will get an update. It is like the events on childs propagates to parent.
+
+This method accepts the following arguments
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| path     |    string    |  can be empty or a path to a key in dot notation|
+| callback     |    function    | a valid JS function which will be called whenever the subscribed event gets fired|
+
+This method returns the following codes in the response to the promise
+
+-TOPIC-SUBSCRIBED
+
+event has been subscribed
+
+-DEVICE-NOT-PAIRED
+
+device is not paired to the account
+
+-DEVICE-ID-INVALID
+
+device is not registered with this id
+
+-DATA-INVALID
+
+device id is required
+
+The update will be directly sent. So for example if a client updates the vpp of device to 20 then you can get the same either you have subscribed to vpp or to the voltage. An additional path variable will also be provided to give you a context that where the update was originally occurred. For instace, in above example, the path will be voltage.vpp for event handlers on both voltage and vpp.
+
+The call to this method also returns reference to a clear method with which you can unsubscribe to the event. It don't accept anything in the argument and returns the following code as a response to promise
+
+ -TOPIC-UNSUBSCRIBED
+
+event has been unsubscribed and update won't trigger the callback provided earlier
+
+The use of this method has been illustrated in the example below
+
+```
+// Variable to store clear method of subscribed event
+var listener = null;
+
+// Function to be passed as a callback
+var onUpdate = (update, path) {
+  // Will be called whenever the
+  // event will be fired
+  console.log(update);
+};
+
+// Subscribe to the data update event of a device
+device.data().on("voltage", onUpdate).then((res) => {
+  // Call to onDeviceSummary returns the
+  // clear method as a response to promise 
+  switch(res.code) {
+    case "TOPIC-SUBSCRIBED": 
+      // Event has been subscribed
+      listener = res;
+  }
+});
+  
+
+// Then in our code we can clear the event 
+// listener whenever required with the clear method
+listener.clear().then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "TOPIC-UNSUBSCRIBED": 
+      // Event has been unsubscribed
+  }
+});
+```
+
+
+

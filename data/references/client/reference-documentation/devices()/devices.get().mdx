@@ -1,0 +1,42 @@
+---
+title:Client SDK- Devices
+---
+
+#devices.get()
+
+This method comes in handy whenever you need a list of all the devices paired to a user account.
+
+This function receives a single argument with which you can filter the result
+
+## Table
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter     |    string    | can be offline, online or empty to get disconnected, connected or all devices paired to an account|	
+
+Upon execution, this method returns the following code in form of promise
+
+-DEVICES-LIST-FETCHED
+
+list of paired devices has been fetched
+
+-DEVICES-LIST-FETCHING-FAILED
+
+failed to fetch the list of paird devices
+
+Use of getUserDevices method has been illustrated in the example below
+
+```
+// Submit request to the server
+devices.get().then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "DEVICES-LIST-FETCHED": 
+      // Devices list has been fetched
+      console.log(res.devices);
+  }
+})
+```
+
+
+

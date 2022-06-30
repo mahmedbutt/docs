@@ -1,0 +1,83 @@
+---
+title: React
+---
+#React- Initialization
+
+The installed package exports two things:
+1) a react component - use it as parent component to entire app code and init the SDK 
+2) HOC - wrap the component in which you want to access the Grandeur object to make request to Grandeur.
+
+It is shown in the sample code below
+
+```js
+// index.js
+// Import react and react dom
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// Import app code
+import App from './app';
+
+// and Import Grandeur Component
+import {Grandeur} from 'grandeur-react';
+
+// Your access credential
+// you can generate it through settings page
+const credentials = {
+  key: "ACCESS-KEY",
+  token: "ACCESS-TOKEN"
+}
+
+// Render app
+const page = (
+    <Grandeur apiKey="YOUR-APIKEY" credentials={credentials}>
+        {/* Your app code*/}
+        <App />
+    </Grandeur>
+);
+
+// Finally render
+ReactDOM.render(page, document.getElementById('root'));
+```
+
+Then inside your app.js
+
+```js
+// app.js
+// The App Component
+
+// Libraries
+import React, { Component } from 'react';
+
+// Import Grandeur HOC
+import {withGrandeur} from 'grandeur-react';
+
+// Component
+class App extends Component {
+
+    // Constructor
+    constructor(props) {
+        super(props);
+
+        // State of the Component
+        this.state = {};
+    }
+
+    componentDidMount() {
+        // Component is Mounted
+        // get reference to the grandeur
+        // through props. Which can be used to 
+        // access all the features of Grandeur
+        var project = this.props.grandeur;
+    }
+    
+    // Render
+    render() { 
+        // Render the Component
+        return <p>Hello World</p>;
+    }
+}
+```
+
+// Export the Component after wrapping in HOC
+export default withGrandeur(App);

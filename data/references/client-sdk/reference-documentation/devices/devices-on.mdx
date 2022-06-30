@@ -1,0 +1,68 @@
+---
+title: devices.on()
+---
+
+# devices.on(callback)
+
+The best thing about Grandeur is the fact that it is event driven. Means you can subscribe to events and we will automatically send you an alert whenever the subscribed event will occur.
+
+This methods allows you to subscribe to event related to devices list update. An event will be fired whenever a device gets paired or unpaired to a user account.
+
+This method accepts the following arguments
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| callback     |    function	    | a valid JS function which will be called whenever the subscribed event gets fired|
+
+This method returns the following codes in the response to the promise
+
+-TOPIC-SUBSCRIBED
+
+event has been subscribed
+
+It is important to note that the update will be directly sent without a response code. So for example whenever a new device will be paired, entire list will be sent as the argument in form an array.
+
+The call to this method also returns reference to a clear method with which you can unsubscribe to the event. It don't accept anything in the argument and returns the following code as a response to promise
+
+-TOPIC-UNSUBSCRIBED
+
+event has been unsubscribed and update won't trigger the callback provided earlier
+
+The use of this method has been illustrated in the example below
+
+```js
+// Variable to store clear method of subscribed event
+var listener = null;
+
+// Function to be passed as a callback
+var onUpdate = (update) {
+  // Will be called whenever the
+  // event will be fired
+  console.log(update);
+};
+
+// Subscribe to the devices list update event of a device
+devices.on(onUpdate).then((res) => {
+  // Call to onDevicesList returns the
+  // clear method as a response to promise 
+  switch(res.code) {
+    case "TOPIC-SUBSCRIBED": 
+      // Event has been subscribed
+      listener = res;
+  }
+});
+  
+
+// Then in our code we can clear the event 
+// listener whenever required with the clear method
+listener.clear().then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "TOPIC-UNSUBSCRIBED": 
+      // Event has been unsubscribed
+  }
+});
+```
+
+

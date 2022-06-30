@@ -1,27 +1,27 @@
 ---
-title: Device SDK - Device Data
+title: data().get
 ---
 
-#data().get
+# data().get
 
-###Arduino
+### Arduino
 >get (path: String, callback: Callback) : returns void get (callback: Callback) : returns void
 
-###Py
+### Py
 >get(path: str, callback: Callable[[str, dict], None]) -> None
 
 This method gets a device variable from Grandeur.
 
-###Parameters
+### Parameters
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
 | callback      |    callback	| A function to be called when get response is received|
 | path         |    String	    | Path of the device variable using dot notation|
 
-###Example-Arduino
+### Example-Arduino
 
-```
+```cpp
 Grandeur::Project myProject;
 Grandeur::Project::Device myDevice;
 
@@ -47,9 +47,9 @@ void loop() {
 // Prints the value of the voltage variable from Grandeur on every loop.
 ```
 
-###Example-py
+### Example-py
 
-```
+```py
 import grandeur.device as grandeur
 
 # Init the sdk

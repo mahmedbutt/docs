@@ -2,12 +2,12 @@
 title: Device SDK - Device Data
 ---
 
-#data().on
+# data().on
 
-##Arduino
+## Arduino
 >on (path: String, callback : Callback) : returns void on (callback : Callback) : returns void
 
-##py
+## py
 on(path: str, callback: Callable[[str, dict], None]) -> Subscriber
 
 This method schedules a function to be called when a device variable changes on Grandeur.
@@ -23,9 +23,9 @@ A Tidbit: Update is a special type of event and the function that handles it is 
 | callback     |    Callback     |  An update handler for the device variable |
 
 
-###Example-Arduino
+### Example-Arduino
 
-```
+```cpp
 Grandeur::Project myProject;
 Grandeur::Project::Device myDevice;
 
@@ -48,9 +48,9 @@ void loop() {
 }
 ```
 
-###Example-py
+### Example-py
 
-```
+```py
 import grandeur.device as grandeur
 
 # Init the sdk

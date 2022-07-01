@@ -4,15 +4,15 @@ title: Your first IoT Application
 
 # Your first IoT Application
 
-In order to truly understand the potential of IoT, we are going to make a start with building an internet switch. In this tutorial, we will use the **ESP8266** module and we will build an app with Grandeur to control the on-board LED of the **ESP8266** module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
+In order to truly understand the potential of IoT, we are going to make a start with building an internet switch. In this tutorial, we will use the **ESP8266** module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
 
 **Hardware Components**
 
-Espressif Wemos D1 Mini (https://www.hackster.io/Espressif/products/wemos-d1-mini?ref=project-6e1a98)-**ESP8266**
+**ESP8266** - Espressif Wemos D1 Mini 
 
 First, make sure you are all set up by following this tutorial [here](/getting-started). 
 
-**Setting up the Arduino Environment**
+### Setting up the Arduino Environment**
 
 **Board** **Selection**
 
@@ -25,7 +25,7 @@ First, make sure you are all set up by following this tutorial [here](/getting-s
 After this choose the right board in your board manager.
 
 - From Tools > Board menu select ESP8266 board.
-- Then select is **NodeMCU 1.0 (ESP 12-E Module)**.
+- Then select **NodeMCU 1.0 (ESP 12-E Module)**.
 
 **Installation**
 
@@ -82,15 +82,17 @@ void updateLED(const char* path, const char* update) {
 }
 ```
 
-Add your token, API key and deviceID into the Grandeur Credentials section of the code. Forgot how to do it?  Don’t worry its all listed [here](https://www.notion.so/Getting-Started-78400ca4e6604759bacedf74bbd7d6ad). Next add enter your WiFi Credentials and you are all good to go! 
+Add your token, API key and deviceID into the Grandeur Credentials section of the code. Forgot how to do it? . Next add enter your WiFi Credentials and you are all good to go! 
 
 Now simply run your code in the Arduino IDE. After the upload is complete, the LED on ESP8266 will blink fast, indicating that the ESP is trying to connect to the WiFi network. As soon as the connection is established, the LED stops blinking. Inside your terminal, you'd see dots (.) printing while the ESP is connecting to WiFi. After successful connection, it prints the ESP's IP Address.
 
 After connecting to WiFi, ESP8266 starts connecting to Grandeur. Once it's connected, it prints that in the terminal.
 
-To control the on-board LED on the ESP8266, go the Grandeur Dashboard and run the Canvas app you made in the previous tutorial.  (we’ll link it here)
+To control the on-board LED on the ESP8266, go the Grandeur Dashboard and run the Canvas app you made in the previous tutorial. A Canvas guide is also lsited below. 
+
+> <Callout emoji="📋">
+> [**Canvas Guide**](/guides/grandeur-canvas/canvas) 
+> </Callout>
+
 Click the switch and look at the LED on the ESP8266. The LED on the ESP8266 should toggle every time you hit the switch button.
 
-<Callout emoji="💡">
-We can take out the canvas part from getting started and just add it here. Alsooo a youtube video of the led blinking? Linking Amna’s tutorial?
-</Callout>

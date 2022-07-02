@@ -7,9 +7,11 @@ title: Hardware
 
 You can use a WiFi library corresponding to your microcontroller to handle your device's WiFi. Here are some popular ones:
 
-ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
-ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
-Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
+-ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+
+-ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
+
+-Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
 
 Here we illustrate how to handle your ESP8266's WiFi.
 
@@ -47,7 +49,7 @@ void loop() {
 ## Sending Messages Only When the WiFi is Connected
 loop function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. That's exactly what the statement if(WiFi.status() == WL_CONNECTED) myProject.loop() does. The if-statement decides when the SDK should run and when it should not. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, WiFi.status() == WL_CONNECTED would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
 
-##Handling Connection and Disconnection with Grandeur
+## Handling Connection and Disconnection with Grandeur
 You can also listen on SDK's connection-related events. For example, to run some code when the device makes a successful connection to Grandeur or when the device's connection to Grandeur breaks, you can wrap that code in "a function that takes a bool and returns void" and pass it to Grandeur::Project's onConnection() function.
 
 Here's how you can handle the connection event:
@@ -116,6 +118,8 @@ Both device(deviceId).data().get() and device(deviceId).data().set() are Async f
 
 Read more about Async functions, Callback, and Var here.
 
+> (dexterity)??????
+
 Here's how we would get and set device variables:
 
 ```cpp
@@ -177,4 +181,50 @@ void loop() {
 // printUpdatedVoltage is called to print the updated value of voltage.
 ```
 
+## Handling Updates From Grandeur
+You can not only `get()/set()` but also subscribe to a device variable, which means if an update occurs in that variable at any time, the device will instantly get it. To subscribe to a variable, you just need to pass the variable name and a function to `device(deviceId).data().on()`. The function you pass to `device(deviceId).data().on()` is set as an update handler for that variable, which means the code inside that function will be run whenever that variable is updated.
 
+Let's set an update handler for device voltage now:
+
+```cpp
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project myProject;
+Grandeur::Project::Device myDevice;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void printUpdatedVoltage(const char* path, int voltage) {
+  // This function prints the new value of the voltage variable.
+  Serial.printf("Updated Voltage: %d\n", voltage);
+}
+
+void setup() {
+  Serial.begin(9600);
+  setupWiFi();
+
+  myProject = grandeur.init(YourApiKey, AccessToken);
+  myDevice = myProject.device(YourDeviceID);
+
+  myDevice.data().on("voltage", printUpdatedVoltage)
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+
+// **RESULT**
+// Whenever an update in the device's voltage variable occurs, the new value of the
+// voltage is printed to Serial.
+```

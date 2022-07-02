@@ -16,25 +16,25 @@ This method accepts the following arguments
 
 This method returns the following codes in response
 
--DEVICE-DETAILS-UPDATED
+**DEVICE-DETAILS-UPDATED**
 
 details has been updated
 
--DEVICE-NOT-PAIRED
+**DEVICE-NOT-PAIRED**
 
 device is not paired to the account
 
--DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
--DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
 Use of set method has been illustrated in the example below
 
-```
+```js
 // Submit request to the server
 device.set("name", "Living Room Lamp").then((res) => {
   // Got the response

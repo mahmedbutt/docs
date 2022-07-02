@@ -3,12 +3,6 @@ title: data().set
 ---
 # data().set
 
-### Arduino
->set (path : String, data : any, callback: Callback) : returns void set (path : String, data : any) : returns void
-### py
->set(path: str, data: dict, callback: Callable[[str, dict], None]) -> None
-
-
 This method updates a device variable on Grandeur with new data.
 
 ### Parameters
@@ -19,10 +13,28 @@ This method updates a device variable on Grandeur with new data.
 | callback     |   var     | New data to store in the variable|
 | data        |    string    | Path of the device variable using dot notation|
 
+<Tabs group="tab-group-test">
 
-### Example-Arduino
+  <Item value="arduino" label="Arduino">
 
-```
+   >set (path : String, data : any, callback: Callback) : returns void set (path : String, data : any) : returns void
+
+  </Item>
+
+  <Item value="py" label="Py">
+
+  >set(path: str, data: dict, callback: Callable[[str, dict], None]) -> None
+   
+  </Item>
+
+</Tabs>
+
+
+<Tabs group="tab-group-test">
+
+  <Item value="arduino" label="Arduino">
+
+```cpp
 Grandeur::Project myProject;
 Grandeur::Project::Device myDevice;
 
@@ -49,28 +61,68 @@ void loop() {
 // **RESULT**
 // Sets the voltage variable and prints its updated value
 // after it's updated on Grandeur, on every loop.
-```
 
-If you do not need to do anything after the successful update of a data variable, you can use the callback-less set function overload.
 
-### Example-py
+//If you do not need to do anything after the successful update of a data variable, you can use the callback-less set function overload.
 
 ```
-import grandeur.device as grandeur
 
-# Init the sdk
-project = grandeur.init(APIKey, Token)
+  </Item>
 
-# Get reference to device class
-device = project.device(DeviceID)
+   <Item value="py" label="Py">
 
-# Function to handle the response on get call
-def setCallback(code, res):
-  print(res["update"])
+      ```py
+        import grandeur.device as grandeur
 
-# Store new data in a dict
-data = {"state": 0}
+        # Init the sdk
+        project = grandeur.init(APIKey, Token)
 
-# Get data of the device
-device.data().set("", data, setCallback)
-```
+        # Get reference to device class
+        device = project.device(DeviceID)
+
+        # Function to handle the response on get call
+        def setCallback(code, res):
+          print(res["update"])
+
+        # Store new data in a dict
+        data = {"state": 0}
+
+        # Get data of the device
+        device.data().set("", data, setCallback)
+    ```
+</Item>
+
+</Tabs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@
 title: init()
 ---
 
-#init()
+# init()
 
 Grandeur class exposes one method — init — and one class — Project:
 
@@ -10,16 +10,16 @@ Grandeur class exposes one method — init — and one class — Project:
 
 This method initializes SDK's connection configurations: apiKey and authToken, and returns an object of the Project class. Project class is the main class that exposes all functions you can perform on your project resources through the SDK.
 
-###Parameters
+### Parameters
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
-| apiKe         |    string    | API key of your project that your device is registered in|
+| ApiKey         |    string    | API key of your project that your device is registered in|
 | token    |    string     | Access token generated when the device is paired with a user |
 
-###Example
+### Example
 
-```
+```cpp
 // Container for the object of Device class.
 Grandeur::Project myProject;
 void setup() {

@@ -8,9 +8,12 @@ title: isConnected()
 
 This method returns true if the device is connected with Grandeur.
 
-##Example-Arduino***
 
-```cpp
+<Tabs>
+
+  <Item value="arduino" label="Arduino">
+
+    ```cpp
 Grandeur::Project myProject;
 void setup() {
   myProject = grandeur.init(YourApiKey, YourToken);
@@ -33,9 +36,11 @@ void loop() {
 // *if-block*.
 ```
 
-##Example-py
+  </Item>
 
-```py
+  <Item value="python" label="Python">
+
+   ```py
 import grandeur.device as grandeur
 
 # Init the sdk
@@ -48,3 +53,16 @@ print(project.isConnected())
 // **RESULT**
 // Returns the conenction status
 ```
+
+  </Item>
+
+</Tabs>
+
+
+
+
+
+
+
+
+

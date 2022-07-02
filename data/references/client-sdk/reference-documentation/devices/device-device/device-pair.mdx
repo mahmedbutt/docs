@@ -8,25 +8,25 @@ As documented earlier in devices topic of concepts section that it is compulsory
 
 This method returns the following codes in response
 
--DEVICE-PAIRED
+**DEVICE-PAIRED**
 
 device paired successfully and access token returned
 
--DEVICE-ALREADY-PAIRED
+**DEVICE-ALREADY-PAIRED**
 
 device is already paired to another account
 
--DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
--DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
 Use of pair method has been illustrated in the example below
 
-```
+```js
 // Submit request to the server
 device.pair().then((res) => {
   // Got the response

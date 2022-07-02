@@ -15,29 +15,29 @@ This method accepts the following arguments
 
 This method returns the following codes in response
 
--DEVICE-DATA-UPDATED
+**DEVICE-DATA-UPDATED**
 
 details has been updated
 
--DEVICE-DATA-UPDATE-FAILED
+**DEVICE-DATA-UPDATE-FAILED**
 
 happens when you set value to parent.child and parent is also not an object
 
--DEVICE-NOT-PAIRED
+**DEVICE-NOT-PAIRED**
 
 device is not paired to the account
 
--DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
--DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
 Use of set method has been illustrated in the example below
 
-```
+```js
 // Submit request to the server
 device.data().set("voltage").then((res) => {
   // Got the response

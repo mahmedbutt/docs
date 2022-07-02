@@ -2,16 +2,34 @@
 title: Device
 ---
 
-#device
-
-
->device (deviceID: String) : returns Grandeur::Project::Device
+# device
 
 This method returns a reference to object of the Device class.
 
-###Example-py
+>device (deviceID: String) : returns Grandeur::Project::Device
 
-```py
+
+<Tabs>
+
+  <Item value="arduino" label="Arduino">
+
+   
+      ```cpp
+      Grandeur::Project myProject;
+      Grandeur::Project::Device myDevice;
+      void setup() {
+        myProject = grandeur.init(YourApiKey, YourToken);
+        myDevice = myProject.device(YourDeviceID);
+      }
+
+      // **RESULT**
+      // Gets the object of Device class.
+      ```
+  </Item>
+
+  <Item value="py" label="Py">
+
+    ```py
 import grandeur.device as grandeur
 
 # Init the sdk
@@ -21,16 +39,15 @@ project = grandeur.init(APIKey, Token)
 device = project.device(DeviceID)
 ```
 
-###Example-Arduino
+  </Item>
 
-```cpp
-Grandeur::Project myProject;
-Grandeur::Project::Device myDevice;
-void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
-  myDevice = myProject.device(YourDeviceID);
-}
+</Tabs>
 
-// **RESULT**
-// Gets the object of Device class.
-```
+
+
+
+
+
+
+
+

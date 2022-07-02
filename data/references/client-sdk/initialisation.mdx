@@ -1,15 +1,49 @@
 ---
-title: React
+title: Initialization
 ---
-#React- Initialization
+# Initialization
 
-The installed package exports two things:
-1) a react component - use it as parent component to entire app code and init the SDK 
-2) HOC - wrap the component in which you want to access the Grandeur object to make request to Grandeur.
 
-It is shown in the sample code below
+<Tabs group="tab-group-test">
 
-```js
+  <Item value="js" label="JS">
+
+    The installation package gives access to the global `Grandeur` object, through which you can initialize the SDK and get a reference to your project as shown below
+
+
+  </Item>
+
+  <Item value="react" label="React">
+
+  The installed package exports two things:
+    - a react component - use it as parent component to entire app code and init the SDK 
+    - HOC - wrap the component in which you want to access the Grandeur object to make request to Grandeur.
+
+    It is shown in the sample code below
+
+  </Item>
+
+</Tabs>
+
+
+<Tabs group="tab-group-test">
+
+  <Item value="js" label="JS">
+
+   ```js
+    // With global Grandeur object,
+    // you can simply initialize the SDK 
+    // with your API key and get reference 
+    // to your project
+    var project = grandeur.init("YOUR-APIKEY", "ACCESS-KEY", "ACCESS-TOKEN");
+    ```
+
+
+  </Item>
+
+  <Item value="react" label="React">
+
+    ```js
 // index.js
 // Import react and react dom
 import React from 'react';
@@ -39,8 +73,7 @@ const page = (
 // Finally render
 ReactDOM.render(page, document.getElementById('root'));
 ```
-
-Then inside your app.js
+Then in app.js 
 
 ```js
 // app.js
@@ -77,7 +110,14 @@ class App extends Component {
         return <p>Hello World</p>;
     }
 }
-```
 
 // Export the Component after wrapping in HOC
 export default withGrandeur(App);
+
+
+```
+
+
+</Item>
+
+</Tabs>

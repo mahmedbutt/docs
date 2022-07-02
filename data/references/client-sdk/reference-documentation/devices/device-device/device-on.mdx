@@ -16,19 +16,19 @@ This method accepts the following arguments
 
 This method returns the following codes in the response to the promise
 
--TOPIC-SUBSCRIBED
+**TOPIC-SUBSCRIBED**
 
 event has been subscribed
 
--DEVICE-NOT-PAIRED
+**DEVICE-NOT-PAIRED**
 
 device is not paired to the account
 
--DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
--DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
@@ -36,14 +36,14 @@ It is important to note that the update will be directly sent without a response
 
 The call to this method also returns reference to a clear method with which you can unsubscribe to the event. It don't accept anything in the argument and returns the following code as a response to promise
 
--TOPIC-UNSUBSCRIBED
+**TOPIC-UNSUBSCRIBED**
 
 event has been unsubscribed and update won't trigger the callback provided earlier
 
 The use of this method has been illustrated in the example below
 
 
-```
+```js
 // Variable to store clear method of subscribed event
 var listener = null;
 

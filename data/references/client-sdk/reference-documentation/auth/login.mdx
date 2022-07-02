@@ -1,5 +1,5 @@
 ---
-title: Login
+title: auth.login()
 ---
 
 # auth.login(email, password)
@@ -8,7 +8,7 @@ This method allows you to login a user into his account. Simply provide the user
 
 Login function accepts the following arguments
 
-###Parameters
+### Parameters
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
@@ -17,33 +17,33 @@ Login function accepts the following arguments
 
 Upon execution, this method returns the following code in form of promise
 
--AUTH-ACCOUNT-LOGGEDIN
+**AUTH-ACCOUNT-LOGGEDIN**
 
 user account has been authenticated successfully
 
--DATA-INVALID
+**DATA-INVALID**
 
 data format is invalid
 
--AUTH-ACCOUNT-INVALID-EMAIL
+**AUTH-ACCOUNT-INVALID-EMAIL**
 
 email is not associated with any account
 
--AUTH-ACCOUNT-INVALID-PASSWORD
+**AUTH-ACCOUNT-INVALID-PASSWORD**
 
 password is invalid
 
--AUTH-ACCOUNT-ALREADY-LOGGEDIN
+**AUTH-ACCOUNT-ALREADY-LOGGEDIN**
 
 an account is already logged in
 
--AUTH-ACCOUNT-LOGIN-FAILED
+**AUTH-ACCOUNT-LOGIN-FAILED**
 
 failed to log the user into the account
 
 Login feature application has been illustrated in the example below
 
-```
+```js
 // Get email and password from inputs
 // and submit the request to the server
 auth.login(email,password).then((res) => {

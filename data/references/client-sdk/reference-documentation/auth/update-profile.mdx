@@ -1,5 +1,6 @@
 ---
-title: Update User Profile
+title: auth.updateProfile()
+
 ---
 
 # auth.updateProfile(displayName, displayPicture, phone)
@@ -14,37 +15,36 @@ Update profile function accepts the following arguments
 | :------------ | :---------: | ----------: |
 | displayPicture   |    string     |   should be a valid URL |
 | displayName |     string        |   can only contains alphabets |
-| phone    |    string     |  should start with country code and
-cannot include spaces e.g. +923336335233 |
+| phone    |    string     |  should start with country code and cannot include spaces e.g. +923336335233 |
 
 
 All the arguments are required. It is important to note that if you execute this method with an updated phone number or in other words if a user tried to update the phone number associated with the account, then we validate the new number first by automatically sending a verification code and will return you a confirmation method in response.
 
 Update profile method returns the following code in form of promise
 
--PHONE-CODE-SENT
+**PHONE-CODE-SENT**
 
 verification code sent to phone number
 and you use the confirmation method returned
 in the response of promise to verify the user.
 
--PHONE-NUMBER-INVALID
+**PHONE-NUMBER-INVALID**
 
 provided phone number format is invalid
 
--DATA-INVALID
+**DATA-INVALID**
 
 data format is invalid
 
--AUTH-PROFILE-UPDATED
+**AUTH-PROFILE-UPDATED**
 
 profile has been updated
 
--AUTH-PROFILE-UPTODATE
+**AUTH-PROFILE-UPTODATE**
 
 data isn't modified
 
--AUTH-PROFILE-UPDATE-FAILED
+**AUTH-PROFILE-UPDATE-FAILED**
 
 failed to update the profile
 
@@ -60,19 +60,19 @@ This function receives a single argument as illustrated below
 
 Upon execution, this method returns the following code in form of promise
 
--AUTH-PROFILE-UPDATED
+**AUTH-PROFILE-UPDATED**
 
 profile has been updated
 
--PHONE-CODE-INVALID
+**PHONE-CODE-INVALID**
 
 verification code is invalid
 
--PHONE-CODE-VERIFICATION-FAILED
+**PHONE-CODE-VERIFICATION-FAILED**
 
 failed to verify the verification code
 
--AUTH-PROFILE-UPDATE-FAILED
+**AUTH-PROFILE-UPDATE-FAILED**
 
 failed to update the profile
 

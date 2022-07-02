@@ -1,5 +1,6 @@
 ---
-title: Register
+title: auth.register()
+
 ---
 
 ## auth.register(email, password, displayName, phone)
@@ -17,66 +18,66 @@ Register function accepts the following arguments
 | email        |    string    | a valid email address|
 | password     |    string     |   should be minimum six character long |
 | displayName |     string        |   cannot include digits or special characters |
-| phone    |    string     |  should start with country code and
-cannot include spaces e.g. +923336335233 |
+| phone    |    string     |  should start with country code and cannot include spaces e.g. +923336335233 |
 
 
 Register method returns the following code in form of promise
 
--PHONE-CODE-SENT
+**PHONE-CODE-SENT**
 
 verification code sent to phone number
 and you use the confirmation method returned
 in the response of promise to verify the user.
 
--PHONE-NUMBER-INVALID
+**PHONE-NUMBER-INVALID**
 
 provided phone number format is invalid
 
--DATA-INVALID
+**DATA-INVALID**
 
 data format is invalid
 
--AUTH-ACCOUNT-DUPLICATE
+**AUTH-ACCOUNT-DUPLICATE**
 
 email is associated to another account
 
--PHONE-CODE-SENDING-FAILED
+**PHONE-CODE-SENDING-FAILED**
 
 failed to send the verification code
 
 ***confirm(code)***
+
 Once you submit the register request, we validate the data and send a code to the provided phone number. We do this to validate the user as a built in security mechanism. This is where we also return you a callback so that you could send us a confirmation request after promoting user about the code.
 
 This function receives a single argument as illustrated below
 
-## Table
+### Parameters
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
-| code.      |    string    | six digit long numeric code|
+| code       |    string    | six digit long numeric code|
 
 Upon execution, this method returns the following code in form of promise
 
--AUTH-ACCOUNT-REGISTERED
+**AUTH-ACCOUNT-REGISTERED**
 
 user account has been created successfully
 
--PHONE-CODE-INVALID
+**PHONE-CODE-INVALID**
 
 verification code is invalid
 
--PHONE-CODE-VERIFICATION-FAILED
+**PHONE-CODE-VERIFICATION-FAILED**
 
 failed to verify the verification code
 
--AUTH-ACCOUNT-REGISTRATION-FAILED
+**AUTH-ACCOUNT-REGISTRATION-FAILED**
 
 failed to register the account
 
 Account registration has been illustrated in the example below
 
-```
+```js
 // Variable to hold the confirmRegistration
 // method so that it could be used afterwards
 var confirm = null;

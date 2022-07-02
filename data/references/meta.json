@@ -2,6 +2,7 @@
     "canvas": "Grandeur Canvas",
     "cli": "Grandeur CLI",
     "client-sdk": "Client SDK's",
-    "device-sdk": "Device SDK's"
+    "device-sdk": "Device SDK's",
+    "datastore": "Datastore"
 
 }

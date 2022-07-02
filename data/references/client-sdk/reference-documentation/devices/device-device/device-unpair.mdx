@@ -8,24 +8,25 @@ This method allows you to unpair a device from a user account. It simply declare
 
 This method returns the following codes in response
 
-DEVICE-UNPAIRED
+**DEVICE-UNPAIRED**
 
 device paired successfully and access token returned
 
-DEVICE-NOT-PAIRED
+**DEVICE-NOT-PAIRED**
 
 device is not paired to the account
 
-DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
-DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
 Use of unpairDevice method has been illustrated in the example below
-```
+
+```js
 // Submit request to the server
 device.unpair().then((res) => {
   // Got the response

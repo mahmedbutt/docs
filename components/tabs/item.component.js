@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 export default function Item({ children }) {
 
     // Return markdown
-    return <div className={`flex rounded-lg my-6`}>
+    return <div className={`my-6`}>
 
         {children}
 

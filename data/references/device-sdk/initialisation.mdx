@@ -1,0 +1,65 @@
+---
+title: Initialization
+---
+# Initialization
+
+
+<Tabs group="tab-group-test">
+
+  <Item value="arduino" label="Arduino">
+
+Initialization is as simple as calling grandeur.init() with your credentials (Your project's API Key and device's Access Token). The SDK uses your API key to know which project and access token to make sure the request is coming from a legit source. It then returns a Grandeur::Project object which exposes other subclasses like Device and Datastore, and you can go programming your device from there.
+
+As soon as you call grandeur.init(), the SDK uses the configurations to start trying to connect with the your project on Grandeur. But it cannot reach Grandeur if the device is not already connected to a WiFi.
+
+  </Item>
+
+  <Item value="py" label="Py">
+
+Initialization is as simple as calling grandeur.init() with your credentials project's API Key and device's Access Token. The SDK uses your API key to select your project and access token to authenticate that the requests are coming from a legit device. It then returns your project reference which exposes the underlying features. For example, you can get a reference to this project's datastore by calling datastore() method or you can select a particular device by passing its device ID to device() method and then you can go programming your device from there.
+  </Item>
+
+</Tabs>
+
+
+<Tabs group="tab-group-test">
+
+  <Item value="arduino" label="Arduino">
+
+```cpp
+#include <Grandeur.h>
+
+Grandeur::Project myProject;
+
+
+void setup() {
+  // You can initialize device configurations like this.
+  myProject = grandeur.init(YourAPIKey, AccessToken);
+}
+
+
+void loop() {}
+
+// **RESULT**
+// Initializes the SDK's configurations and returns Project reference.
+```
+
+
+
+  </Item>
+
+   <Item value="py" label="Py">
+
+```py
+import grandeur.device as grandeur
+
+# Init the SDK and get reference to the project
+project = grandeur.init(ApiKey, DeviceToken)
+
+# **RESULT**
+# Initializes the SDK's configurations and returns your project reference.
+As soon as you call grandeur.init(), the SDK uses the configurations to start trying to connect with the your project on Grandeur.
+```
+</Item>
+
+</Tabs>

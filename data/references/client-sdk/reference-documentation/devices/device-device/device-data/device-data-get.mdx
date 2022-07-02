@@ -1,6 +1,7 @@
 ---
 title: device.data().get()
 ---
+
 # device.data().get(path)
 
 Each device comes with a privileged space in which you can save data. Like suppose you have build a power meter, then you can store the voltage, current and power measured by the device in this space. This data can be be set by a device and retrived by the app to be consumed/displayed to end user.
@@ -13,29 +14,29 @@ This storage space is sanboxed, so only the paired users can request or update t
 
 This method returns the following codes in response
 
--DEVICE-DATA-FETCHED
+**DEVICE-DATA-FETCHED**
 
 data has been fetched
 
--PATH-INVALID
+**PATH-INVALID**
 
 the key is undefined
 
--DEVICE-NOT-PAIRED
+**DEVICE-NOT-PAIRED**
 
 device is not paired to the account
 
--DEVICE-ID-INVALID
+**DEVICE-ID-INVALID**
 
 device is not registered with this id
 
--DATA-INVALID
+**DATA-INVALID**
 
 device id is required
 
 Use of get method has been illustrated in the example below
 
-```
+```js
 // Submit request to the server
 device.data().get().then((res) => {
   // Got the response

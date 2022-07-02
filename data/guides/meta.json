@@ -1,14 +1,9 @@
 {   
-    "grandeur-canvas": "Grandeur Canvas",
-    "auth": "Auth()",
+    "canvas": "Canvas",
+    "auth": "Auth",
     "guides": "Guides",
     "devices": "Devices",
-    "datastore": "Grandeur Datastore",
-    "hardware": "Hardware",
-    "networking": "Networking",
+    "datastore": "Datastore",
     "project": "Project",
-    "security": "Security",
-    "user-and-administration": "Access Scope"
-
-    }
-
+    "security": "Security"
+}

@@ -1,0 +1,42 @@
+---
+title: datastore.drop()
+---
+
+# datastore.drop(name)
+
+This method deletes a collections and all of its documents from the datastore of your project. This method accpets the following input arguments
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| collection        |    strong    | name of the collection which is required to be dropped|
+
+
+It is important to note here that the method deletes all the documents associated with a collection.
+
+This method returns the following codes.
+
+**DATASTORE-COLLECTION-DROPPED**
+
+collection has been dropped
+
+**DATASTORE-COLLECTION-NOT-FOUND**
+
+collection name is invalid
+
+**DATASTORE-COLLECTION-DROPPING-FAILED**
+
+failed to delete the collection due to an error
+
+The usage of this method is illustrated in the example below
+
+```js
+// Get the list of collections
+datastore.drop("logs").then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-COLLECTION-DROPPED": 
+      // Collection has been dropped
+  }
+});
+```

@@ -1,7 +1,7 @@
 {
-    "initialisation": "Initialisation",
-    "installation": " Installation",
-    "reference-documentation": "Reference Documentation"
+   
+    "data": "Data",
+    "project": "Project",
+    "datastore": "Datastore"
     
-
 }

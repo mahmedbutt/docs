@@ -1,8 +1,7 @@
 {
-    "canvas": "Grandeur Canvas",
-    "cli": "Grandeur CLI",
-    "client-sdk": "Client SDK's",
-    "device-sdk": "Device SDK's",
-    "datastore": "Datastore"
+    "canvas": "Canvas",
+    "client-sdk": "Client SDKs",
+    "device-sdk": "Device SDKs"
+    
 
 }

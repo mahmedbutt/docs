@@ -1,6 +1,7 @@
 [
     "project",
     "auth",
+    "canvas",
     "devices",
     "datastore",
     "canvas",

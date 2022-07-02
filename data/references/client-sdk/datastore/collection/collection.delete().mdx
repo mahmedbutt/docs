@@ -1,0 +1,90 @@
+---
+title: collection.delete()
+---
+
+# collection.delete(filter)
+
+This method can be used to delete a document from a collection. It accepts a json object which specifies the match condition and returns the count of total deleted documents. It accepts following arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter        |    object    | a json object which specifies the match condition of documents|
+
+It is important to note here that running this function without specifying the match condition will result in deletion of all the documents of a collection.
+
+This method returns following codes
+
+**DATA-INVALID**
+
+collection name wasn't specified while getting the reference
+
+**DATASTORE-DOCUMENTS-NOT-FOUND**
+
+not even a single document qualified the match condition so delete count is zero
+
+**DATASTORE-DOCUMENTS-DELETED**
+
+deleted the matched documents
+
+**DATASTORE-DOCUMENTS-DELETION-FAILED**
+
+failed to delete the documents
+
+The usage of this method is illustrated in the example below
+
+
+```js
+// This method can be used in many ways
+
+// Case: delete a specific document by providing
+// the document id, you can use this on other 
+// attributes as well
+collection.delete({documentID: "id"}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-DELETED": 
+      // Method returns the count
+      // should be exactly 1 here
+      console.log(res.deletedCount);
+  }
+});
+
+// Case: delete multiple but specific documents
+// Define an array of ids of documents required to
+// be deleted, you can use this on other 
+// attributes as well
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.delete({documentID: {$in: documentIDs}}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-DELETED": 
+      // Method returns the count
+      // should match the length of the array
+      console.log(res.deletedCount);
+  }
+});
+
+// Case: delete in range
+// Run operation with $lt and $gt operator on attributes
+collection.delete({voltage: {$lt: 25, $gt: 30}}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-DELETED": 
+      // Method returns the count
+      console.log(res.deletedCount);
+  }
+});
+
+// Case: delete all
+// Run operation with $in operator
+collection.delete().then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-DELETED": 
+      // Method returns the count
+      console.log(res.deletedCount);
+  }
+});
+```

@@ -1,7 +1,7 @@
 {
-    "initialisation": "Initialisation",
-    "installation": " Installation",
-    "reference-documentation": "Reference Documentation"
-    
+  
+    "auth": "Auth",
+    "devices": " Devices",
+    "datastore": " Datastore"
 
 }

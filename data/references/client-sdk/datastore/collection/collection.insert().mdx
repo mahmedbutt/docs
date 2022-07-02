@@ -1,0 +1,49 @@
+---
+title: collection.insert()
+---
+
+
+#  collection.insert(documents)
+
+This method can be used to insert a json object/document into a collection. It accepts an array of json objects (so you can insert one or many documents into a collection with single function call). It returns the ids of inserted documents in response (we automatically assign a unique id to each document before actually inserting it into the datastore - primary key). It accepts following arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| documents        |    array    | an array of json objects|
+
+
+This method returns following codes
+
+**DATA-INVALID**
+
+empty array is provided or collection name wasn't specified while getting the reference
+
+**DATASTORE-DOCUMENTS-INSERTED**
+
+documents has been inserted successfully
+
+**DATASTORE-DOCUMENTS-INSERTION-FAILED**
+
+failed to insert the documents into the collection
+
+The usage of this method is illustrated in the example below
+
+
+```js
+// Define an array of json objects
+var documents = [{
+  voltage: 20,
+  current: 2
+}]
+
+// Insert document into a collection
+collection.insert(documents).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-INSERTED": 
+      // Methods returns the unique ids of each
+      // inserted document
+      console.log(res.insertedIDs);
+  }
+});
+```

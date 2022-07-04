@@ -1,0 +1,8 @@
+[   "overview",
+    "device-pair",
+    "device-unpair",
+    "device-get",
+    "device-set",
+    "device-on"
+]
+

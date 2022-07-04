@@ -1,8 +1,8 @@
 ---
-title: myDatastore.search()
+title: datastore.search()
 ---
 
-# myDatastore.collection.search()
+# datastore.collection.search()
 
 >search (filter: Var, projection: Var, pageNumber: int, callback: Callback) : returns void
 
@@ -19,8 +19,8 @@ This method searches for documents in datastore based on the filter supplied. Fi
 ### Example
 
 ```cpp
-Grandeur::Project myProject;
-Grandeur::Project::Datastore myDatastore;
+Grandeur::Project Project;
+Grandeur::Project::Datastore Datastore;
 
 void searchCallback(Var searchResult) {
   // This method just prints the documents if the search is successful.

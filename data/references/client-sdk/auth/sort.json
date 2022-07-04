@@ -1,0 +1,12 @@
+[
+    
+    "overview",
+    "register",
+    "is-Authenticated",
+    "login",
+    "logout",
+    "forgot-password",
+    "change-password",
+    "update-profile"
+]
+

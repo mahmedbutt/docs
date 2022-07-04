@@ -5,7 +5,7 @@
     "isConnected",
     "onConnection",
     "auth",
-    "datastore",
-    "devices"
+    "devices",
+    "datastore"
 ]
 

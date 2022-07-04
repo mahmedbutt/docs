@@ -8,9 +8,45 @@ title: Initialization
 
   <Item value="arduino" label="Arduino">
 
-Initialization is as simple as calling grandeur.init() with your credentials (Your project's API Key and device's Access Token). The SDK uses your API key to know which project and access token to make sure the request is coming from a legit source. It then returns a Grandeur::Project object which exposes other subclasses like Device and Datastore, and you can go programming your device from there.
+Initialization is as simple as calling `grandeur.init()` with your credentials (Your project's API Key and device's Access Token). The SDK uses your API key to know which project and access token to make sure the request is coming from a legit source. It then returns a `Grandeur::Project` object which exposes other subclasses like Device and Datastore, and you can go programming your device from there.
 
-As soon as you call grandeur.init(), the SDK uses the configurations to start trying to connect with the your project on Grandeur. But it cannot reach Grandeur if the device is not already connected to a WiFi.
+As soon as you call `grandeur.init()`, the SDK uses the configurations to start trying to connect with the your project on Grandeur. But it cannot reach Grandeur if the device is not already connected to a WiFi.
+
+
+## The Dexterity of Arduino SDK
+
+- Arduino SDK takes care of your device's connection to Grandeur. It can start trying to connect with Grandeur as soon as the device boots or you can manually tell the SDK when to begin. There's `Grandeur::Project::loop` function that you place in the Arduino's loop whose sole function is to run the SDK. It accepts a boolean expression as argument and the SDK runs when the boolean expression evaluates to `true`. So, let's say if you pass the expression `WiFiState == CONNECTED` to it, the SDK would only run when the device's WiFi is connected. Or you can also wrap the `Grandeur::Project::loop` in an if-statement.
+
+- As soon as the WiFi gets connected, Arduino SDK begins trying to connect to Grandeur using the credentials you provide during `grandeur.init()`. When it connects, only then does the communication with Grandeur happen. And if somehow the connection breaks, SDK handles the reconnection and everything resumes right from where it left.
+
+- Arduino SDK maintains a network buffer. So if, for some reason, your device disconnects from the internet, the SDK buffers the messages during the offline period and flushes them in sequence when the device is back online.
+
+- **Var** is a special variable type which can take form of any other type including int, double, String, bool, etc, like in those dynamic typed languages like javascript. But it can also act like a container for other variables, like a javascript object or a C++ map, to form JSON. You can store variables in it as key-value pairs. 
+
+
+```cpp
+
+Var json; // The root
+json["foo"] = "This is foo"; // "foo" key in json
+json["bar"] = true; // "bar" key in json
+json["foobar"]["foo"] = "This is foo inside foobar"; // "foo" key in "foobar" key in json
+
+// In JSON, json would look like:
+//  {
+//    "foo": "This is foo",
+//    "bar": true,
+//    "foobar": {
+//      "foo": "This is foo inside foobar"
+//    }
+//  }
+
+// You can also store anything in Var.
+Var x = 5;
+x = "hello";
+
+Serial.println(x); // Prints: hello
+```
+
 
   </Item>
 
@@ -37,11 +73,13 @@ void setup() {
   myProject = grandeur.init(YourAPIKey, AccessToken);
 }
 
-
-void loop() {}
-
 // **RESULT**
 // Initializes the SDK's configurations and returns Project reference.
+
+void loop() {  myProject.loop(WiFiState == CONNECTED);  // Same as "if(WiFiState == CONNECTED) myProject.loop();"}
+
+// **RESULT**
+// Runs the SDK only when the WiFi is connected.
 ```
 
 

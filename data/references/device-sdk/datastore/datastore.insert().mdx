@@ -1,8 +1,8 @@
 ---
-title: myDatastore.insert();
+title: datastore.insert();
 ---
 
-# myDatastore.insert(); 
+# datastore.insert(); 
 
 >insert (documents: Var, callback: Callback) : returns void
 
@@ -16,8 +16,8 @@ This method inserts documents into datastore.
 ### Example
 
 ```cpp
-Grandeur::Project myProject;
-Grandeur::Project::Datastore myDatastore;
+Grandeur::Project Project;
+Grandeur::Project::Datastore Datastore;
 
 void insertCallback(Var insertionResult) {
   // This method just prints if the insertion is successful or not.

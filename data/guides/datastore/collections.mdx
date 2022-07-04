@@ -14,7 +14,9 @@ From the datastore class, you can get a reference to a collection in order to ex
 var collection = datastore.collection(name);
 ```
 
-It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. You can execute following operations on a collection
+It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. 
+
+You can execute following operations on a collection
 
 **collection.insert(documents)**
 
@@ -28,7 +30,7 @@ This method can be used to delete a document from a collection. It accepts a jso
 
 **collection.update(filter, update)**
 
-This method can be used to update a document in a collection. It accepts a json object which specifies the match condition and returns the count of total updated documents. Running this function without specifying the match condition will update all the documents of a collection. If a matched document got structure similar to
+This method can be used to update a document in a collection. It accepts a json object which specifies the match condition and returns the count of total updated documents. Running this function without specifying the match condition will update all the documents of a collection. 
 
 **collection.search(filter, projection, nPage)**
 

@@ -5,7 +5,7 @@ title: device.data().on()
 # device.data().on(path, callback)
 
 
-You can also attach a listener to device data. For example if you `{voltage: { vpp: 10, vrms: 7}}, current: 1}` is stored then you can subscribe to updates on either vpp and current by providing voltage.vpp and current in path field respectively. You can subscribe to root by providing empty path.
+You can also attach a listener to device data. For example if `{voltage: { vpp: 10, vrms: 7}}, current: 1}` is stored then you can subscribe to updates on either vpp and current by providing voltage.vpp and current in path field respectively. You can subscribe to root by providing empty path.
 
 It is important to note that it works like pattern subscription. So if you subscribed to voltage then you can also get an update when voltage.vpp will get an update. It is like the events on childs propagates to parent.
 

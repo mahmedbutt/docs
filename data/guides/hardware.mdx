@@ -7,11 +7,11 @@ title: Hardware
 
 You can use a WiFi library corresponding to your microcontroller to handle your device's WiFi. Here are some popular ones:
 
--ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+- ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
 
--ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
+- ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
 
--Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
+- Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
 
 Here we illustrate how to handle your ESP8266's WiFi.
 
@@ -47,9 +47,11 @@ void loop() {
 ```
 
 ## Sending Messages Only When the WiFi is Connected
+
 loop function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. That's exactly what the statement if(WiFi.status() == WL_CONNECTED) myProject.loop() does. The if-statement decides when the SDK should run and when it should not. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, WiFi.status() == WL_CONNECTED would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
 
 ## Handling Connection and Disconnection with Grandeur
+
 You can also listen on SDK's connection-related events. For example, to run some code when the device makes a successful connection to Grandeur or when the device's connection to Grandeur breaks, you can wrap that code in "a function that takes a bool and returns void" and pass it to Grandeur::Project's onConnection() function.
 
 Here's how you can handle the connection event:
@@ -116,9 +118,6 @@ In IoT, every device in the network wants to publish some variables for users or
 
 Both device(deviceId).data().get() and device(deviceId).data().set() are Async functions because they communicate with Grandeur through internet. Communication through internet takes some time (due to Internet latency being in ms while processors run instructions in a fraction of a µs) and we cannot wait for our data to arrive from Grandeur, meanwhile blocking the rest of the program execution. So, what we do is, we schedule a function to be called in future when the variable would have arrived and resume the rest of the device program, forgetting that we ever called device(deviceId).data().get(). When the variable arrives, the SDK calls our scheduled function automatically, giving us access to that variable inside that function.
 
-Read more about Async functions, Callback, and Var here.
-
-> (dexterity)??????
 
 Here's how we would get and set device variables:
 

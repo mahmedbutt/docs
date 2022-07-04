@@ -5,5 +5,7 @@
     "devices",
     "datastore",
     "canvas",
-    "security"
+    "security",
+    "hardware",
+    "networking"
 ]

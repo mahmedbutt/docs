@@ -26,7 +26,7 @@ export default function Layout({children}) {
             <Container column={1} >
 
                 {/* Render children */}
-                <article className="prose prose-sm prose-invert prose-headings:font-sans text-white-2 bg-gray-2 px-12 py-10 rounded-md max-w-3xl">
+                <article className="prose prose-sm prose-invert prose-headings:font-sans prose-headings:tracking-normal prose-li:list-['–'] prose-li:marker:text-white-1 text-white-2 bg-gray-2 px-12 py-10 rounded-md max-w-3xl antialiased">
 
                     {/* Use tailwind typography */}
                     {children}

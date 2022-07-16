@@ -1,37 +1,37 @@
 ---
-title: Your first IoT Application
+title: Hello World with IoT
 ---
 
-# Your first IoT Application
+# Hello World with IoT
 
-In order to truly understand the potential of IoT, we are going to make a start with building an internet switch. In this tutorial, we will use the **ESP8266** module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
+In order to truly understand the potential of IoT, we are going to make a start with building an internet switch. In this tutorial, we will use the `ESP8266` module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
 
 First, make sure you are all set up by following this tutorial [here](/getting-started). 
 
-### Hardware Components 
+## Hardware Components 
 
-**ESP8266** - Espressif Wemos D1 Mini 
+`ESP8266` - Espressif Wemos D1 Mini 
 
-### Setting up the Arduino Environment
+## Setting up the Arduino Environment
 
-**Board** **Selection**
+### Board Selection
 
 - Start Arduino IDE and open the Preferences window.
-- Enter [https://arduino.esp8266.com/stable/package_esp8266com_index.json](https://arduino.esp8266.com/stable/package_esp8266com_index.json) into the `Additional Board Manager URLs` field.
-- Open Boards Manager from `Tools > Board` menu and find *esp8266* platform.
+- Enter [https://arduino.esp8266.com/stable/package_esp8266com_index.json](https://arduino.esp8266.com/stable/package_esp8266com_index.json) into the `Additional Board Manager URLs` field.
+- Open Boards Manager from `Tools > Board` menu and find esp8266 platform.
 - Select the version you need from a drop-down box.
-- Click the *install* button.
+- Click the install button.
 
 After this choose the right board in your board manager.
 
 - From Tools > Board menu select ESP8266 board.
-- Then select **NodeMCU 1.0 (ESP 12-E Module)**.
+- Then select `NodeMCU 1.0 (ESP 12-E Module)`.
 
-**Installation**
+### Installation
 
 You can search for Grandeur in Arduino's library manager. In Arduino IDE, open `Sketch > Include Library > Manage Libraries` and install Grandeur from there.
 
-**Running the Code**
+### Running the Code
 
 Download the [internet_switch.zip](https://github.com/grandeurdev/examples/tree/master/Internet%20Switch) folder and use the hardware portion of the code. 
 

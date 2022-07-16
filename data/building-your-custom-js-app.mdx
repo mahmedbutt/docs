@@ -17,82 +17,118 @@ The first step is to create an application through which we will publish data to
 
 ## Web Application
 
-Here's our index.html file in which we define our layout and style. 
+Here's our `index.html` file in which we define our layout and style. 
 
 ```html
+
 <!-- Index.html -->
 <!DOCTYPE html>
 <html>
+
 	<!-- Head block of our page-->
 	<head>
 		<!-- Let's give our page a title-->
-		<title>Internet Switch</title>
+		<title>Pi Switch</title>
+
+		<!-- Important meta tag -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Link SDK with CDN -->
 		<script src="https://unpkg.com/grandeur-js"></script>
-		<link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
 
-		
+		<!-- Add CSS styles -->
+		<script src="https://cdn.tailwindcss.com"></script>
+
 	</head>
 
 	<!-- Body block of our page-->
-	<body>
+	<body class="m-0 p-0 absolute h-full w-full inset-0">
+
+		<!-- The loader page, will be displayed while we will verify the user auth status -->
+        <div id="loader"  class="w-full h-full bg-gray-200 items-center justify-center" style="display: flex;">
+
+            <!-- We are using a svg -->
+            <div class="w-20 h-auto">
+				<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+					<path fill="#111827" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+						<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite" />
+					</path>
+				</svg>
+			</div>
+
+		</div>
 		
-		 
 		<!-- The login page of our app -->
-		
-		<div id="login" class="min-h-screen bg-black text-white antialiased px-4 py-8 flex justify-center" style="display: none;">
+		<div id="login" class="w-full h-full bg-gray-200 items-center justify-center" style="display: none;">
+
 			<!-- Card holds the form -->
-			<div class="flex flex-col mt-32">
+			<div class="flex flex-col w-1/3">
 
 				<!-- The form to get email and passwordfrom users -->
-				<div class="text-center text-white mb-3 text-xs">Login with the form below and then you can <br> list the devices paired to your account.</br></div>
-				<input type="email" name="email" id="email" placeholder="Email" class=" sshadow-md bg-black w-96 h-5 px-3 
-				py-5 mt-2 mr-2 focus:outline-none focus:ring-1 border  rounded-md" />
-				<input type="password" name="password" id="password" placeholder="Password" class=" shadow-md bg-black w-96 h-5 px-3 
-				py-5 mt-2 mr-2 focus:outline-none focus:ring-1 border focus:ring-white rounded-md" />
+				<input type="email" name="email" id="email" placeholder="Email" class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0" />
+				<input type="password" name="password" id="password" placeholder="Password" class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0" />
 				
 				<!-- Button to submit the form-->
-				<button id="submitLogin" class=" bg-white w-96 h-10 text-black font-bold 
-				px-3 py-2 mr-2 mt-4 rounded-md">Login</button>
+				<button id="submitLogin" class="h-12 w-full mb-5 bg-gray-900 drop-shadow-lg rounded-md font-sans text-gray-100 text-medium text-sm outline-0">Login</button>
+
 			</div>
+
 		</div>
 
-		<!-- The page to hold the data -->
-		<div id="devices" class="flex flex-col min-h-screen w-screen bg-black text-gray-800 antialiased " style="display: none;">
+		<!-- Main screen of the app -->
+		<div id="device" class="w-full h-full bg-gray-200 items-center justify-center" style="display: none;">
+
 			<!-- The header of the page -->
-			<div class="flex justify-between bg-gray-700 py-4 px-2 bg-2 flex-row ">
-				<!-- Add toggleLED icon -->
-				<button id="toggleLED" class="bg-black text-white font-bold 
-				py-2 px-4 mr-72 rounded-full">Toggle Button</button>
+			<div class="absolute inset-0 flex w-full h-12 items-center justify-between px-6 bg-gray-300 drop-shadow-md border-box">
+
+				<!-- Add title of the page -->
+				<div class="text-gray-600 font-sans text-md font-bold" >Internet Switch</div>
+
 				<!-- Add logout icon -->
-				<button id="logout" class="bg-black text-white font-bold 
-				py-2 px-4 rounded-full">Logout</button>
+				<button id="logout" class="h-8 text-gray-600 bg-gray-200 rounded-md px-5 text-sm font-sans font-bold cursor-pointer">Logout</button>
+			
 			</div>
-		
 
-			<!-- Holder for tiles -->
+			<!--Device loading -->
+            <div id="device-loading" class="w-20 h-auto">
+				<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+					<path fill="#111827" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+						<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite" />
+					</path>
+				</svg>
+			</div>
 
-				<!-- Each div represents a tile  -->
-				
-		<div class="ml-16 mt-12 mb-12 flex flex-col font-bold place-content-center w-40 h-40 items-center pb-full rounded-xl color-amber-50" id="tile" >
-			
-				<div>Devices List</div> 
-		
-		</div> 
-				
+			<div id="device-button" style="display: none;">
+
+				<!-- The button -->
+				<div class="h-44 w-44 bg-gray-100 drop-shadow-lg rounded-2xl flex items-center justify-center cursor-pointer" onclick="updateState()">
+					
+					<!-- Image -->
+					<svg class="w-1/4 h-auto" stroke="#556382" id="device-button-state" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line>
+					</svg>
+					
+				</div>
+
+				<!-- The title -->
+				<div class="text-gray-600 font-sans text-md font-bold mt-10 text-center" id="device-name">Device</div>
+
+			</div>
+
+
+
 		</div>
-	
-			
+
 		<!-- Main script file -->
 		<script src="main.js"></script>
-	</body>
-</html>
 
+	</body>
+
+</html>
 
 ```
 
-We link the SDK using its CDN link and link our main script file. On the button click, we call the toggleLED() function which we'll define in our main.js file. Here's the main script:
+We link the SDK using its CDN link and link our main script file. On the button click, we call the updateState() function which we'll define in our `main.js` file. Here's the main script:
 
 ```js
 
@@ -103,14 +139,11 @@ We link the SDK using its CDN link and link our main script file. On the button 
  * a reference to the project
 */
 
-// Device ID and state
-var deviceID = "devicel4qtnoaw1utz0pxfhhpshwd1";
-var deviceState = null;
+var project = grandeur.init("grandeurl11orjfc6ste0rxf7w8l7eor", "accessl5mcedaf09v90pxfb756dhxn", "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwWkNJNkltRmpZMlZ6YzJ3MWJXTmxaR0ZtTURsMk9UQndlR1ppTnpVMlpHaDRiaUlzSW5SNWNHVWlPaUpoWTJObGMzTWlMQ0pwWVhRaU9qRTJOVGM0T0RJME16bDkuNURRbnVzZ1ZOZWJtOEVHMnFKR3hCdlQ4THZjU21wUkVvTDFuTFBxTm5NcyJ9");
 
-// Initialize the SDK and get
-// a reference to the project
-var project = grandeur.init("YOUR-API-KEY", "YOUR-ACCESS-KEY", "YOUR-ACCESS-TOKEN");
-var LED = 0;
+/** Device ID */
+var deviceID = "devicel11ozvn76sz50rxfbad8fjj2";
+
 /** 
  * This function uses the sdk to validate
  * that if the user is authenticated or not
@@ -124,283 +157,135 @@ async function start() {
 		return displayLogin();
 	}
 
-	/** Display devices screen */
-	displayDevices();
-	toggleLED();
+	/** Display device screen */
+	displayDevice();
 }
 
-async function loginn() {
-
+/** Listener on login form button to authenticate a user */
+document.getElementById("submitLogin").addEventListener("click", async () => {
 	/** Get email and password from inputs */
 	var email = document.getElementById("email").value;
 	var password = document.getElementById("password").value;
 
-	
+	/** Display laoder */
+	displayLoader();
 
 	/** Use the sdk auth class to login the user */
 	var res = await project.auth().login(email, password);
 
 	/** If the operation was successful */
 	if (res.code === "AUTH-ACCOUNT-LOGGEDIN") {
+
 		/** Reset the login page */
 		document.getElementById("email").value = "";
 		document.getElementById("password").value = "";
 		
-		/** Display devices screen */
-		return displayDevices();
-		return toggleLED();
+		/** Display device screen */
+		return displayDevice();
+
 	}
 
 	/** otherwise display the login screen again */
 	displayLogin();
-};
+});
 
-
-/** Listener on login form button to authenticate a user */
-a=document.getElementById("submitLogin")
-a.addEventListener("click", () => loginn ()); 
-
-/** Function to get devices list from server and populate the ui*/
-async function getDevicesList() {
-	/** Use sdk devices class */
-	var devices = await project.devices();
-	var res = await devices.get();
-	
-
-	/** Variable to hold the ui */
-	var content = "";
-
-	/** Then loop over the devices list returned in response and populate the ui */
-	for(const device of res.devices) {
-
-		/** Add tile to the ui */
-		content += `
-			
-				<div class=" ml-10 p-auto mt-24 flex flex-col text-white justify-center font-bold place-content-center w-72 h-72 items-center shadow-lg bg-gray-700 pb-full rounded-xl" id="${device.deviceID}" >
-					<div class="text-center text-black items-center"> Device Name:</div>
-					<div class="content-center font-light text-center"> ${device.name}</div>
-					<div class="text-center text-black items-center"> Device Id: <br> </div>
-					<div class="content-center font-light text-center"> ${device.deviceID}</div>
-			   </div>
-		`
-		
-	}
-	/** Assign content to ui */
-	document.getElementById("tile").innerHTML = content;
-}
-
-async function logoutt() {
+/** Add event handler on logout icon */
+document.getElementById("logout").addEventListener("click", async () => {
+	/** Show the loader */
+	displayLoader();
 
 	/** and use the auth class of sdk to logout the user */
 	await project.auth().logout();
 
 	/** Then call start again */
 	start();
+});
+
+/** Function to show laoder screen */
+function displayLoader() {
+	/** Display loader */
+	document.getElementById("loader").style.display = "flex";
+
+	/** Hide login screen */
+	document.getElementById("login").style.display = "none";
+
+	/** Hide device screen */
+	document.getElementById("device").style.display = "none";
+	document.getElementById("device-button").style.display = "none";
 }
-
-/** Add event handler on logout icon */
-b=document.getElementById("logout");
-b.addEventListener("click", () => logoutt() )
-
 
 /** Function to show login screen */
 function displayLogin() {
-	
+	/** Hide loader */
+	document.getElementById("loader").style.display = "none";
 
 	/** Display login screen */
-	document.getElementById("devices").style.display = "none";
 	document.getElementById("login").style.display = "flex";
 }
 
-/** Function to show devices screen */
-function displayDevices() {
-	
+/** Function to show device screen */
+async function displayDevice() {
+	/** Hide loader */
+	document.getElementById("loader").style.display = "none";
 
-	/** Display devices screen */
-	document.getElementById("login").style.display = "none";
-	document.getElementById("devices").style.display = "flex";
+	/** Display button screen */
+	document.getElementById("device").style.display = "flex";
 
-	/** Get devices list */
-	getDevicesList();
-	
+	/** Start loader on deivce */
+	document.getElementById("device-loading").style.display = "block";
+
+	/** Use sdk devices class */
+	var devices = project.devices();
+
+	/** Get device name */
+	var { device } = await devices.device(deviceID).get("name");
+
+	/** And get device data */
+	var { data } = await devices.device(deviceID).data().get("state");
+
+	/** Set device name */
+	document.getElementById("device-name").innerHTML = device.name;
+
+	/** Set button style */
+	document.getElementById("device-button-state").setAttribute("stroke", data ? "#74C365" : "#556382");
+	document.getElementById("device-button-state").setAttribute("data-state", data);
+
+	// Display button
+	document.getElementById("device-loading").style.display = "none";
+	document.getElementById("device-button").style.display = "block";
+
+	/** Then also subscribe to the state update event of the device */
+	devices.device(deviceID).data().on("state", (path, state) => {
+
+		/** Update ui */
+		document.getElementById("device-button-state").setAttribute("stroke", state ? "#74C365" : "#556382");
+		document.getElementById("device-button-state").setAttribute("data-state", state);
+
+	});
 }
 
-/** Listener on login form button to toggle the LED authenticate a user */
-c=document.getElementById("toggleLED")
-c.addEventListener("click", () => toggleLED()); 
+/** Function to update the state of a device */
+async function updateState() {
+	/** Create new state */
+	var newState = document.getElementById("device-button-state").getAttribute("data-state") === "1" ? 0 : 1;
 
-
-/*
-    Function to send request
-    to the server to toggle the LED
-*/
-async function toggleLED() {
-    /*
-        We will store the device id in a variable
-        we generated this id while getting started
-    */
-
-    /* Then get a reference to device class */
-    var devices = project.devices();
-
-    /* and in a try catch block */
-    try {
-        /* Toggle LED variable */
-		/** Display devices screen */
-		document.getElementById("login").style.display = "none";
-		document.getElementById("devices").style.display = "flex";
-
-        LED = LED? 0: 1;
-
-        /* Submit request to update state */
-        var res = await devices.device(deviceID).data().set("state", LED);
-
-		console.log(res);
-
-        /* Got the response */
-        switch(res.code) {
-            case "DEVICE-DATA-UPDATED":
-                /* Updated the device state successfully */
-                console.log(`State Updated to ${LED? "ON": "OFF"}`);
-                break;
-
-            default:
-                /* Failed to update the state */
-                console.log("Failed to update the state");
-        }
-    }
-    catch(err) {
-        /*
-            Error usually got generated when
-            we are not connected to the internet
-        */
-        console.log("Network Error");
-    }
+	/** Use the devices class of sdk to report the upgrade */
+	await project.devices().device(deviceID).data().set("state", newState);
 }
-
-
 
 /** Start the app */
 start();
 
 ```
 
-So in short, when the app loads it logs into the user account that we hard-coded. After logging in, it establishes the communication channel with the Cloud using the API key, access key and token. And when the button clicking calls the `toggleLED` function, we send a request to the Cloud to update the state variable.
+So in short, when the app loads it shows a login page through which we can log into our specified user account. 
 
-So we sent the data from the app to the Cloud, but our hardware device won't receive it unless it's listening for it. For this purpose, we'll use the [Arduino SDK](https://github.com/grandeurtech/grandeurcloud-arduino-sdk/)of Grandeur. The code is as below: 🤖
+After logging in, it establishes the communication channel with the Cloud using the API key, access key and token. And when the button clicking calls the `updateState` function, we send a request to the Cloud to update the state variable.
 
-The logic is very simple. We use the WiFi class to connect to the WiFi. Then we init the SDK with device ID, API key and the access token which we got in the first section. We listen to the Cloud for connection event – as we did in the web app to keep track of connection status – and data update event to toggle device pin as soon as an update from the web app arrives.
+Once the user has performed the required operation, he can logout and return to the login screen.
 
 
-## Hardware Program
-
-So we sent the data from the app to the Cloud, but our hardware device won't receive it unless it's listening for it. For this purpose, we'll use the Arduino SDK of Grandeur. The code is as below: 🤖
-
-```cpp
-
-/* Including the SDK and WiFi library */
-#include <Grandeur.h>
-#include <ESP8266WiFi.h>
-
-/* Configurations */
-String deviceID = "YOUR-DEVICE-ID";
-String apiKey = "YOUR-APIKEY";
-String token = "YOUR-ACCESS-TOKEN";
-
-/* WiFi credentials */
-String ssid = "WIFI-SSID";
-String password = "WIFI-PASSWORD";
-
-/* Create variable to hold project and device */
-Grandeur::Project project;
-Grandeur::Project::Device device;
-
-/* Function to check device's connection status */
-void onConnection(bool status) {
-  switch(status) {
-        case CONNECTED:
-          /* Device connected to the cloud */
-          
-          Serial.println("Device is connected to the cloud.");
-          return;
-
-        case DISCONNECTED:
-          /* Device disconnected from cloud */
-
-          Serial.println("Device is disconnected from the cloud.");
-          return;
-  }
-}
-
-/* Function to handle state update event */
-void updateHandler(const char* path, int state) {
-    /* Print state */
-    Serial.printf("Updated state is %d\n", state);
-    
-    /* Update pin level */
-    digitalWrite(LED_BUILTIN, !state);
-}
-
-/* Function to connect to WiFi */
-void connectWiFi() {
-    /* Set mode to station */
-    WiFi.mode(WIFI_STA);
-
-    /* Connect using the ssid and password */
-    WiFi.begin(ssid, password);
-
-    /* Block till the WiFi is connected */
-    while (WiFi.status() != WL_CONNECTED) {
-         delay(500);
-         Serial.print(".");
-    }
-    
-    /* Print message */
-    Serial.println("");
-    Serial.println("WiFi connected");
-
-    /* And IP address */
-    Serial.println(WiFi.localIP());
-}
-
-void setup() {
-    /* Begin the serial */
-    Serial.begin(9600);
-
-    /* Connect to WiFi */
-    connectWiFi();
-    
-    /* Initializes the global object "grandeur" with your configurations. */
-    project = grandeur.init(apiKey, token);
-    
-    /* Get reference to device */
-    device = project.device(deviceID);
-    
-    /* Sets connection state update handler */
-    project.onConnection(onConnection);
-    
-    /* Add event handler on state variable */
-    device.data().on("state", updateHandler);
-    
-    /* Set mode of LED to output */
-    pinMode(2, OUTPUT);
-
-    /* Turn the LED off by default */
-    digitalWrite(2, 0);    
-}
-
-void loop() {
-    /* 
-        Synchronizes the SDK with the cloud
-        SDK will loop till we are connected to WiFi    
-    */
-    project.loop(WiFi.status() == WL_CONNECTED);
-}
-
-```
-
-The logic is very simple. We use the WiFi class to connect to the WiFi. Then we init the SDK with device ID, API key and the access token which we got in the first section. We listen to the Cloud for connection event – as we did in the web app to keep track of connection status – and data update event to toggle the device pin as soon as an update from the web app arrives.
-
+The event listener on a device toggles the state of that device. Also since the app subscribed to the device state, its listener is automatically fired once the state is updated on clicking on/off button, and updates the app's UI to represent that the state has been changed (Grandeur is event driven, remember!). 
 
 ## Testing Locally
 

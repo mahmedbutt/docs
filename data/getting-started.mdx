@@ -8,107 +8,55 @@ To use Grandeur in our project, let's first set it up.
 ## Sign up on Grandeur
 Go to https://console.grandeur.dev
 
-![Login](/images/introduction/login.webp)
+- Click on get access to get redirected to the registration page. Add the required credentials and click Submit.
+- You'd receive a one-time-password (OTP) on your phone. Enter it and click Submit.
+- Congratulations! Your account is created.
 
-Click on get access to get redirected to the registration page. Add the required credentials and click Submit
+<Video src="/images/guides/signing-up.webm"/>
 
-![Register](/images/introduction/Register.webp)
+## Create a Project
 
-Your'd receive a one-time-password (OTP) on your phone. Enter it and click Submit.
+A [project](/guides/project/managing-a-project) is the first thing you need to create to start working with Grandeur. A project is like a namespace, a completely isolated network of users and devices, along with a separate datastore. This is essentially the playground for the developer. 
 
-![OTP](/images/introduction/OTP.webp)
-
-Congratulations! Your account is created.
-
-## Create a project
 Click on New Project button.
-
-![Project](/images/introduction/project.webp)
-
 Fill in the name and description of the project and click Create Project button. Your project will be created. 
 
-![Project Created](/images/introduction/project-created.webp)
+<Video src="/images/guides/creating-project.webm"/>
 
+## Register your Device
 
-## Register your device
+When you register a [device](/guides/devices/data), you make it available in your project's network. It is meant to securely connect devices to cloud.
 
-Click on the Devices tab from the left sidebar. To register your device, you first need to register its data model. 
+- Click on the Devices tab from the left sidebar. 
+- To register your device, you first need to register its data [model](/guides/devices/model). Model is a way to manage and categorize devices. You can create multiple models and each model can then be associated with multiple devices. 
+- To register a model, under the Models header, click the Add button. Fill in the name and schema of the model. and click the Add button.
+- The model is added.
 
-![Add Model](/images/introduction/model-step-1.webp)
+<Video src="/images/guides/model.webm" />
 
+- To add the device, under the Devices header, click the Add button.
+- Select the model that you created in the last step and give the device a machine-descriptive product ID.
+- This would give you a device ID of the form devicekwl7rb7702ig0pxfhb5fdu9c and a device token. Do not forget to copy them both somewhere as they will be imperative for use later and won't be accessible after closing the dialogue box.
+- Your device is registered.
 
-To register a model, under the Models header, click the Add button. Fill in the name and schema of the model. and click the Add button.
+<Video src="/images/guides/add-device.webm" />
 
-![Add Model](/images/introduction/model-step-2.webp)
+## Register a New User
 
+To control the device from the app, you need a user account. The the users here are end users, who will be using the device in production. Click on the Accounts tab from the left menu and then on the Add Account button.
 
-The model is added.
-![Model Added](/images/introduction/model-step-3.webp)
+- Fill in the new account details and click Add 
+- Your user account has been created.
 
+<Video src="/images/guides/user-add.webm" />
 
-To add the device, under the Devices header, click the Add button.
+## Pair the device with account
 
-![Add Device](/images/introduction/device-step-1.webp)
+We pair the device to a user so that only the user or the admin of the project can access the data. This serves as an extra security measure so an account can only see and control the devices paired with it. So go to the Devices tab,
 
+- Click on the Pair button in the Actions column of the device you created in the previous steps. Select your user account and done.
+- Your device is now paired with your user account.
 
-Select the model that you created in the last step and give the device a machine-descriptive product ID.
+<Video src="/images/guides/pair.webm" />
 
-![Add Device](/images/introduction/device-step-2.webp)
-
-
-This would give you a device ID of the form devicekwl7rb7702ig0pxfhb5fdu9c and a device token. Do not forget to copy them both somewhere as they will be imperative for use later and won't be accessible after closing the dialogue box.
-
-![Access Credentials](/images/introduction/device-step-3.webp)
-
-
-Your device is registered.
-
-![Device Registered](/images/introduction/device-step-4.webp)
-
-
-## Register a new user
-To control the device from the app, you need a user account. Click on the Accounts tab from the left menu and then on the Add Account button.
-
-![Creating User Account](/images/introduction/user-step-1.webp)
-
-Fill in the new account details and click Add 
-
-![Creating User Account](/images/introduction/user-step-2.webp)
-
-
-Your user account has been created.
-![User Account Created](/images/introduction/user-step-3.webp)
-
-## Pair the account with the device
-
-An account can only see and control the devices paired with it. So go to the Devices tab,
-
-![Devices Tab](/images/introduction/pair-step-1.webp)
-
-Click on the Pair button in the Actions column of the device you created in the previous steps. Select your user account and done.
-
-![Pairing Your Device](/images/introduction/pair-step-2.webp)
-
-Your device is now paired with your user account.
-
-![Device Paired](/images/introduction/pair-step-3.webp)
-
-## Making a drag-and-drop app with Canvas
-Click on the Canvas tab from the left menu.
-
-![Canvas](/images/introduction/canvas-step-1.webp)
-
-Add a button widget
-
-![Add Widget](/images/introduction/canvas-step-2.webp)
-
-Click on the widget and click the Configure button.
-
-![Configure Widget](/images/introduction/canvas-step-3.webp)
-
-Edit the widget configurations, including its title, variable we want to control (since we want to control the LED on ESP with this switch button, we choose the led variable), ON state value, and OFF state value. Then click Save.
-
-![Edit Widget Configurations](/images/introduction/canvas-step-4.webp)
-
-The button widget is ready.
-
+Now that we are done with setting up our environment, lets [move on](/getting-started) to building our first hardware device. 

@@ -139,7 +139,7 @@ We link the SDK using its CDN link and link our main script file. On the button 
  * a reference to the project
 */
 
-var project = grandeur.init("grandeurl11orjfc6ste0rxf7w8l7eor", "accessl5mcedaf09v90pxfb756dhxn", "eyJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwWkNJNkltRmpZMlZ6YzJ3MWJXTmxaR0ZtTURsMk9UQndlR1ppTnpVMlpHaDRiaUlzSW5SNWNHVWlPaUpoWTJObGMzTWlMQ0pwWVhRaU9qRTJOVGM0T0RJME16bDkuNURRbnVzZ1ZOZWJtOEVHMnFKR3hCdlQ4THZjU21wUkVvTDFuTFBxTm5NcyJ9");
+var project = grandeur.init("YOUR-API-KEY", "YOUR-ACCESS-KEY", "YOUR-ACCESS-TOKEN");
 
 /** Device ID */
 var deviceID = "devicel11ozvn76sz50rxfbad8fjj2";
@@ -277,26 +277,38 @@ async function updateState() {
 start();
 
 ```
+Here is how this app mainly works:
+
+![State Diagram](/images/js-app/state-diagram.webp)
 
 So in short, when the app loads it shows a login page through which we can log into our specified user account. 
-
 After logging in, it establishes the communication channel with the Cloud using the API key, access key and token. And when the button clicking calls the `updateState` function, we send a request to the Cloud to update the state variable.
-
 Once the user has performed the required operation, he can logout and return to the login screen.
 
+We get the device name and device data through data.get() to work with. Later, we subscribe to the device-state by data.on() so that we can get notified in chase of change of any event,
+To learn more about them click [here](/references/client-sdk/devices/device-device/device-data/device-data-get). 
+
+![Display Device](/images/js-app/display-device.webp)
 
 The event listener on a device toggles the state of that device. Also since the app subscribed to the device state, its listener is automatically fired once the state is updated on clicking on/off button, and updates the app's UI to represent that the state has been changed (Grandeur is event driven, remember!). 
+
+![Update State](/images/js-app/update-state.webp)
+
+This is how your complete app will look like and function:
+
+
+<Video src="/images/js-app/js-app.webm"/>
 
 ## Testing Locally
 
 Here we are finally. Let's test what we have build. We go to run our web app to send the data. For that we run a local server with the live server extension of our editing environment.
 
->> `Live Server` is the go-to option in VS Code. Just install the extension and you can see a ** Go Live ** icon appear at the bottom. 
+>> `Live Server` is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom. 
 
 But there's a security measure. You cannot send data from your app to the Cloud unless you whitelist your domain in the settings section. Your domain is the address that is shown in the browser's URL bar when you open your app. This prevents all the unidentified sources from accessing your Cloud project's data in case you lose your access key.
 
 
-#
+
 
 
 

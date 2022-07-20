@@ -4,81 +4,148 @@ title: Hello World with IoT
 
 # Hello World with IoT
 
-In order to truly understand the potential of IoT, we are going to make a start with building an internet switch. In this tutorial, we will use the `ESP8266` module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
+In order to truly understand the potential of Grandeur, we are going to make a start with building an internet switch. In this tutorial, we will use the `ESP8266 - Espressif Wemos D1 Mini ` module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
 
-First, make sure you are all set up by following this tutorial [here](/getting-started). 
+First, make sure you are all set up by following this [guideline](/getting-started). 
 
-## Hardware Components 
+Just like internet makes the world a global village for us humans, Internet of Things does that for the things (the machines). For example, you can control your ESP8266 device using bluetooth as well. But when you want to connect 100s of devices, monitor them, control them, automate them, and over internet (for global access) things get extremely complex. That's where the concept of backend comes in. All your devices connect to the backend and this backend is what makes it possible then to control anything from anywhere in the world from your phone or laptop.
 
-`ESP8266` - Espressif Wemos D1 Mini 
+Grandeur gives you a ready-made backend so you don't have to build your own. And you shouldn't build your own backend. You guys are electrical engineers, not web developers.
+ 
+### Setting up the Arduino Environment
 
-## Setting up the Arduino Environment
+If you don't already have the Arduino IDE set up , [here's](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing) how you can do it.
 
-### Board Selection
+We are essentially using Arduino IDE as it supports ESP8266 library easily. ESP8266 (technically ESP8266EX) is a WiFi Module. The ESP8266 contains a fully functional WiFi Stack that allows any Microcontroller to get connected to WiFi Network.
 
-- Start Arduino IDE and open the Preferences window.
-- Enter [https://arduino.esp8266.com/stable/package_esp8266com_index.json](https://arduino.esp8266.com/stable/package_esp8266com_index.json) into the `Additional Board Manager URLs` field.
-- Open Boards Manager from `Tools > Board` menu and find esp8266 platform.
-- Select the version you need from a drop-down box.
-- Click the install button.
+With Software Development Kits (SDKs) like Grandeur's, you can directly program the ESP8266’s on-chip Microcontroller to blink the LED.
 
-After this choose the right board in your board manager.
-
-- From Tools > Board menu select ESP8266 board.
-- Then select `NodeMCU 1.0 (ESP 12-E Module)`.
-
-### Installation
+#### Installation
 
 You can search for Grandeur in Arduino's library manager. In Arduino IDE, open `Sketch > Include Library > Manage Libraries` and install Grandeur from there.
 
+<Video src="/images/guides/install-grandeur-library.webm" />
+
 ### Running the Code
 
-Download the [internet_switch.zip](https://github.com/grandeurdev/examples/tree/master/Internet%20Switch) folder and use the hardware portion of the code. 
-
-Extract the ZIP file and open the internet_switch folder in your code editor. You'd see a file named internet_switch.ino that contains the main code and a folder named recipes that contains the helper code files: Blink.h and WiFi.h.
-
-Here’s how the main file looks like
+Here’s how the main internet_switch.ino file looks like
 
 ```cpp
-#include "recipes/WiFi.h"
+/* Including the SDK and WiFi library */
 #include <Grandeur.h>
+#include <ESP8266WiFi.h>
 
-// Pin 2 is attached to the ESP's builtin LED.
-int ledPin = 2;
+/* Configurations */
+String deviceID = "YOUR-DEVICE-ID";
+String apiKey = "YOUR-APIKEY";
+String token = "YOUR-ACCESS-TOKEN";
 
-// Grandeur credentials.
-const char* apiKey = " ";
-const char* deviceID = " ";
-const char* token = " ";
+/* WiFi credentials */
+String ssid = "WIFI-SSID";
+String password = "WIFI-PASSWORD";
 
+/* Create variable to hold project and device */
 Grandeur::Project project;
 Grandeur::Project::Device device;
 
-// Function that runs when the LED is toggled from the Internet.
-void updateLED(const char* path, const char* update);
+/* Function to check device's connection status */
+void onConnection(bool status) {
+  switch(status) {
+        case CONNECTED:
+          /* Device connected to the cloud */
+          
+          Serial.println("Device is connected to the cloud.");
+          return;
+
+        case DISCONNECTED:
+          /* Device disconnected from cloud */
+
+          Serial.println("Device is disconnected from the cloud.");
+          return;
+  }
+}
+
+/* Function to handle state update event */
+void updateHandler(const char* path, int state) {
+    /* Print state */
+    Serial.printf("Updated state is %d\n", state);
+    
+    /* Update pin level */
+    digitalWrite(2, state);
+}
+
+/* Function to connect to WiFi */
+void connectWiFi() {
+    /* Set mode to station */
+    WiFi.mode(WIFI_STA);
+
+    /* Connect using the ssid and password */
+    WiFi.begin(ssid, password);
+
+    /* Block till the WiFi is connected */
+    while (WiFi.status() != WL_CONNECTED) {
+         delay(500);
+         Serial.print(".");
+    }
+    
+    /* Print message */
+    Serial.println("");
+    Serial.println("WiFi connected");
+
+    /* And IP address */
+    Serial.println(WiFi.localIP());
+}
 
 void setup() {
+    /* Begin the serial */
     Serial.begin(9600);
-    // Connecting to WiFi.
-    connectWiFi("YourWiFiSSID", "YourWiFiPassphrase");
-    // Begin connecting with Grandeur with the provided API Key and Token.
+
+    /* Connect to WiFi */
+    connectWiFi();
+    
+    /* Initializes the global object "grandeur" with your configurations. */
     project = grandeur.init(apiKey, token);
+    
+    /* Get reference to device */
     device = project.device(deviceID);
-    // Schedule the updateLED function for the update in "led" variable.
-    device.data().on("led", updateLED);
+    
+    /* Sets connection state update handler */
+    project.onConnection(onConnection);
+    
+    /* Add event handler on state variable */
+    device.data().on("state", updateHandler);   
+    
+    /* Set mode of LED to output */
+    pinMode(2, OUTPUT);
+
+    /* Turn the LED off by default */
+    digitalWrite(2, 0);    
 }
 
 void loop() {
-    // Synchronizing the ESP with the Cloud. This just has to be always placed in loop().
-    project.loop();
+    /* 
+        Synchronizes the SDK with the cloud
+        SDK will loop till we are connected to WiFi    
+    */
+    project.loop(WiFi.status() == WL_CONNECTED);
 }
+```
 
-void updateLED(const char* path, const char* update) {
-    // "update" contains the updated value of the "led" variable. If it's toggled,
-    // we toggle the ledPin.
-    // ESP's LED is inverted. 0 turns it ON. 1 turns it OFF.
-    if(strcmp(update, "0") == 0) digitalWrite(ledPin, 1);
-    else if(strcmp(update, "1") == 0) digitalWrite(ledPin, 0);
+This is how your package.json file should look:
+
+```json
+
+{
+    "name": "internet_switch",
+    "version": "1.0.0",
+    "description": "",
+    "main": "internet_switch.ino",
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "Grandeur": "@1.0.6"
+    },
+    "arch": "esp8266:esp8266@3.0.2"
 }
 ```
 
@@ -88,7 +155,29 @@ Now simply run your code in the Arduino IDE. After the upload is complete, the L
 
 After connecting to WiFi, ESP8266 starts connecting to Grandeur. Once it's connected, it prints that in the terminal.
 
-To control the on-board LED on the ESP8266, go the Grandeur Dashboard and run the Canvas app you made in the previous tutorial. A Canvas guide is also lsited below. 
+To control the on-board LED on the ESP8266, go the Grandeur Dashboard and create a canvas app following the steps listed below:
+
+## Making a drag-and-drop app with Canvas
+
+Click on the Canvas tab from the left menu.
+
+![Canvas](/images/introduction/canvas-step-1.webp)
+
+Add a button widget
+
+![Add Widget](/images/introduction/canvas-step-2.webp)
+
+Click on the widget and click the Configure button.
+
+![Configure Widget](/images/introduction/canvas-step-3.webp)
+
+Edit the widget configurations, including its title, variable we want to control (since we want to control the LED on ESP with this switch button, we choose the led variable), ON state value, and OFF state value. Then click Save.
+
+![Edit Widget Configurations](/images/introduction/canvas-step-4.webp)
+
+The button widget is ready.
+
+A Canvas guide is also lsited below. 
 
 > <Callout emoji="📋">
 > [**Canvas Guide**](/guides/grandeur-canvas/canvas) 

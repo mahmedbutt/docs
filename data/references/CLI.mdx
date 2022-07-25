@@ -12,31 +12,39 @@ It works as a universal code compiler and package manager for microcontrollers. 
 ### Install
 Start with downloading Grandeur. The package is currently hosted on Github. Run following command into your terminal to globally install the cli
 
-```npm install https://github.com/grandeurdev/cli -g```
+```bash
+npm install https://github.com/grandeurdev/cli -g
+```
 
 ## Get Started
 
 Create a new project with init command. Running this command will create a new sketch folder in current working directory, containing the ino code file and a package.json file. Simplify specifiy the architecture and let Grandeur automatically handle the board dependencies.
 
-```grandeur init```
-
-Init command
+```bash
+grandeur init
+```
 
 ### Manage Dependencies
 
 Grandeur provides npm like interface and make it super easy for hardware developers to manage dependencies. To install a library from Arduino library manager, simply run this command
 
-```grandeur install <library-name>```
+```bash
+grandeur install <library-name>
+```
 
 Running this command wil automatically update the package.json file. That means, you can always restore your enviroment in another computer by running install command
 
-```grandeur install```
+```bash
+grandeur install
+```
 
 ### Run
 
 To compile and upload the code to hardware, just execute run command in workspace folder.
 
-```grandeur run```
+```bash
+grandeur run
+```
 
 After compilation, the cli will automatically attach the board to display serial logs. Here is a demo for simple hello world code running on ESP32
 
@@ -58,4 +66,6 @@ void loop() {
 
 Attach to a running device with monitor command.
 
-```grandeur monitor```
+```bash
+grandeur monitor
+```

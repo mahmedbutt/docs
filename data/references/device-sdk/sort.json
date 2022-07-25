@@ -1,9 +1,7 @@
 [
-    
-    "initialisation",
     "installation",
-    "project",
-    "data",
-    "datastore"
-   
+    "initialisation",
+    "isConnected",
+    "onConnection",
+    "device"
 ]

@@ -1,7 +1,5 @@
 {
     "canvas": "Canvas",
-    "client-sdk": "Client SDKs",
-    "device-sdk": "Device SDKs"
-    
-
+    "client-sdk": "Client SDK",
+    "device-sdk": "Device SDK"
 }

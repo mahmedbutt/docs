@@ -279,7 +279,7 @@ start();
 ```
 Here is how this app mainly works:
 
-![State Diagram](/images/js-app/state-diagram.webp)
+![State Diagram](/images/js-app/test.png)
 
 So in short, when the app loads it shows a login page through which we can log into our specified user account. 
 After logging in, it establishes the communication channel with the Cloud using the API key, access key and token. And when the button clicking calls the `updateState` function, we send a request to the Cloud to update the state variable.
@@ -296,16 +296,19 @@ The event listener on a device toggles the state of that device. Also since the 
 
 This is how your complete app will look like and function:
 
-
 <Video src="/images/js-app/js-app.webm"/>
 
 ## Testing Locally
 
 Here we are finally. Let's test what we have build. We go to run our web app to send the data. For that we run a local server with the live server extension of our editing environment.
 
->> `Live Server` is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom. 
+<Callout >
 
-But there's a security measure. You cannot send data from your app to the Cloud unless you whitelist your domain in the settings section. Your domain is the address that is shown in the browser's URL bar when you open your app. This prevents all the unidentified sources from accessing your Cloud project's data in case you lose your access key.
+`Live Server` is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom. 
+
+</Callout>
+
+But there's a security measure. You cannot send data from your app to the Cloud unless you [whitelist your domain](/data/guides/security/cors) in the settings section. Your domain is the address that is shown in the browser's URL bar when you open your app. This prevents all the unidentified sources from accessing your Cloud project's data in case you lose your access key.
 
 
 

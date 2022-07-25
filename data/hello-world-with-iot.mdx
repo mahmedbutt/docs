@@ -20,6 +20,17 @@ We are essentially using Arduino IDE as it supports ESP8266 library easily. ESP8
 
 With Software Development Kits (SDKs) like Grandeur's, you can directly program the ESP8266’s on-chip Microcontroller to blink the LED.
 
+<Callout emoji="✅">
+You can download the library for your specific microcontroller to connect your hardware to grandeur. Our SDK’s can support multiple architectures:
+
+-ESP8266 and ESP32 with Arduino
+
+-Most Linux based SOCs with Python work on Raspberry PI.
+
+</Callout>
+
+To read more about it, click [here](/data/guides/hardware)
+
 #### Installation
 
 You can search for Grandeur in Arduino's library manager. In Arduino IDE, open `Sketch > Include Library > Manage Libraries` and install Grandeur from there.
@@ -66,12 +77,11 @@ void onConnection(bool status) {
 }
 
 /* Function to handle state update event */
-void updateHandler(const char* path, int state) {
+void updateHandler(const char* path, const char* state) {
+    if(strcmp(state, "1") == 0) digitalWrite(2, 1);
+    else digitalWrite(2, 0);
     /* Print state */
-    Serial.printf("Updated state is %d\n", state);
-    
-    /* Update pin level */
-    digitalWrite(2, state);
+    Serial.printf("Updated state is %s\n", state);
 }
 
 /* Function to connect to WiFi */
@@ -127,29 +137,19 @@ void loop() {
         Synchronizes the SDK with the cloud
         SDK will loop till we are connected to WiFi    
     */
-    project.loop(WiFi.status() == WL_CONNECTED);
+    if(WiFi.status() == WL_CONNECTED) project.loop();
 }
 ```
 
-This is how your package.json file should look:
+Here's what'e essentially happening in this code:
 
-```json
+![State Diagram](/images/introduction/state-diagram.webp)
 
-{
-    "name": "internet_switch",
-    "version": "1.0.0",
-    "description": "",
-    "main": "internet_switch.ino",
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "Grandeur": "@1.0.6"
-    },
-    "arch": "esp8266:esp8266@3.0.2"
-}
-```
+`loop` function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, `WiFi.status() == WL_CONNECTED` would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
 
-Add your token, API key and deviceID into the Grandeur Credentials section of the code. Forgot how to do it? . Next add enter your WiFi Credentials and you are all good to go! 
+### What Next 
+
+Add your token, API key and deviceID into the Grandeur Credentials section of the code . Next add enter your WiFi Credentials and you are all good to go! 
 
 Now simply run your code in the Arduino IDE. After the upload is complete, the LED on ESP8266 will blink fast, indicating that the ESP is trying to connect to the WiFi network. As soon as the connection is established, the LED stops blinking. Inside your terminal, you'd see dots (.) printing while the ESP is connecting to WiFi. After successful connection, it prints the ESP's IP Address.
 
@@ -157,31 +157,19 @@ After connecting to WiFi, ESP8266 starts connecting to Grandeur. Once it's conne
 
 To control the on-board LED on the ESP8266, go the Grandeur Dashboard and create a canvas app following the steps listed below:
 
-## Making a drag-and-drop app with Canvas
+- Click on the Canvas tab from the left menu.
+- Add a button widget
+- Click on the widget and click the Configure button.
+- Edit the widget configurations, including its title, variable we want to control (since we want to control the LED on ESP with this switch button, we choose the led variable), ON state value, and OFF state value. Then click Save.
+- The button widget is ready.
 
-Click on the Canvas tab from the left menu.
-
-![Canvas](/images/introduction/canvas-step-1.webp)
-
-Add a button widget
-
-![Add Widget](/images/introduction/canvas-step-2.webp)
-
-Click on the widget and click the Configure button.
-
-![Configure Widget](/images/introduction/canvas-step-3.webp)
-
-Edit the widget configurations, including its title, variable we want to control (since we want to control the LED on ESP with this switch button, we choose the led variable), ON state value, and OFF state value. Then click Save.
-
-![Edit Widget Configurations](/images/introduction/canvas-step-4.webp)
-
-The button widget is ready.
+<Video src="/images/guides/canvas-button.webm" />
 
 A Canvas guide is also lsited below. 
 
-> <Callout emoji="📋">
-> [**Canvas Guide**](/guides/grandeur-canvas/canvas) 
-> </Callout>
+ <Callout emoji="📋">
+ [**Canvas Guide**](/guides/grandeur-canvas/canvas) 
+ </Callout>
 
-Click the switch and look at the LED on the ESP8266. The LED on the ESP8266 should toggle every time you hit the switch button.
+Click the switch and look at the LED on the ESP8266. The LED on the ESP8266 should toggle every time you hit the switch button. 
 

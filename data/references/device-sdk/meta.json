@@ -1,7 +1,4 @@
 {
-   
-    "data": "Data",
-    "project": "Project",
+    "device": "Device",
     "datastore": "Datastore"
-    
 }

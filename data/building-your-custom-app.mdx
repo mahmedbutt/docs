@@ -142,7 +142,7 @@ We link the SDK using its CDN link and link our main script file. On the button 
 var project = grandeur.init("YOUR-API-KEY", "YOUR-ACCESS-KEY", "YOUR-ACCESS-TOKEN");
 
 /** Device ID */
-var deviceID = "devicel11ozvn76sz50rxfbad8fjj2";
+var deviceID = "DEVICE-ID";
 
 /** 
  * This function uses the sdk to validate
@@ -302,10 +302,8 @@ This is how your complete app will look like and function:
 
 Here we are finally. Let's test what we have build. We go to run our web app to send the data. For that we run a local server with the live server extension of our editing environment.
 
-<Callout >
-
-`Live Server` is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom. 
-
+<Callout emoji="ℹ️">
+ [<ins>Live Server</ins>](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom.  
 </Callout>
 
 But there's a security measure. You cannot send data from your app to the Cloud unless you [whitelist your domain](/data/guides/security/cors) in the settings section. Your domain is the address that is shown in the browser's URL bar when you open your app. This prevents all the unidentified sources from accessing your Cloud project's data in case you lose your access key.

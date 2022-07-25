@@ -36,6 +36,18 @@ function Item({ group, label, value, selected, set }) {
     return <div onClick={update} className={`text-white-1 py-2 px-4 font-sans font-bold text-lg rounded-md cursor-pointer ${active} hover:bg-gray-3 transition-colors ease-in mr-2`}>{label}</div>
 }
 
+// Find selected item
+function findSelected(items, selected, setSelected) {
+    // We will loop over items to find a match
+    var item = items.find( item => item.props.value === selected);
+
+    // If match is not returned then change selected item to first key
+    if (!item) item = items[0];
+
+    // Return
+    return item;
+}
+
 // Top level component to handle which tab to show
 export default function Tabs({ children, group }) {
 
@@ -93,7 +105,7 @@ export default function Tabs({ children, group }) {
         <div className="w-full">
 
             {/* Inside a container */}
-            { children ? Array.isArray(children) ? children.find( child => child.props.value === selected) : children.type.name === "Item" ? children : null : null }
+            { children ? Array.isArray(children) ?  findSelected(children, selected, setSelected) : item.type.name === "Item" ? children : null : null }
 
         </div>
 

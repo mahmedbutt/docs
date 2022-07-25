@@ -1,7 +1,7 @@
 ---
-title: Device Data
+title: Data
 ---
-# Device Data
+# Data
 
 When you register a device, you make it available in your project's network. Not just that, a new namespace is created for your device in the device registry. When your device comes online, this is where all of its data is stored.
 Each device comes with a privileged space in which you can save data. Like suppose you have built a power meter, then you can store the voltage, current and power measured by the device in this space. Or you’ve built a weather monitoring device, you can store the temperature logs.  This data can be set by a device and retrieved by the app to be consumed/displayed to end user.
@@ -13,8 +13,10 @@ The usage of these methods is illustrated below:
 ```js
 //To fetch device data
 device.data().get();
+
 //To update or set device data
 device.data().set();
+
 //Subscribe to the data update event of a device
 device.data().on();
 ```

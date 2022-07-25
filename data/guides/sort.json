@@ -5,6 +5,5 @@
     "devices",
     "datastore",
     "security",
-    "hardware",
-    "networking"
+    "hardware"
 ]

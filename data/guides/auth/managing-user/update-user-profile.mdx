@@ -1,0 +1,18 @@
+---
+title: Update User Profile
+---
+# Update User Profile
+
+**auth.updateProfile()**
+
+A user profile gets automatically created whenever you register a new user account. This makes it really easy for a developer to handle data specific to user. Like you can setup display picture of a user. Which allows you present a unique experience to each user. This is why Grandeur has added this method with which you can update the profile of an authenticated user.
+
+Use of updateProfile method has been illustrated in the example below
+
+```js
+// Get user data from the inputs and
+// Submit request to the server
+auth.updateProfile(displayName, displayPicture, phone).then((res) => {
+  // Handle the Response
+})
+```

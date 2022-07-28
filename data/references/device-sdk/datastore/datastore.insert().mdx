@@ -1,0 +1,46 @@
+---
+title: insert
+---
+
+# datastore.insert; 
+
+This method inserts documents into datastore.
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| documents        |    Var    | An array of documents (Var s) to be inserted into the datastore|
+| callback        |    Callback    | A function to be called when insertion of documents completes|
+
+### Example
+
+```cpp
+Grandeur::Project project;
+Grandeur::Project::Datastore datastore;
+
+void insertCallback(Var insertionResult) {
+  // This method just prints if the insertion is successful or not.
+  if(insertionResult["code"] == "datastore-DOCUMENTS-INSERTED") Serial.println("Insertion successful.");
+  else Serial.println("Insertion Failed.");
+}
+
+void setup() {
+  project = grandeur.init(apiKey, token);
+  datastore = project.datastore(deviceID);
+}
+
+void loop() {
+  // This inserts a document containing voltage and current readings in datastore on every loop.
+  Var docs;
+  // Adding voltage and current readings to the first document of docs array.
+  // In JSON, the docs array looks like this:
+  // [{"voltage": analogRead(A0), "current": analogRead(A1)}]
+  docs[0]["voltage"] = analogRead(A0);
+  docs[0]["current"] = analogRead(A1);
+  // Inserting the docs in datastore. insertCallback() will be called when insertion process
+  // completes.
+  datastore.insert(docs, insertCallback);
+
+  if(WiFiIsConnected) project.loop();
+}
+
+```

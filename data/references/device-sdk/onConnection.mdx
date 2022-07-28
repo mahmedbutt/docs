@@ -1,0 +1,102 @@
+---
+title : onConnection
+---
+# onConnection
+
+This method schedules a function to be called when the device's connection with Grandeur is made or broken. The function passed to it as argument is called an event handler for it handles events like connection/disconnection with Grandeur. Example below illustrates its usage.
+
+<Tabs group="tab-group-test">
+
+  <Item value="arduino" label="Arduino">
+
+   ### Parameters - Arduino
+
+| Name          | Type        |   Description |
+| :------------ | :---------: | ----------: |
+| callback         |    void (*)(bool)	    | An event handler function for device's connection/disconnection with Grandeur.|
+
+  </Item>
+
+  <Item value="py" label="Py">
+
+  ### Parameters - Py
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| callback         |   Callable[[str], None]	    | An event handler function for device's connection/disconnection with Grandeur.|
+
+  </Item>
+
+</Tabs>
+
+
+<Tabs group="tab-group-test">
+
+  <Item value="arduino" label="Arduino">
+
+```cpp
+Grandeur::Project project;
+
+void connectionCallback(bool status) {
+  // This method handles the events related to device's connection with Grandeur.
+  switch(status) {
+    case CONNECTED:
+      // If the connection event occurred.
+      Serial.println("Device Connected to Grandeur!\n");
+      break;
+    case DISCONNECTED:
+      // If the disconnection event occurred.
+      Serial.println("Device Disconnected from Grandeur!\n");
+      break;
+  }
+}
+
+void setup() {
+  project = grandeur.init(apiKey, token);
+
+  project.onConnection(connectionCallback);
+}
+
+void loop() {
+  project.loop(true);
+}
+
+```
+
+  </Item>
+
+   <Item value="py" label="Py">
+
+```py
+
+Grandeur::Project project;
+
+void connectionCallback(bool status) {
+  // This method handles the events related to device's connection with Grandeur.
+  switch(status) {
+    case CONNECTED:
+      // If the connection event occurred.
+      Serial.println("Device Connected to Grandeur!\n");
+      break;
+    case DISCONNECTED:
+      // If the disconnection event occurred.
+      Serial.println("Device Disconnected from Grandeur!\n");
+      break;
+  }
+}
+
+void setup() {
+  project = grandeur.init(apiKey, token);
+
+  project.onConnection(connectionCallback);
+}
+
+void loop() {
+  project.loop(true);
+}
+
+```
+
+</Item>
+
+</Tabs>

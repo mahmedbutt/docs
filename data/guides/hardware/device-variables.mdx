@@ -1,0 +1,65 @@
+---
+title: Handling Device Variables
+---
+# Fetching and Updating Device Variables 
+
+In IoT, every device in the network wants to publish some variables for users or other devices in the network to see. On Grandeur, we call these the data of the device. you can store the device variables as key-value pairs, like the device's voltage or current or its ON/OFF state. Keeping the online copy of device variables (aka. data) updated gives you many advantages: you can see if your device is ON or OFF at any moment just by fetching its state from Grandeur.
+
+Both device(deviceId).data().get() and device(deviceId).data().set() are Async functions because they communicate with Grandeur through internet. Communication through internet takes some time (due to Internet latency being in ms while processors run instructions in a fraction of a µs) and we cannot wait for our data to arrive from Grandeur, meanwhile blocking the rest of the program execution. So, what we do is, we schedule a function to be called in future when the variable would have arrived and resume the rest of the device program, forgetting that we ever called device(deviceId).data().get(). When the variable arrives, the SDK calls our scheduled function automatically, giving us access to that variable inside that function.
+
+Here's how we would get and set device variables:
+
+```cpp
+
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project Project;
+Grandeur::Project::Device Device;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void writeVoltageToA0(const char* code, int voltage) {
+  // This function prints the voltage value and sets the A0 pin with its value.
+  Serial.printf("Voltage: %d\n", voltage);
+  analogWrite(A0, voltage);
+}
+
+void printUpdatedVoltage(const char* code, int voltage) {
+  // This function prints the updated voltage value after the update is completed.
+  Serial.printf("Updated Voltage: %d\n", voltage);
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  Project = grandeur.init(YourApiKey, AccessToken);
+  Device = myProject.device(YourDeviceID);
+}
+
+void loop() {
+  if(myProject.isConnected()) {
+    // Getting voltage variable
+    myDevice.data().get("voltage", writeVoltageToA0);
+    // Updating voltage
+    int voltage = analogRead(A0);
+    myDevice.data().set("voltage", voltage, printUpdatedVoltage);
+  }
+
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+
+```
+

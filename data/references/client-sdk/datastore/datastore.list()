@@ -1,0 +1,37 @@
+---
+title: datastore.list
+---
+
+# datastore.list
+
+This method returns the list of collections in the datastore of your project. This method accpets the following input arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| nPage        |    integer    | this method returns paginated result|
+
+It is important to note here that the method is subjected to rate limiting so maximum 20 results will be returned and then you can use page number argument of the method to get the ramining. So if you have 25 collections then calling datastore.listCollections() will return first 20 while calling datastore.listCollections(1) will return the remaining 5 collections.
+
+This method returns the following codes.
+
+**DATASTORE-COLLECTIONS-FETCHED**
+
+list has been fetched
+
+**DATASTORE-COLLECTIONS-FETCH-FAILED**
+
+failed to get the list due to an error
+
+The usage of this method is illustrated in the example below
+
+```js
+// Get the list of collections
+datastore.list().then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-COLLECTIONS-FETCHED": 
+      // List has been returned
+      console.log(res.collections);
+  }
+});
+```

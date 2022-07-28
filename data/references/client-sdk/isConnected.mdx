@@ -1,0 +1,20 @@
+---
+title: isConnected
+---
+
+# isConnected
+
+Once you init the SDK and get reference to the project, the SDK tries to establish a persistent connection to the cloud platform. Establishing this persistent connection is the key because this allows us to do realtime communication with the server. Almost all of the SDK features are based on this realtime channel. This is why we have added this function, which can be utilized to verify either we are connected to the server or not.
+
+You can use this function as illustrated below
+
+```js
+// If the SDK is connected
+if (project.isConnected()) {
+  // Do something here 
+}
+else {
+  // SDK is not connected
+  // generate an alert here 
+}
+```

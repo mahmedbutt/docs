@@ -1,0 +1,10 @@
+{   
+    "canvas": "Canvas",
+    "auth": "Auth",
+    "guides": "Guides",
+    "devices": "Devices",
+    "datastore": "Datastore",
+    "project": "Project",
+    "security": "Security",
+    "hardware": "Hardware"
+}

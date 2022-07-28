@@ -1,0 +1,113 @@
+---
+title: collection.update
+---
+
+# collection.update
+
+This method can be used to update a document in a collection. It accepts a json object which specifies the match condition and returns the count of total updated documents. It accepts following arguments
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter        |    object    | a json object which specifies the match condition of documents|
+| update        |    object    |a json object which specifies new values of attributes|
+
+
+It is important to note here that running this function without specifying the match condition will update all the documents of a collection. This method don't overwrites the matched documents entirely but instead only replaces the matched attributes in a document with new values or adds new attributes (if none matched). In other words, if a matched document got structure similar to
+
+```js
+{
+  voltage: 20,
+  current: 2
+}
+```
+and you run this method with update
+
+```js
+{
+  voltage: 30,
+  power: 60
+}
+```
+
+then the document will be updated to
+
+```js
+{
+  voltage: 30,
+  current: 2,
+  power: 60
+}
+```
+
+This method returns following codes
+
+**DATA-INVALID**
+
+collection name wasn't specified while getting the reference
+
+**DATASTORE-DOCUMENTS-NOT-FOUND**
+
+not even a single document qualified the match condition
+
+**DATASTORE-DOCUMENTS-UPDATED**
+
+updated the matched documents
+
+**DATASTORE-DOCUMENTS-UPDATE-FAILED**
+
+failed to update the documents
+
+The usage of this method is illustrated in the example below
+
+```js
+// Define an update
+var update = {
+  voltage: 30,
+  power: 60
+}
+
+
+// This method can be used in many ways
+
+// Case: update a specific document by providing
+// the document id, you can use this on other 
+// attributes as well
+collection.update({documentID: "id"}, update).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-UPDATED": 
+      // Method returns the count
+      // should be exactly 1 here
+      console.log(res.modifiedCount);
+  }
+});
+
+// Case: update multiple but specific documents
+// Define an array of ids of documents required to
+// be updated, you can use this on other 
+// attributes as well
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.update({documentID: {$in: documentIDs}}, update).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-UPDATED": : 
+      // Method returns the count
+      // should match the length of the array
+      console.log(res.modifiedCount);
+  }
+});
+
+// Case: update in range
+// Run operation with $lt and $gt operator on attributes
+collection.update({voltage: {$lt: 25, $gt: 30}}, update).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-UPDATED": 
+      // Method returns the count
+      console.log(res.modifiedCount);
+  }
+});
+```

@@ -1,0 +1,77 @@
+---
+title: CLI
+---
+
+# CLI - Command Line Interface
+
+Grandeur CLI a text-based user interface (UI) used to run programs, manage computer files and interact with the computer. 
+It works as a universal code compiler and package manager for microcontrollers. Our CLI is ased on Arduino and currently supports ESP8266 and ESP32 family.
+It acts as a layer on top of Arduino to make it easier for developers to work with ESP8266 and ESP32 without configuring amd setting up the microcontrollers in the Arduino IDE enviroment.
+
+### Install
+Start with downloading Grandeur. The package is currently hosted on Github. Run following command into your terminal to globally install the cli
+
+```bash
+npm install https://github.com/grandeurdev/cli -g
+```
+Alternatively, you can access [this](https://github.com/grandeurdev/cli/releases) link to download the CLI in accordance with your system needs. 
+
+Once installed this is what the granduer command will return:
+
+<Video src="/images/cli/grandeur-cli.webm" />
+
+## Get Started
+
+Create a new project with init command. Running this command will create a new sketch folder in current working directory, containing the ino code file and a package.json file. Simplify specifiy the architecture and let Grandeur automatically handle the board dependencies.
+
+```bash
+grandeur init
+```
+<Video src="/images/cli/grandeur-init.webm" />
+
+### Manage Dependencies
+
+Grandeur provides npm like interface and make it super easy for hardware developers to manage dependencies. To install a library from Arduino library manager, simply run this command
+
+```bash
+grandeur install <library-name>
+```
+
+Running this command wil automatically update the package.json file. That means, you can always restore your enviroment in another computer by running install command
+
+```bash
+grandeur install
+```
+
+### Run
+
+To compile and upload the code to hardware, just execute run command in workspace folder.
+
+```bash
+grandeur run
+```
+
+After compilation, the cli will automatically attach the board to display serial logs. Here is a demo for simple hello world code running on ESP32
+
+```cpp
+// the setup function runs once when you press reset or power the board
+void setup() {
+	Serial.begin(9600);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+
+	Serial.println("Hello 👋");
+	delay(2000);
+}
+```
+<Video src="/images/cli/grandeur-run.webm" />
+
+### Monitor
+
+Attach to a running device with monitor command. It assists you in monitoring a running code. 
+
+```bash
+grandeur monitor
+```

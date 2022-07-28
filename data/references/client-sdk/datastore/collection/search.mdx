@@ -1,0 +1,96 @@
+---
+title: collection.search
+---
+
+# collection.search
+
+This method can be used to query documents in a collection. It accepts a match condition and fetches the documents. It accepts following arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter        |    object    | a json object which specifies the match condition of documents|
+| projection        |    object    | condition to specify the fields of a document to be returned or opted out|
+| nPage        |    integer    | this method returns paginated result|
+
+		
+It is important to note here that the method is subjected to rate limiting so maximum 20 results will be returned and then you can use page number argument of the method to get the ramining. So if you have 25 documents in a collection then calling collection.search() will return first 20 while calling collection.search({}, undefined, 1) will return the remaining 5 documents. Then it is also important to note that projection condition cannot be a empty object to instead pass undefined if you don't want to project out fields in matched documents. Whereas the filter can be an empty object in which case all the documents will be returned.
+
+This method returns following codes
+
+**DATA-INVALID**
+
+collection name wasn't specified while getting the reference
+
+**DATASTORE-DOCUMENTS-FETCHED**
+
+returned the matched documents
+
+**DATASTORE-DOCUMENTS-FETCH-FAILED**
+
+failed to search the documents
+
+The usage of this method is illustrated in the example below
+
+
+```js
+// This method can be used in many ways
+
+// Case: fetch a specific document by providing
+// the document id, you can use this on other 
+// attributes as well
+collection.search({documentID: "id"}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED": 
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+
+// Case: fetch multiple but specific documents
+// Define an array of ids of documents. 
+// you can use this on other attributes as well
+var documentIDs = ["1", "2", "3"];
+
+// Run operation with $in operator
+collection.search({documentID: {$in: documentIDs}}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED": : 
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+
+// Case: search in range
+// Run operation with $lt and $gt operator on attributes
+collection.search({voltage: {$lt: 25, $gt: 30}}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED": 
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+
+// Case: fetch all documents by running an empty search
+collection.search().then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED": 
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+
+// Case: you can specify what fields of a documents to be returned and what not to be returned by projection condition
+collection.search({}, {name: 0}).then((res) => {
+  // Got response from server
+  // documents will contain all fields except name
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED": 
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+```

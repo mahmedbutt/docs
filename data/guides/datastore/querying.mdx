@@ -1,0 +1,21 @@
+---
+title: Querying
+---
+# Querying
+
+Just like SQL, querying here is used to retrieve the required data from the database. You may perform operations like select, group by, join and filtering to retrieve the required data and present it in a meaningful manner to extract significant information out of it. 
+
+Querying accepts a match condition and fetches the documents. For example if you want to search for objects in a particular range here is how you are going to do it:
+
+```js
+// Case: search in range
+// Run operation with $lt and $gt operator on attributes
+collection.search({voltage: {$lt: 25, $gt: 30}}).then((res) => {
+  // Got response from server
+  switch(res.code) {
+    case "DATASTORE-DOCUMENTS-FETCHED":
+      // Method returns documents
+      console.log(res.documents);
+  }
+});
+```

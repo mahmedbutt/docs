@@ -1,0 +1,53 @@
+---
+title: search
+---
+
+# datastore.collection.search
+
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| filter        |    Var    | A document describing the conditions that the documents to be returned are to satisfy|
+| projection        |    Var    | A document that describes what fields to return |
+| pageNumber        |    int    | Number of the page to return|
+| callback          |    Callback    | A function to be called when documents are completed|
+
+
+This method searches for documents in datastore based on the filter supplied. Filter describes what documents to return and projection describes what fields to return in those documents. Documents are returned in pages and each page is 20 documents in size. This is what the pageNumber is for. You'll get first page by specifying the pageNumber to 0 and 1 for second page. and so on.
+
+### Example
+
+```cpp
+Grandeur::Project project;
+Grandeur::Project::Datastore datastore;
+
+void searchCallback(Var searchResult) {
+  // This method just prints the documents if the search is successful.
+  if(searchResult["code"] == "DATASTORE-DOCUMENTS-FETCHED") {
+    Serial.print("Documents fetched from Grandeur: ");
+    Serial.println(searchResult["documents"].length());
+    // Printing all the fetched documents.
+    for(int i = 0; i < searchResult["documents"].length(); i++) {
+      Serial.println(JSON.stringify(searchResult["documents"][i]).c_str());
+      // Just to keep the watchdog timer from tripping.
+      delay(1);
+    }
+    Serial.println("");
+    return;
+  }
+  Serial.println("Search Failed.");
+}
+
+void setup() {
+  project = grandeur.init(apiKey,token);
+  datastore = project.datastore(deviceID);
+}
+
+void loop() {
+  // This fetches 1st page of all the documents stored in the datastore.
+  datastore.collection("myCollectionName").search({}, {}, 0, searchCallback);
+
+  if(WiFiIsConnected) project.loop();
+}
+
+```

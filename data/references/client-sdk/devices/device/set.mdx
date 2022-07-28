@@ -1,0 +1,48 @@
+---
+title: device.set
+---
+
+# device.set
+
+Using device.set(), you can also change few fields of the device data. For example the name of the device can be changed from the SDK.
+
+This method accepts the following arguments
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| path     |    function    |  can be name of key, like you can use 'name' to set the name of the device |
+| value     |    string	    | you can provide a valid value for the field that you want to update|
+
+This method returns the following codes in response
+
+**DEVICE-DETAILS-UPDATED**
+
+details has been updated
+
+**DEVICE-NOT-PAIRED**
+
+device is not paired to the account
+
+**DEVICE-ID-INVALID**
+
+device is not registered with this id
+
+**DATA-INVALID**
+
+device id is required
+
+Use of set method has been illustrated in the example below
+
+```js
+// Submit request to the server
+device.set("name", "Living Room Lamp").then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "DEVICE-NAME-UPDATED": 
+      // Device name has been updated
+  }
+})
+```
+
+
+

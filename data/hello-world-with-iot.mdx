@@ -1,0 +1,190 @@
+---
+title: Hello World with IoT
+---
+
+# Hello World with IoT
+
+In order to truly understand the potential of Grandeur, we are going to make a start with building an internet switch. Just like internet makes the world a global village for us humans, Internet of Things does that for the things (the machines). For example, you can control your ESP8266 device using bluetooth as well. But when you want to connect 100s of devices, monitor them, control them, automate them, and over internet (for global access) things get extremely complex. That's where the concept of backend comes in. All your devices connect to the backend and this backend is what makes it possible then to control anything from anywhere in the world from your phone or laptop.
+
+In this tutorial, we will use the `ESP8266 - Espressif Wemos D1 Mini ` module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
+
+First, make sure you are all set up by following this [guideline](/getting-started). 
+ 
+### Setting up the Arduino Environment
+
+If you don't already have the Arduino IDE set up , [here's](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing) how you can do it.
+
+We are essentially using Arduino IDE as it supports ESP8266 library easily. ESP8266 (technically ESP8266EX) is a WiFi Module. The ESP8266 contains a fully functional WiFi Stack that allows any Microcontroller to get connected to WiFi Network.
+
+With Software Development Kits (SDKs) like Grandeur's, you can directly program the ESP8266’s on-chip Microcontroller to blink the LED.
+Grandeur runs on top of ESP8266 to help you not only store data on cloud but also transfer data from device to a user.
+
+<Callout emoji="✅">
+You can download the library for your specific microcontroller to connect your hardware to grandeur. Our SDK’s can support multiple architectures:
+
+‣ ESP8266 and ESP32 with Arduino
+
+‣ Most Linux based SOCs with Python work on Raspberry PI.
+
+</Callout>
+
+To read more about it, click [here](/guides/hardware)
+
+### Installation
+
+You can search for Grandeur in Arduino's library manager. In Arduino IDE, open `Sketch > Include Library > Manage Libraries` and install Grandeur from there.
+
+<Video src="/images/guides/install-grandeur-library.webm" />
+
+### Running the Code
+
+Here’s how the main internet_switch.ino file looks like
+
+```cpp
+/* Including the SDK and WiFi library */
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+/* Configurations */
+String deviceID = YOUR_DEVICE_ID;
+String apiKey = YOUR_API_KEY;
+String token = YOUR_DEVICE_TOKEN;
+
+/* WiFi credentials */
+String ssid = YOUR_WIFI_SSID;
+String password = YOUR_WIFI_PASSPHRASE;
+
+/* Create variable to hold project and device */
+Grandeur::Project project;
+Grandeur::Project::Device device;
+
+/* Function prototypes */
+void onConnection(bool status);
+void updateHandler(const char* path, const char* state);
+void connectWiFi();
+
+void setup() {
+    /* Begin the serial */
+    Serial.begin(9600);
+
+    /* Connect to WiFi */
+    connectWiFi();
+
+    /* Initializes the global object "grandeur" with your configurations. */
+    project = grandeur.init(apiKey, token);
+
+    /* Get reference to device */
+    device = project.device(deviceID);
+
+    /* Sets connection state update handler */
+    project.onConnection(onConnection);
+
+    /* Add event handler on state variable */
+    device.data().on("state", updateHandler);
+
+    /* Set mode of LED to output */
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    /* Turn the LED off by default */
+    digitalWrite(LED_BUILTIN, 0);
+}
+
+void loop() {
+    /*  Runs the SDK.
+        Connects to Grandeur only after the device is connected to WiFi.
+    */
+    if(WiFi.status() == WL_CONNECTED) project.loop();
+}
+
+/* Function to check device's connection status */
+void onConnection(bool status) {
+    switch(status) {
+        case CONNECTED:
+            /* Device connected to the cloud */
+            
+            Serial.println("Device is connected to the cloud.");
+
+            /* Getting the previous state */
+            device.data().get("state", updateHandler);
+            return;
+
+        case DISCONNECTED:
+            /* Device disconnected from cloud */
+
+            Serial.println("Device is disconnected from the cloud.");
+            return;
+    }
+}
+
+/* Function to handle state update event */
+void updateHandler(const char* path, const char* state) {
+    /* Converting from string to int */
+    int stateValue = atoi(state);
+
+    /* Print state */
+    Serial.printf("Updated state is %d\n", stateValue);
+
+    /* Update pin level */
+    digitalWrite(LED_BUILTIN, !stateValue);
+}
+
+/* Function to connect to WiFi */
+void connectWiFi() {
+    /* Set mode to station */
+    WiFi.mode(WIFI_STA);
+
+    /* Connect using the ssid and password */
+    WiFi.begin(ssid, password);
+
+    /* Block till the WiFi is connected */
+    while (WiFi.status() != WL_CONNECTED) {
+            delay(500);
+            Serial.print(".");
+    }
+
+    /* Print message */
+    Serial.println("");
+    Serial.println("WiFi connected");
+
+    /* And IP address */
+    Serial.println(WiFi.localIP());
+}
+
+```
+
+Here's what's essentially happening in this code:
+
+![State Diagram](/images/js-app/internet-switch.webp)
+
+`loop` function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, `WiFi.status() == WL_CONNECTED` would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
+ You subscribe to a device variable, which means if an update occurs in that variable at any time, the device will instantly get it. To subscribe to a variable, you just need to pass the variable name and a function to `device(deviceId).data().on()`. The function you pass to `device(deviceId).data().on()` is set as an update handler for that variable, which means the code inside that function will be run whenever that variable is updated. The state is ultimately toggled in the update handler. 
+
+### What Next 
+
+Add your token, API key and deviceID into the Grandeur Credentials section of the code . Next add enter your WiFi Credentials and you are all good to go! [Here](/getting-started) is how you do it incase you have forgotten. 
+
+Now simply run your code in the Arduino IDE. After the upload is complete, the LED on ESP8266 will blink fast, indicating that the ESP is trying to connect to the WiFi network. As soon as the connection is established, the LED stops blinking. Inside your terminal, you'd see dots (.) printing while the ESP is connecting to WiFi. After successful connection, it prints the ESP's IP Address.
+
+After connecting to WiFi, ESP8266 starts connecting to Grandeur. Once it's connected, it prints that in the terminal.
+
+To control the on-board LED on the ESP8266, go the Grandeur Dashboard and create a canvas app following the steps listed below:
+
+- Click on the Canvas tab from the left menu.
+- Add a button widget
+- Click on the widget and click the Configure button.
+- Edit the widget configurations, including its title, variable we want to control (since we want to control the LED on ESP with this switch button, we choose the led variable), ON state value, and OFF state value. Then click Save.
+- The button widget is ready.
+
+<Video src="/images/guides/canvas-button.webm" />
+
+A Canvas guide is also lsited below. 
+
+<Callout emoji="📋">
+    [Canvas Guide](/guides/grandeur-canvas/canvas) 
+</Callout>
+
+Click the switch and look at the LED on the ESP8266. The LED on the ESP8266 should toggle every time you hit the switch button. Here is an example of how your canvas button will look like whle you are controlling the on-board LED.
+
+<Video src="/images/guides/button-control.webm" />
+
+

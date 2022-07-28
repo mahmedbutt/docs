@@ -1,0 +1,42 @@
+---
+title: Collections
+---
+# Collections
+
+Collections are essentially database tables where all of your information is stored.
+
+**datastore.collection(name)**
+
+From the datastore class, you can get a reference to a collection in order to execute a query or insert new documents into it.
+
+```js
+// Get reference to a collection
+var collection = datastore.collection(name);
+```
+
+It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. 
+
+You can execute multiple operations on a collection including insert, delete, update and search(filter).
+
+Here's how you can perfom these operations through the dashboard.
+
+## Insert 
+
+This is how you can add new documents(records) in a new data collection. The user can also make multiple collections to store data. 
+
+<Video src="/images/datastore/add-document.webm" />
+
+## Delete
+
+This is how a user can delete a pre-existing collection.
+
+<Video src="/images/datastore/collection-delete.webm" />
+
+## Filter
+
+The user can filter out meaningful data by providing the required match condition.
+
+<Video src="/images/datastore/collection-filter.webm" />
+
+
+

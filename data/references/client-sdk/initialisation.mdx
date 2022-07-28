@@ -1,0 +1,104 @@
+---
+title: Initialization
+---
+# Initialization
+
+<Tabs group="tab-group-test">
+
+  <Item value="js" label="JS">
+
+    First and foremost thing that you are required to do in order to access our platform is initialization. When you drop in the link of the CDN in your app, we create a global object accessible through JS. This object can be then utilized to init the SDK with your API key and access credential. Upon init, the SDK returns you a reference to your project, through which you can access all the features of Grandeur.
+    The installation package gives access to the global `Grandeur` object, through which you can initialize the SDK and get a reference to your project as shown below
+
+    ```js
+      // With global Grandeur object,
+      // you can simply initialize the SDK 
+      // with your API key and get reference 
+      // to your project
+      var project = grandeur.init("YOUR-APIKEY", "ACCESS-KEY", "ACCESS-TOKEN");
+    ```
+
+  </Item>
+
+  <Item value="react" label="React">
+
+    The installed package exports two things:
+    - a react component - use it as parent component to entire app code and init the SDK 
+    - HOC - wrap the component in which you want to access the Grandeur object to make request to Grandeur.
+
+    It is shown in the sample code below
+
+    ```jsx
+      // index.js
+      // Import react and react dom
+      import React from 'react';
+      import ReactDOM from 'react-dom';
+
+      // Import app code
+      import App from './app';
+
+      // and Import Grandeur Component
+      import {Grandeur} from 'grandeur-react';
+
+      // Your access credential
+      // you can generate it through settings page
+      const credentials = {
+        key: "ACCESS-KEY",
+        token: "ACCESS-TOKEN"
+      }
+
+      // Render app
+      const page = (
+          <Grandeur apiKey="YOUR-APIKEY" credentials={credentials}>
+              {/* Your app code*/}
+              <App />
+          </Grandeur>
+      );
+
+      // Finally render
+      ReactDOM.render(page, document.getElementById('root'));
+      ```
+      Then in app.js 
+
+      ```js
+      // app.js
+      // The App Component
+
+      // Libraries
+      import React, { Component } from 'react';
+
+      // Import Grandeur HOC
+      import {withGrandeur} from 'grandeur-react';
+
+      // Component
+      class App extends Component {
+
+          // Constructor
+          constructor(props) {
+              super(props);
+
+              // State of the Component
+              this.state = {};
+          }
+
+          componentDidMount() {
+              // Component is Mounted
+              // get reference to the grandeur
+              // through props. Which can be used to 
+              // access all the features of Grandeur
+              var project = this.props.grandeur;
+          }
+          
+          // Render
+          render() { 
+              // Render the Component
+              return <p>Hello World</p>;
+          }
+      }
+
+      // Export the Component after wrapping in HOC
+      export default withGrandeur(App);
+    ```
+  </Item>
+
+</Tabs>

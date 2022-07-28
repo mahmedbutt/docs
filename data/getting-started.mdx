@@ -1,0 +1,62 @@
+---
+title: Getting Started
+---
+
+# Getting Started
+To use Grandeur in our project, let's first set it up.
+
+## Sign up on Grandeur
+Go to https://console.grandeur.dev
+
+- Click on get access to get redirected to the registration page. Add the required credentials and click Submit.
+- You'd receive a one-time-password (OTP) on your phone. Enter it and click Submit.
+- Congratulations! Your account is created.
+
+<Video src="/images/guides/signing-up.webm"/>
+
+## Create a Project
+
+A [project](/guides/project/managing-a-project) is the first thing you need to create to start working with Grandeur. A project is like a namespace, a completely isolated network of users and devices, along with a separate datastore. This is essentially the playground for the developer. 
+
+- Click on New Project button.
+- Fill in the name and description of the project and click Create Project button. Your project will be created. 
+
+<Video src="/images/guides/creating-project.webm"/>
+
+## Register your Device
+
+When you register a [device](/guides/devices/data), you make it available in your project's network. It is meant to securely connect devices to cloud.
+
+- Click on the Devices tab from the left sidebar. 
+- To register your device, you first need to register its data [model](/guides/devices/model). Model is a way to manage and categorize devices. You can create multiple models and each model can then be associated with multiple devices. 
+- To register a model, under the Models header, click the Add button. Fill in the name and schema of the model. and click the Add button.
+- The model is added.
+
+<Video src="/images/guides/model.webm" />
+
+- To add the device, under the Devices header, click the Add button.
+- Select the model that you created in the last step and give the device a machine-descriptive product ID.
+- This would give you a device ID of the form devicekwl7rb7702ig0pxfhb5fdu9c and a device token. Do not forget to copy them both somewhere as they will be imperative for use later and won't be accessible after closing the dialogue box.
+- Your device is registered.
+
+<Video src="/images/guides/device-add.webm" />
+
+## Register a New User
+
+To control the device from the app, you need a user account. The the users here are end users, who will be using the device in production. Click on the Accounts tab from the left menu and then on the Add Account button.
+
+- Fill in the new account details and click Add 
+- Your user account has been created.
+
+<Video src="/images/guides/user-add.webm" />
+
+## Pair the Device with Account
+
+We pair the device to a user so that only the user or the admin of the project can access the data. This serves as an extra security measure so an account can only see and control the devices paired with it. So go to the Devices tab,
+
+- Click on the Pair button in the Actions column of the device you created in the previous steps. Select your user account and done.
+- Your device is now paired with your user account.
+
+<Video src="/images/guides/pair.webm" />
+
+Now that we are done with setting up our environment, lets [move on](/hello-world-with-iot) to building our first hardware device. 

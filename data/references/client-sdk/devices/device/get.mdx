@@ -1,0 +1,46 @@
+---
+title: device.get
+---
+
+# device.get
+
+This method returns the meta data of a device like device name, product id, device id and state.
+
+You can provide a filter to this method to return a get a single key instead of all the keys.
+
+| Name       | Type |   Description |
+| :------------ | :---------: | ----------: |
+| path     |    function    |  can be name of key, like you can use 'status' to get the current status of device |
+
+This method returns the following codes in response
+
+**DEVICE-DETAILS-FETCHED**
+
+details has been fetched
+
+**DEVICE-NOT-PAIRED**
+
+device is not paired to the account
+
+**DEVICE-ID-INVALID**
+
+device is not registered with this id
+
+**DATA-INVALID**
+
+device id is required
+
+Use of get method has been illustrated in the example below
+
+```js
+// Submit request to the server
+device.get().then((res) => {
+  // Got the response
+  switch(res.code) {
+    case "DEVICE-DETAILS-FETCHED": 
+      // Device details has been fetched
+      console.log(res.device);
+  }
+})
+```
+

@@ -1,0 +1,15 @@
+---
+title: Overview
+---
+
+# Collection
+
+From the datastore class, you can get a reference to a collection in order to execute a query or insert new documents into it.
+
+```js
+// Get reference to a collection 
+var collection = datastore.collection(name);
+```
+
+It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. So you will get an error only if you queried a collection which don't contains any document. 
+

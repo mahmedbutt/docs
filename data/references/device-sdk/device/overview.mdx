@@ -4,9 +4,7 @@ title: Overview
 
 # device
 
-This method returns a reference to object of the Device class.
-
->device (deviceID: String) : returns Grandeur::Project::Device
+This method returns a reference to object of the device class.
 
 <Tabs>
 
@@ -14,28 +12,27 @@ This method returns a reference to object of the Device class.
 
    
       ```cpp
-      Grandeur::Project myProject;
-      Grandeur::Project::Device myDevice;
+      Grandeur::Project project;
+      Grandeur::project::Device device;
       void setup() {
-        myProject = grandeur.init(YourApiKey, YourToken);
-        myDevice = myProject.device(YourDeviceID);
+        project = grandeur.init(apiKey, token);
+        device = project.device(deviceID);
       }
 
-      // **RESULT**
-      // Gets the object of Device class.
       ```
   </Item>
 
   <Item value="py" label="Py">
 
     ```py
+
 import grandeur.device as grandeur
 
 # Init the sdk
-project = grandeur.init(APIKey, Token)
+project = grandeur.init(apiKey, token)
 
 # Get reference to device class
-device = project.device(DeviceID)
+device = project.device(deviceID)
 ```
 
   </Item>

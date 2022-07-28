@@ -2,12 +2,11 @@
 title: CLI
 ---
 
-# CLI- Command Line Interface
-
+# CLI - Command Line Interface
 
 Grandeur CLI a text-based user interface (UI) used to run programs, manage computer files and interact with the computer. 
 It works as a universal code compiler and package manager for microcontrollers. Our CLI is ased on Arduino and currently supports ESP8266 and ESP32 family.
-
+It acts as a layer on top of Arduino to make it easier for developers to work with ESP8266 and ESP32 without configuring amd setting up the microcontrollers in the Arduino IDE enviroment.
 
 ### Install
 Start with downloading Grandeur. The package is currently hosted on Github. Run following command into your terminal to globally install the cli
@@ -15,6 +14,11 @@ Start with downloading Grandeur. The package is currently hosted on Github. Run 
 ```bash
 npm install https://github.com/grandeurdev/cli -g
 ```
+Alternatively, you can access [this](https://github.com/grandeurdev/cli/releases) link to download the CLI in accordance with your system needs. 
+
+Once installed this is what the granduer command will return:
+
+<Video src="/images/cli/grandeur-cli.webm" />
 
 ## Get Started
 
@@ -23,6 +27,7 @@ Create a new project with init command. Running this command will create a new s
 ```bash
 grandeur init
 ```
+<Video src="/images/cli/grandeur-init.webm" />
 
 ### Manage Dependencies
 
@@ -61,10 +66,11 @@ void loop() {
 	delay(2000);
 }
 ```
+<Video src="/images/cli/grandeur-run.webm" />
 
 ### Monitor
 
-Attach to a running device with monitor command.
+Attach to a running device with monitor command. It assists you in monitoring a running code. 
 
 ```bash
 grandeur monitor

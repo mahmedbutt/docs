@@ -1,7 +1,7 @@
 ---
-title: data().set
+title: data.set
 ---
-# data().set
+# data.set
 
 This method updates a device variable on Grandeur with new data.
 
@@ -12,30 +12,14 @@ This method updates a device variable on Grandeur with new data.
 | callback     |   var     | New data to store in the variable|
 | data        |    string    | Path of the device variable using dot notation|
 
-<Tabs group="tab-group-test">
-
-  <Item value="arduino" label="Arduino">
-
-   >set (path : String, data : any, callback: Callback) : returns void set (path : String, data : any) : returns void
-
-  </Item>
-
-  <Item value="py" label="Py">
-
-  >set(path: str, data: dict, callback: Callable[[str, dict], None]) -> None
-   
-  </Item>
-
-</Tabs>
-
 
 <Tabs group="tab-group-test">
 
   <Item value="arduino" label="Arduino">
 
 ```cpp
-Grandeur::Project myProject;
-Grandeur::Project::Device myDevice;
+Grandeur::Project project;
+Grandeur::Project::Device device;
 
 void setVoltageCallback(const char* code, int voltage) { // You can write any type int/double/bool/const char* in place of int and it'll cast voltage to that type.
   // This method prints "voltage" value after it is updated on Grandeur.
@@ -43,8 +27,8 @@ void setVoltageCallback(const char* code, int voltage) { // You can write any ty
 }
 
 void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
-  myDevice = myProject.device(YourDeviceID);
+  project = grandeur.init(ApiKey, YourToken);
+  device = project.device(deviceID);
 }
 
 void loop() {
@@ -52,15 +36,10 @@ void loop() {
   int voltage = analogRead(A0);
   // This requests to set the "voltage" variable on every loop and calls setVoltageCallback() function when the
   // variable is actually updated on Grandeur.
-  myDevice.data().set("voltage", voltage, setVoltageCallback);
+  device.data().set("voltage", voltage, setVoltageCallback);
 
-  if(WiFiIsConnected) myProject.loop();
+  if(WiFiIsConnected) project.loop();
 }
-
-// **RESULT**
-// Sets the voltage variable and prints its updated value
-// after it's updated on Grandeur, on every loop.
-
 
 //If you do not need to do anything after the successful update of a data variable, you can use the callback-less set function overload.
 
@@ -77,7 +56,7 @@ void loop() {
         project = grandeur.init(APIKey, Token)
 
         # Get reference to device class
-        device = project.device(DeviceID)
+        device = project.device(deviceID)
 
         # Function to handle the response on get call
         def setCallback(code, res):

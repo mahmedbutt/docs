@@ -1,17 +1,23 @@
 ---
 title: Register a New User 
 ---
+# Register a New User
+So you've created the perfect custom app and now want to elevate the end user experience by ensuring that they can use these apps securely. This is where the whole auth concept comes into play. 
+In each project you can register users either through the app SDKs or through the dashboard. This means, you can provide these credentials to end users or end users can directly register themselves through your app to access features of Grandeur. This way you can build an auth layer in your apps.
 
-In each project you can register users either through the app SDKs or through the dashboard. You can also create a user to delegate the access. This means, you can provide these credentials to end users or end users can directly register themselves through your app to access features of Grandeur. This way you can build an auth layer in your apps.
+## Creating a New User Account
 
-## Register a New User
+To control the device from the app, you'll need a user account on the dashboard. 
 
-****auth.register(email, password, displayName, phone)****
+<Video src="/images/guides/user-add.webm" />
 
-The first step to accessing any platform is signing up on it. This method allows you to add new users to your project through SDK. To create a new user account, simply provide the user email, password, display name and phone number as an argument to this function. Registering a new user account with SDK involves verification from our side to protect you from bogus users. So when you execute this function, Grandeur automatically sends a verification code to the phone number provided in the argument and returns you a promise so you can access the confirmation method.
+Here's how you can register users through the SDK: 
+
+**auth.register()**
+
+The first step to accessing any platform is signing up on it. To create a new user account, simply provide the user email, password, display name and phone number as an argument to this function. Registering a new user account with SDK involves verification from our side to protect you from bogus users. So when you execute this function, Grandeur automatically sends a verification code to the phone number provided in the argument and returns you a promise so you can access the confirmation method.
 
 Account registration has been illustrated in the example below
-
 
 ```js
 // Get user data from the inputs and
@@ -20,12 +26,6 @@ auth.register(email, password, displayName, phone).then((res) => {
   // Handle Response
 })
 ```
-
-## Creating a New User Account
-
-To control the device from the app, you'll need a user account on the dashboard. After your user account is made, make sure you pair it with your device.
-
-<Video src="/images/guides/user-add.webm" />
 
 ## Deleting a User Account
 

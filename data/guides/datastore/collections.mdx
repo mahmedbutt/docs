@@ -16,26 +16,27 @@ var collection = datastore.collection(name);
 
 It is important to note here that it is not required for a collection to pre exist in order to get reference to it. A collection automatically gets created when you insert first document into it. 
 
-You can execute following operations on a collection
+You can execute multiple operations on a collection including insert, delete, update and search(filter).
 
-**collection.insert(documents)**
+Here's how you can perfom these operations through the dashboard.
 
-This method can be used to insert a json object/document into a collection. It accepts an array of json objects so that you can insert one or many documents into a collection using a single function call. Grandeur automatically assigns a unique id to each document before actually inserting it into the datastore so it can serve as a primary key. 
+## Insert 
+
+This is how you can add new documents(records) in a new data collection. The user can also make multiple collections to store data. 
+
+<Video src="/images/datastore/add-document.webm" />
+
+## Delete
+
+This is how a user can delete a pre-existing collection.
+
+<Video src="/images/datastore/collection-delete.webm" />
+
+## Filter
+
+The user can filter out meaningful data by providing the required match condition.
+
+<Video src="/images/datastore/collection-filter.webm" />
 
 
-**collection.delete(filter)**
 
-This method can be used to delete a document from a collection. It accepts a json object which specifies the match condition and returns the count of total deleted documents. Running this function without specifying the match condition will result in deletion of all the documents of a collection.
-
-
-**collection.update(filter, update)**
-
-This method can be used to update a document in a collection. It accepts a json object which specifies the match condition and returns the count of total updated documents. Running this function without specifying the match condition will update all the documents of a collection. 
-
-**collection.search(filter, projection, nPage)**
-
-This method can be used to query documents in a collection. It accepts a match condition and fetches the documents. 
-
-It is important to note here that the method is subjected to rate limiting so maximum 20 results will be returned and then you can use page number argument of the method to get the remaining. So if you have 25 documents in a collection then calling `collection.search()` will return first 20 while calling `collection.search({}, undefined, 1)` will return the remaining 5 documents. Then it is also important to note that projection condition cannot be  empty object to instead pass `undefined` if you don't want to project out fields in matched documents. Whereas the filter can be an empty object in which case all the documents will be returned.
-
-To get to know about the working of these features in depth click [here](/references/client-sdk/datastore/collection/datastore.collection()). 

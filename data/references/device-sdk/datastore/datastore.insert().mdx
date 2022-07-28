@@ -1,10 +1,8 @@
 ---
-title: datastore.insert()
+title: insert
 ---
 
-# datastore.insert(); 
-
->insert (documents: Var, callback: Callback) : returns void
+# datastore.insert; 
 
 This method inserts documents into datastore.
 
@@ -16,18 +14,18 @@ This method inserts documents into datastore.
 ### Example
 
 ```cpp
-Grandeur::Project Project;
-Grandeur::Project::Datastore Datastore;
+Grandeur::Project project;
+Grandeur::Project::Datastore datastore;
 
 void insertCallback(Var insertionResult) {
   // This method just prints if the insertion is successful or not.
-  if(insertionResult["code"] == "DATASTORE-DOCUMENTS-INSERTED") Serial.println("Insertion successful.");
+  if(insertionResult["code"] == "datastore-DOCUMENTS-INSERTED") Serial.println("Insertion successful.");
   else Serial.println("Insertion Failed.");
 }
 
 void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
-  myDatastore = myProject.datastore(YourDeviceID);
+  project = grandeur.init(apiKey, token);
+  datastore = project.datastore(deviceID);
 }
 
 void loop() {
@@ -40,12 +38,9 @@ void loop() {
   docs[0]["current"] = analogRead(A1);
   // Inserting the docs in datastore. insertCallback() will be called when insertion process
   // completes.
-  myDatastore.insert(docs, insertCallback);
+  datastore.insert(docs, insertCallback);
 
-  if(WiFiIsConnected) myProject.loop();
+  if(WiFiIsConnected) project.loop();
 }
 
-// **RESULT**
-// Prints "Insertion successful." if documents are inserted. If an error occurred, it prints
-// "Insertion Failed."
 ```

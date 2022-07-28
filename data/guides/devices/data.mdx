@@ -1,9 +1,13 @@
 ---
 title: Data
 ---
-# Data
+# Device Data
 
-When you register a device, you make it available in your project's network. Not just that, a new namespace is created for your device in the device registry. When your device comes online, this is where all of its data is stored.
+When you register a device, you make it available in your project's network. Not just that, a new namespace is created for your device in the device registry. 
+
+<Video src="/images/guides/device-add.webm" />
+
+When your device comes online, this is where all of its data is stored.
 Each device comes with a privileged space in which you can save data. Like suppose you have built a power meter, then you can store the voltage, current and power measured by the device in this space. Or you’ve built a weather monitoring device, you can store the temperature logs.  This data can be set by a device and retrieved by the app to be consumed/displayed to end user.
 This storage space is sandboxed, so only the paired users can request or update the data. You can store the data in json format and can also get/set individual key by specifying the path in dot notation.
 Grandeur gives you a lot of control over your data. You can use multiple methods to access and manipulate your data.
@@ -20,4 +24,12 @@ device.data().set();
 //Subscribe to the data update event of a device
 device.data().on();
 ```
+The device data variable is an actual physical parameter, which in layman terms serves as a super global varibale which can be accessed from anywhere. 
+
+The user can also view device data:
+
+<Video src="/images/guides/view-data.webm" />
+
+
+
 

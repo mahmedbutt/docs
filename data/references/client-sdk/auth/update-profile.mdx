@@ -1,9 +1,9 @@
 ---
-title: auth.updateProfile()
+title: updateProfile
 
 ---
 
-# auth.updateProfile(displayName, displayPicture, phone)
+# updateProfile
 
 A user profile gets automatically created whenever you register a new user account. This makes it really easy for you as a developer to handle data specific to the user. Like you can setup display picture of a user. Which allows you present a unique experience to each user. This is why we have added this method with which you can update the profile of a authenticated user.
 
@@ -99,8 +99,7 @@ auth.updateProfile(displayName, displayPicture, phone).then((res) => {
 
 // After getting response from update profile request
 // Prompt the user about the verification code
-// and submit it to server with the confirm 
-// method
+// and submit it to server with the confirm method
 confirm(code).then((res) => {
   // Got the response
   switch(res.code) {

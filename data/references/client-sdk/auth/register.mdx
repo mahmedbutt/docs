@@ -1,9 +1,9 @@
 ---
-title: auth.register()
+title: auth.register
 
 ---
 
-## auth.register(email, password, displayName, phone)
+# register
 
 This method allows you to add new users to your project through SDK. To create a new user account, simply provide the user email, password, display name and phone number as an argument to this function. Unlike dashboard, where you can create a user account without validation by just filling user details in a form, registering a new user account with SDK is little bit different. Because instead of directly registering the new user, we first verify that either the user is genuine to protect you from bogus users. So when you execute this function, we automatically send a verification code to the phone number provided in the argument and returns you a promise.
 
@@ -96,8 +96,7 @@ auth.register(email, password, displayName, phone).then((res) => {
 
 // After getting response from registration request
 // Prompt the user about the verification code
-// and submit it to server with the confirm 
-// method
+// and submit it to server with the confirm method
 confirm(code).then((res) => {
   // Got the response
   // Checkout the response code

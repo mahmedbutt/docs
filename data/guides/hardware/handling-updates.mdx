@@ -1,0 +1,48 @@
+---
+title: Handling Updates
+---
+# Handling Updates From Grandeur
+
+You can not only `get()/set()` but also subscribe to a device variable, which means if an update occurs in that variable at any time, the device will instantly get it. To subscribe to a variable, you just need to pass the variable name and a function to `device(deviceId).data().on()`. The function you pass to `device(deviceId).data().on()` is set as an update handler for that variable, which means the code inside that function will be run whenever that variable is updated.
+
+Let's set an update handler for device voltage now:
+
+```cpp
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project Project;
+Grandeur::Project::Device Device;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void printUpdatedVoltage(const char* path, int voltage) {
+  // This function prints the new value of the voltage variable.
+  Serial.printf("Updated Voltage: %d\n", voltage);
+}
+
+void setup() {
+  Serial.begin(9600);
+  setupWiFi();
+
+  Project = grandeur.init(YourApiKey, AccessToken);
+  Device = Project.device(YourDeviceID);
+
+  Device.data().on("voltage", printUpdatedVoltage)
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) Project.loop();
+}
+
+```

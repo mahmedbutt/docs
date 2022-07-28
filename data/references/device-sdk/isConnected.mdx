@@ -1,57 +1,47 @@
 ---
-title: isConnected()
+title: isConnected
 ---
 
-# isConnected()
-
->isConnected(void): returns bool
+# isConnected
 
 This method returns true if the device is connected with Grandeur.
-
 
 <Tabs>
 
   <Item value="arduino" label="Arduino">
 
     ```cpp
-Grandeur::Project myProject;
-void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
+  Grandeur::Project project;
+  void setup() {
+  project = grandeur.init(apiKey, token);
 }
 
 void loop() {
-  if(!myProject.isConnected()) {
+  if(!project.isConnected()) {
     Serial.println("Device is not connected with Grandeur!\n");
   }
   else {
     Serial.println("Yay! Device has made a successful connection with Grandeur!\n");
   }
 
-  myProject.loop();
+  project.loop();
 }
 
-// **RESULT**
-// In the beginning, isConnected() returns false and the first *if-block* runs.
-// When the SDK is connected with Grandeur, isConnected() returns true running the second
-// *if-block*.
 ```
-
   </Item>
 
-  <Item value="python" label="Python">
+  <Item value="py" label="Py">
 
    ```py
 import grandeur.device as grandeur
 
 # Init the sdk
-project = grandeur.init(APIKey, Token)
+project = grandeur.init(apiKey, token)
 
 # ....
 # Check connection status
 print(project.isConnected())
 
-// **RESULT**
-// Returns the conenction status
 ```
 
   </Item>

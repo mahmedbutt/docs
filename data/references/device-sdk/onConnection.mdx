@@ -1,30 +1,25 @@
 ---
-title : onConnection()
+title : onConnection
 ---
-# onConnection()
-
-
->onConnection (callback : void (*)(bool)) : returns void
+# onConnection
 
 This method schedules a function to be called when the device's connection with Grandeur is made or broken. The function passed to it as argument is called an event handler for it handles events like connection/disconnection with Grandeur. Example below illustrates its usage.
-
 
 <Tabs group="tab-group-test">
 
   <Item value="arduino" label="Arduino">
 
-   ### Parameters-Arduino
+   ### Parameters - Arduino
 
 | Name          | Type        |   Description |
 | :------------ | :---------: | ----------: |
 | callback         |    void (*)(bool)	    | An event handler function for device's connection/disconnection with Grandeur.|
 
-
   </Item>
 
   <Item value="py" label="Py">
 
-  ### Parameters-Py
+  ### Parameters - Py
 
 | Name       | Type |   Description |
 | :------------ | :---------: | ----------: |
@@ -39,11 +34,8 @@ This method schedules a function to be called when the device's connection with 
 
   <Item value="arduino" label="Arduino">
 
-
-
-
 ```cpp
-Grandeur::Project myProject;
+Grandeur::Project project;
 
 void connectionCallback(bool status) {
   // This method handles the events related to device's connection with Grandeur.
@@ -60,33 +52,24 @@ void connectionCallback(bool status) {
 }
 
 void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
+  project = grandeur.init(apiKey, token);
 
-  myProject.onConnection(connectionCallback);
+  project.onConnection(connectionCallback);
 }
 
 void loop() {
-  myProject.loop(true);
+  project.loop(true);
 }
 
-// **RESULT**
-// Prints "Device Connected to Grandeur!" when device makes a successful connection with Grandeur
-// and "Device Disconnected from Grandeur!" when device breaks connection from Grandeur.
-
 ```
-
-
-
 
   </Item>
 
    <Item value="py" label="Py">
 
-
-
 ```py
 
-Grandeur::Project myProject;
+Grandeur::Project project;
 
 void connectionCallback(bool status) {
   // This method handles the events related to device's connection with Grandeur.
@@ -103,18 +86,15 @@ void connectionCallback(bool status) {
 }
 
 void setup() {
-  myProject = grandeur.init(YourApiKey, YourToken);
+  project = grandeur.init(apiKey, token);
 
-  myProject.onConnection(connectionCallback);
+  project.onConnection(connectionCallback);
 }
 
 void loop() {
-  myProject.loop(true);
+  project.loop(true);
 }
 
-// **RESULT**
-// Prints "Device Connected to Grandeur!" when device makes a successful connection with Grandeur
-// and "Device Disconnected from Grandeur!" when device breaks connection from Grandeur.
 ```
 
 </Item>

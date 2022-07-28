@@ -4,5 +4,6 @@
     "display",
     "graph",
     "progress",
-    "slider"
+    "slider",
+    "table"
 ]

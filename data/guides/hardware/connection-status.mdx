@@ -1,0 +1,57 @@
+---
+title: Handling Connection Status 
+---
+# Handling Connection Status with Grandeur
+
+You can also listen on SDK's connection-related events. For example, to run some code when the device makes a successful connection to Grandeur or when the device's connection to Grandeur breaks, you can wrap that code in "a function that takes a bool and returns void" and pass it to `Grandeur::Project's onConnection()` function.
+
+Here's how you can handle the connection event:
+
+```cpp
+
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project Project;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected.
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers.
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi.
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void connectionCallback(bool status) {
+  // This method handles the events related to device's connection with Grandeur.
+  switch(status) {
+    case CONNECTED:
+      // If the connection event occurred.
+      Serial.println("Device Connected to Grandeur!\n");
+      break;
+    case DISCONNECTED:
+      // If the disconnection event occurred.
+      Serial.println("Device Disconnected from Grandeur!\n");
+      break;
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  Project = grandeur.init(YourApiKey, YourDeviceToken);
+  // Setting up listener for device's connection event
+  Project.onConnection(connectionCallback);
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+}
+
+```

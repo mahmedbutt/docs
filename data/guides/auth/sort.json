@@ -2,7 +2,5 @@
     "register",
     "login",
     "logout",
-    "update-account-password",
-    "update-forgotten-password",
-    "update-user-profile"
+    "managing-user"
 ]

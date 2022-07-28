@@ -12,10 +12,9 @@ title: Initialization
 
     As soon as you call `grandeur.init()`, the SDK uses the configurations to start trying to connect with the your project on Grandeur. But it cannot reach Grandeur if the device is not already connected to a WiFi.
 
-
     ## The Dexterity of Arduino SDK
 
-    - Arduino SDK takes care of your device's connection to Grandeur. It can start trying to connect with Grandeur as soon as the device boots or you can manually tell the SDK when to begin. There's `Grandeur::Project::loop` function that you place in the Arduino's loop whose sole function is to run the SDK. It accepts a boolean expression as argument and the SDK runs when the boolean expression evaluates to `true`. So, let's say if you pass the expression `WiFiState == CONNECTED` to it, the SDK would only run when the device's WiFi is connected. Or you can also wrap the `Grandeur::Project::loop` in an if-statement.
+    - Arduino SDK takes care of your device's connection to Grandeur. It can start trying to connect with Grandeur as soon as the device boots or you can manually tell the SDK when to begin. There's `Grandeur::project::loop` function that you place in the Arduino's loop whose sole function is to run the SDK. It accepts a boolean expression as argument and the SDK runs when the boolean expression evaluates to `true`. So, let's say if you pass the expression `WiFiState == CONNECTED` to it, the SDK would only run when the device's WiFi is connected. Or you can also wrap the `Grandeur::project::loop` in an if-statement.
 
     - As soon as the WiFi gets connected, Arduino SDK begins trying to connect to Grandeur using the credentials you provide during `grandeur.init()`. When it connects, only then does the communication with Grandeur happen. And if somehow the connection breaks, SDK handles the reconnection and everything resumes right from where it left.
 
@@ -52,21 +51,15 @@ title: Initialization
     ```cpp
     #include <Grandeur.h>
 
-    Grandeur::Project myProject;
-
+    Grandeur::Project project;
 
     void setup() {
       // You can initialize device configurations like this.
-      myProject = grandeur.init(YourAPIKey, AccessToken);
+      project = grandeur.init(apiKey, token);
     }
 
-    // **RESULT**
-    // Initializes the SDK's configurations and returns Project reference.
+    void loop() {  project.loop(WiFiState == CONNECTED);  // Same as "if(WiFiState == CONNECTED) project.loop();"}
 
-    void loop() {  myProject.loop(WiFiState == CONNECTED);  // Same as "if(WiFiState == CONNECTED) myProject.loop();"}
-
-    // **RESULT**
-    // Runs the SDK only when the WiFi is connected.
     ```
 
   </Item>
@@ -79,10 +72,8 @@ title: Initialization
     import grandeur.device as grandeur
 
     # Init the SDK and get reference to the project
-    project = grandeur.init(ApiKey, DeviceToken)
+    project = grandeur.init(apiKey, token)
 
-    # **RESULT**
-    # Initializes the SDK's configurations and returns your project reference.
     As soon as you call grandeur.init(), the SDK uses the configurations to start trying to connect with the your project on Grandeur.
     ```
   </Item>

@@ -3,12 +3,15 @@ title: Logout a User
 ---
 # Logout a User
 
-***auth.logout()***
+Logout serves as the most basic and important feature.
 
-This method comes handy because logging out helps prevent other users from accessing the system without verifying their credentials. It also helps protect the current user's access or prevent unauthorised actions on the current login session and is thus an important part of security. It serves as the most basic and important feature.
+<Video src="/images/guides/logout-app-account .webm" />
 
-This is how you can use this method in your application
+This is how you can use this method in your application:
 
+**auth.logout()**
+
+This method comes handy because logging out helps prevent other users from accessing the system without verifying their credentials. It also helps protect the current user's access or prevent unauthorised actions on the current login session and is thus an important part of security.
 
 ```js
 // Send the request to server to logout
@@ -17,4 +20,4 @@ auth.logout().then((res) => {
     // Handle response
 });
 ```
-<Video src="/images/guides/logout.webm" />
+

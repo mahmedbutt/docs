@@ -1,8 +1,8 @@
 ---
-title: datastore.list()
+title: datastore.list
 ---
 
-# datastore.list(nPage)
+# datastore.list
 
 This method returns the list of collections in the datastore of your project. This method accpets the following input arguments
 

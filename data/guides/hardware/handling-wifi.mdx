@@ -1,0 +1,46 @@
+---
+title: Handling the WiFi
+---
+# Handling the WiFi
+
+You can use a WiFi library corresponding to your microcontroller to handle your device's WiFi. Here are some popular ones:
+
+- ESP8266: https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi
+
+- ESP32: https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
+
+- Arduino WiFi Shield: https://www.arduino.cc/en/Reference/WiFi
+
+Here we illustrate how to handle your ESP8266's WiFi.
+
+```cpp
+#include <Grandeur.h>
+#include <ESP8266WiFi.h>
+
+Grandeur::Project Project;
+
+void setupWiFi(void) {
+  Serial.begin(9600);
+  // Disconnecting WiFi if it"s already connected
+  WiFi.disconnect();
+  // Setting it to Station mode which basically scans for nearby WiFi routers
+  WiFi.mode(WIFI_STA);
+  // Begin connecting to WiFi
+  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+}
+
+void setup() {
+  Serial.begin(9600);
+  // This sets up the device WiFi.
+  setupWiFi();
+  // You can initialize device configurations like this.
+  Project = grandeur.init(YourApiKey, AccessToken);
+}
+
+void loop() {
+  // This runs the SDK when the device WiFi is connected.
+  if(WiFi.status() == WL_CONNECTED) Project.loop();
+}
+```
+

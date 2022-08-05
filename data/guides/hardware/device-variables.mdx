@@ -14,8 +14,8 @@ Here's how we would get and set device variables:
 #include <Grandeur.h>
 #include <ESP8266WiFi.h>
 
-Grandeur::Project Project;
-Grandeur::Project::Device Device;
+Grandeur::Project project;
+Grandeur::Project::Device device;
 
 void setupWiFi(void) {
   Serial.begin(9600);
@@ -24,7 +24,7 @@ void setupWiFi(void) {
   // Setting it to Station mode which basically scans for nearby WiFi routers.
   WiFi.mode(WIFI_STA);
   // Begin connecting to WiFi.
-  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
+  WiFi.begin(SSID, Password);
   Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
 }
 
@@ -44,8 +44,8 @@ void setup() {
   // This sets up the device WiFi.
   setupWiFi();
   // You can initialize device configurations like this.
-  Project = grandeur.init(YourApiKey, AccessToken);
-  Device = myProject.device(YourDeviceID);
+  project = grandeur.init(apiKey, token);
+  device = myProject.device(deviceID);
 }
 
 void loop() {
@@ -58,7 +58,7 @@ void loop() {
   }
 
   // This runs the SDK when the device WiFi is connected.
-  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+  if(WiFi.status() == WL_CONNECTED) project.loop();
 }
 
 ```

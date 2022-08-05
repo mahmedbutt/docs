@@ -12,7 +12,7 @@ Here's how you can handle the connection event:
 #include <Grandeur.h>
 #include <ESP8266WiFi.h>
 
-Grandeur::Project Project;
+Grandeur::Project project;
 
 void setupWiFi(void) {
   Serial.begin(9600);
@@ -21,8 +21,8 @@ void setupWiFi(void) {
   // Setting it to Station mode which basically scans for nearby WiFi routers.
   WiFi.mode(WIFI_STA);
   // Begin connecting to WiFi.
-  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
-  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+  WiFi.begin(SSID, Password);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", SSID.c_str(), Password.c_str());
 }
 
 void connectionCallback(bool status) {
@@ -44,14 +44,14 @@ void setup() {
   // This sets up the device WiFi.
   setupWiFi();
   // You can initialize device configurations like this.
-  Project = grandeur.init(YourApiKey, YourDeviceToken);
+  Project = grandeur.init(apiKey, token);
   // Setting up listener for device's connection event
   Project.onConnection(connectionCallback);
 }
 
 void loop() {
   // This runs the SDK when the device WiFi is connected.
-  if(WiFi.status() == WL_CONNECTED) myProject.loop();
+  if(WiFi.status() == WL_CONNECTED) project.loop();
 }
 
 ```

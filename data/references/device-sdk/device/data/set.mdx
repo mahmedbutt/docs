@@ -13,7 +13,7 @@ This method updates a device variable on Grandeur with new data.
 | data        |    string    | Path of the device variable using dot notation|
 
 
-<Tabs group="tab-group-test">
+<Tabs group="tab-test">
 
   <Item value="arduino" label="Arduino">
 
@@ -27,7 +27,7 @@ void setVoltageCallback(const char* code, int voltage) { // You can write any ty
 }
 
 void setup() {
-  project = grandeur.init(ApiKey, YourToken);
+  project = grandeur.init(apiKey, token);
   device = project.device(deviceID);
 }
 
@@ -53,7 +53,7 @@ void loop() {
         import grandeur.device as grandeur
 
         # Init the sdk
-        project = grandeur.init(APIKey, Token)
+        project = grandeur.init(apiKey, token)
 
         # Get reference to device class
         device = project.device(deviceID)

@@ -11,7 +11,7 @@ import routes from './_data/layout.json';
 export default function Layout({children}) {
 
     // We will use the grid component to create page
-    return <div className='absolute inset-0 bg-gray-1 w-full h-full pt-18 overflow-hidden'>
+    return <div className='absolute inset-0 bg-gray-1 w-full h-full pt-12 overflow-hidden'>
 
         {/* Our header */}
         <Header />
@@ -20,13 +20,13 @@ export default function Layout({children}) {
         <Grid columns={[{ xs: 0, sm: 4, md: 3, lg: 3 }, { xs: 12, sm: 8, md: 9, lg: 9 }]} pass={["overflow-y-auto", "overflow-y-auto"]} height="full">
 
             {/* The first column is about the menu */}
-            <Sidebar column={0} toc={routes} />
+            <Sidebar toc={routes} column={0} />
 
             {/* Second column is about the content that we want to render */}
             <Container column={1} >
 
                 {/* Render children */}
-                <article className="prose prose-sm prose-invert prose-headings:font-sans prose-headings:tracking-normal prose-li:list-['–'] prose-li:marker:text-white-1 text-white-2 bg-gray-2 px-12 py-10 rounded-md max-w-3xl antialiased">
+                <article className="prose prose-sm prose-invert prose-headings:font-sans prose-headings:tracking-normal prose-li:list-['–'] prose-li:marker:text-white-1 text-white-2 px-12 py-10 rounded-md max-w-3xl antialiased">
 
                     {/* Use tailwind typography */}
                     {children}

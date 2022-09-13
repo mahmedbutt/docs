@@ -4,15 +4,12 @@
 // Libraries
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import cuid from "cuid";
-import Sub from './sub.component';
+import Item from './item.component';
 
 // Functional component for route
 function Route({title, path, emoji}){
-    console.log(title)
-    console.log(path)
-    console.log(emoji)
 
     // Get router
     const router = useRouter();
@@ -27,20 +24,14 @@ function Route({title, path, emoji}){
     }, [ router.asPath, path ])
 
     // Return the markdown
-    return <Link
-                key={cuid()}
-                // Path
-                href={path}> 
-
-                    <div className= " flex cursor-pointer items-center my-2 text-white-2 text-base">
+    return <Link key={cuid()} href={path}> 
+                    <div className= "flex cursor-pointer items-center my-2 text-white-2 text-base">
 
                         {/* Add Emoji */}
-                        <div className="mr-1"> {emoji} </div>
-                        
+                        <div className="mr-1">{emoji}</div>
+
                         {/* Add Title With Selected Class */}
-                        <div className={`${active}`}>
-                            {title}
-                        </div>
+                        <div className={`${active}`}>{title}</div>
                     </div>
             </Link>
 }
@@ -69,32 +60,30 @@ class Sidebar extends React.Component {
     loop = (routes) => {
 
         // Array to store jsx of routes
-        var processed= [];
-        var pinned =[];
+        var processed = [];
+        var pinned = [];
 
         // Loop over route
         for (var route of routes) {
 
             // If it is a file i.e. root node
             // Then simply convert it into right format
-            if (route.meta){
-                // If File is Pinned
-                if (route.meta.pinned) {
-                    pinned.push(<Route key={cuid()} title={route.meta.title} path={route.path} emoji={route.meta.emoji} ></Route>) 
-                }
-                // If File is Not Pinned
-                else {
-                    processed.push(<Route key={cuid()} title={route.meta.title} path={route.path}></Route>)
-                }
+            if (route.meta) {
+
+                // If File is Pinned or Not
+                route.meta.pinned ? pinned.push(<Route key={cuid()} title={route.meta.title} path={route.path} emoji={route.meta.emoji}></Route>) : processed.push(<Route key={cuid()} title={route.meta.title} path={route.path}></Route>)
             }
 
             // If it is a directory, then we gotta do another
-                // pass to also tranform all the children
-            else{
+            else {
+
+                
                 var childs = this.loop(route.children);
+                 // Concat Pinned Child Elements with Main Pinned Array
                 pinned = pinned.concat(childs.pinned);
 
-                processed.push( <Sub  title={route.key}>{childs.processed}</Sub>)
+                // pass to also tranform all the children
+                processed.push(<Item title={route.key}>{childs.processed}</Item>)
             }
         }
         

@@ -28,9 +28,10 @@ export default class Item extends React.Component {
         var drop = "block"
         
         if (this.state.show) {
-
+            
             //Show Drop Down When Clicked
             var dropclass = "block"
+            
             // Drop Down Icon When Open
             var drop = "hidden"  
         } 

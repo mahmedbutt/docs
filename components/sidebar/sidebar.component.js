@@ -14,6 +14,7 @@ function Route({title, path, emoji}){
     // Get router
     const router = useRouter();
 
+    // Set active state
     const [ active, setActive ] = useState("text-white-2");
     
     // Determine active state
@@ -25,15 +26,15 @@ function Route({title, path, emoji}){
 
     // Return the markdown
     return <Link key={cuid()} href={path}> 
-                    <div className= "flex cursor-pointer items-center my-2 text-white-2 text-base">
+            <div className= "flex cursor-pointer items-center my-2 text-white-2 text-base">
 
-                        {/* Add Emoji */}
-                        <div className="mr-1">{emoji}</div>
+                {/* Add Emoji */}
+                <div className="mr-1">{emoji}</div>
 
-                        {/* Add Title With Selected Class */}
-                        <div className={`${active}`}>{title}</div>
-                    </div>
-            </Link>
+                {/* Add Title With Selected Class */}
+                <div className={`${active}`}>{title}</div>
+            </div>
+    </Link>
 }
 
 // Component
@@ -76,10 +77,10 @@ class Sidebar extends React.Component {
 
             // If it is a directory, then we gotta do another
             else {
-
-                
+                // Render child paths
                 var childs = this.loop(route.children);
-                 // Concat Pinned Child Elements with Main Pinned Array
+
+                 // Concat pinned elements with main pinned array
                 pinned = pinned.concat(childs.pinned);
 
                 // pass to also tranform all the children

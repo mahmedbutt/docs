@@ -45,7 +45,7 @@ void setup() {
   setupWiFi();
   // You can initialize device configurations like this.
   project = grandeur.init(apiKey, token);
-  device = myProject.device(deviceID);
+  device = project.device(deviceID);
 }
 
 void loop() {

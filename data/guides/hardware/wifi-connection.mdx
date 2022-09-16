@@ -1,7 +1,7 @@
 ---
 title: Handling Wifi Connection
 ---
-## Validating Wifi Connection Status
+# Validating Wifi Connection Status
 
 `loop` function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. That's exactly what the statement `if(WiFi.status() == WL_CONNECTED) myProject.loop()` does. The if-statement decides when the SDK should run and when it should not. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, `WiFi.status() == WL_CONNECTED` would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
 

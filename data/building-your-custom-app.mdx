@@ -1,315 +1,401 @@
 ---
-title: Builing Your Custom App 
+title: Builing Your Custom App
+pinned: pinned
+emoji: 🚀
 ---
 
 # Builing Your Custom App
 
-We've already accomplished the task of blinking the on-board LED of ESP8266 through our Grandeur Platform so let's take things one step further. Would'nt it be cool if we could control that LED using our custom app. 
+We've already accomplished the task of blinking the on-board LED of ESP8266 through our Grandeur Platform so let's take things one step further. Would'nt it be cool if we could control that LED using our custom app.
 That is exactly what we're going to build.
 
-Just like the last time, make sure you're all set up by following this tutorial [here](/getting-started). 
+Just like the last time, make sure you're all set up by following this tutorial [here](/getting-started).
 
 ## Get Started on Web
 
 We are going to use the [JavaScript SDK](https://github.com/grandeurtech/grandeurcloud-js-sdk) to integrate Grandeur into our app.
-The first step is to create an application through which we will publish data to our device. Our app will contain two files `index.html` where we will design the layout of the page and `main.js` where we will build the logic of page. 
-
+The first step is to create an application through which we will publish data to our device. Our app will contain two files `index.html` where we will design the layout of the page and `main.js` where we will build the logic of page.
 
 ## Web Application
 
-Here's our `index.html` file in which we define our layout and style. 
+Here's our `index.html` file in which we define our layout and style.
 
 ```html
-
 <!-- Index.html -->
 <!DOCTYPE html>
 <html>
+  <!-- Head block of our page-->
+  <head>
+    <!-- Let's give our page a title-->
+    <title>Pi Switch</title>
 
-	<!-- Head block of our page-->
-	<head>
-		<!-- Let's give our page a title-->
-		<title>Pi Switch</title>
+    <!-- Important meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- Important meta tag -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link SDK with CDN -->
+    <script src="https://unpkg.com/grandeur-js"></script>
 
-		<!-- Link SDK with CDN -->
-		<script src="https://unpkg.com/grandeur-js"></script>
+    <!-- Add CSS styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-		<!-- Add CSS styles -->
-		<script src="https://cdn.tailwindcss.com"></script>
+  <!-- Body block of our page-->
+  <body class="m-0 p-0 absolute h-full w-full inset-0">
+    <!-- The loader page, will be displayed while we will verify the user auth status -->
+    <div
+      id="loader"
+      class="w-full h-full bg-gray-200 items-center justify-center"
+      style="display: flex;"
+    >
+      <!-- We are using a svg -->
+      <div class="w-20 h-auto">
+        <svg
+          version="1.1"
+          id="L9"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 100 100"
+          enable-background="new 0 0 0 0"
+          xml:space="preserve"
+        >
+          <path
+            fill="#111827"
+            d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+          >
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="rotate"
+              dur="1s"
+              from="0 50 50"
+              to="360 50 50"
+              repeatCount="indefinite"
+            />
+          </path>
+        </svg>
+      </div>
+    </div>
 
-	</head>
+    <!-- The login page of our app -->
+    <div
+      id="login"
+      class="w-full h-full bg-gray-200 items-center justify-center"
+      style="display: none;"
+    >
+      <!-- Card holds the form -->
+      <div class="flex flex-col w-1/3">
+        <!-- The form to get email and passwordfrom users -->
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0"
+        />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0"
+        />
 
-	<!-- Body block of our page-->
-	<body class="m-0 p-0 absolute h-full w-full inset-0">
+        <!-- Button to submit the form-->
+        <button
+          id="submitLogin"
+          class="h-12 w-full mb-5 bg-gray-900 drop-shadow-lg rounded-md font-sans text-gray-100 text-medium text-sm outline-0"
+        >
+          Login
+        </button>
+      </div>
+    </div>
 
-		<!-- The loader page, will be displayed while we will verify the user auth status -->
-        <div id="loader"  class="w-full h-full bg-gray-200 items-center justify-center" style="display: flex;">
+    <!-- Main screen of the app -->
+    <div
+      id="device"
+      class="w-full h-full bg-gray-200 items-center justify-center"
+      style="display: none;"
+    >
+      <!-- The header of the page -->
+      <div
+        class="absolute inset-0 flex w-full h-12 items-center justify-between px-6 bg-gray-300 drop-shadow-md border-box"
+      >
+        <!-- Add title of the page -->
+        <div class="text-gray-600 font-sans text-md font-bold">
+          Internet Switch
+        </div>
 
-            <!-- We are using a svg -->
-            <div class="w-20 h-auto">
-				<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-					<path fill="#111827" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-						<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite" />
-					</path>
-				</svg>
-			</div>
+        <!-- Add logout icon -->
+        <button
+          id="logout"
+          class="h-8 text-gray-600 bg-gray-200 rounded-md px-5 text-sm font-sans font-bold cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
 
-		</div>
-		
-		<!-- The login page of our app -->
-		<div id="login" class="w-full h-full bg-gray-200 items-center justify-center" style="display: none;">
+      <!--Device loading -->
+      <div id="device-loading" class="w-20 h-auto">
+        <svg
+          version="1.1"
+          id="L9"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px"
+          y="0px"
+          viewBox="0 0 100 100"
+          enable-background="new 0 0 0 0"
+          xml:space="preserve"
+        >
+          <path
+            fill="#111827"
+            d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+          >
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="rotate"
+              dur="1s"
+              from="0 50 50"
+              to="360 50 50"
+              repeatCount="indefinite"
+            />
+          </path>
+        </svg>
+      </div>
 
-			<!-- Card holds the form -->
-			<div class="flex flex-col w-1/3">
+      <div id="device-button" style="display: none;">
+        <!-- The button -->
+        <div
+          class="h-44 w-44 bg-gray-100 drop-shadow-lg rounded-2xl flex items-center justify-center cursor-pointer"
+          onclick="updateState()"
+        >
+          <!-- Image -->
+          <svg
+            class="w-1/4 h-auto"
+            stroke="#556382"
+            id="device-button-state"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+        </div>
 
-				<!-- The form to get email and passwordfrom users -->
-				<input type="email" name="email" id="email" placeholder="Email" class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0" />
-				<input type="password" name="password" id="password" placeholder="Password" class="h-12 w-full mb-5 px-5 bg-gray-100 drop-shadow-lg rounded-md font-sans text-gray-900 text-sm outline-0" />
-				
-				<!-- Button to submit the form-->
-				<button id="submitLogin" class="h-12 w-full mb-5 bg-gray-900 drop-shadow-lg rounded-md font-sans text-gray-100 text-medium text-sm outline-0">Login</button>
+        <!-- The title -->
+        <div
+          class="text-gray-600 font-sans text-md font-bold mt-10 text-center"
+          id="device-name"
+        >
+          Device
+        </div>
+      </div>
+    </div>
 
-			</div>
-
-		</div>
-
-		<!-- Main screen of the app -->
-		<div id="device" class="w-full h-full bg-gray-200 items-center justify-center" style="display: none;">
-
-			<!-- The header of the page -->
-			<div class="absolute inset-0 flex w-full h-12 items-center justify-between px-6 bg-gray-300 drop-shadow-md border-box">
-
-				<!-- Add title of the page -->
-				<div class="text-gray-600 font-sans text-md font-bold" >Internet Switch</div>
-
-				<!-- Add logout icon -->
-				<button id="logout" class="h-8 text-gray-600 bg-gray-200 rounded-md px-5 text-sm font-sans font-bold cursor-pointer">Logout</button>
-			
-			</div>
-
-			<!--Device loading -->
-            <div id="device-loading" class="w-20 h-auto">
-				<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-					<path fill="#111827" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-						<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50" to="360 50 50" repeatCount="indefinite" />
-					</path>
-				</svg>
-			</div>
-
-			<div id="device-button" style="display: none;">
-
-				<!-- The button -->
-				<div class="h-44 w-44 bg-gray-100 drop-shadow-lg rounded-2xl flex items-center justify-center cursor-pointer" onclick="updateState()">
-					
-					<!-- Image -->
-					<svg class="w-1/4 h-auto" stroke="#556382" id="device-button-state" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line>
-					</svg>
-					
-				</div>
-
-				<!-- The title -->
-				<div class="text-gray-600 font-sans text-md font-bold mt-10 text-center" id="device-name">Device</div>
-
-			</div>
-
-
-
-		</div>
-
-		<!-- Main script file -->
-		<script src="main.js"></script>
-
-	</body>
-
+    <!-- Main script file -->
+    <script src="main.js"></script>
+  </body>
 </html>
-
 ```
 
 We link the SDK using its CDN link and link our main script file. On the button click, we call the updateState() function which we'll define in our `main.js` file. Here's the main script:
 
 ```js
-
-
 /**
  * @file: main.js
- * Initialize the SDK and get 
+ * Initialize the SDK and get
  * a reference to the project
-*/
+ */
 
 var project = grandeur.init("YOUR-API-KEY", "YOUR-SECRET-KEY");
 
 /** Device ID */
 var deviceID = "DEVICE-ID";
 
-/** 
+/**
  * This function uses the sdk to validate
  * that if the user is authenticated or not
-*/
+ */
 async function start() {
-	/** Use sdk auth class to check auth status */
-	var res = await project.auth().isAuthenticated();
+  /** Use sdk auth class to check auth status */
+  var res = await project.auth().isAuthenticated();
 
-	/** Then if the user isn't authorized then show the login screen */
-	if (res.code === "AUTH-UNAUTHORIZED") {
-		return displayLogin();
-	}
+  /** Then if the user isn't authorized then show the login screen */
+  if (res.code === "AUTH-UNAUTHORIZED") {
+    return displayLogin();
+  }
 
-	/** Display device screen */
-	displayDevice();
+  /** Display device screen */
+  displayDevice();
 }
 
 /** Listener on login form button to authenticate a user */
 document.getElementById("submitLogin").addEventListener("click", async () => {
-	/** Get email and password from inputs */
-	var email = document.getElementById("email").value;
-	var password = document.getElementById("password").value;
+  /** Get email and password from inputs */
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
 
-	/** Display laoder */
-	displayLoader();
+  /** Display laoder */
+  displayLoader();
 
-	/** Use the sdk auth class to login the user */
-	var res = await project.auth().login(email, password);
+  /** Use the sdk auth class to login the user */
+  var res = await project.auth().login(email, password);
 
-	/** If the operation was successful */
-	if (res.code === "AUTH-ACCOUNT-LOGGEDIN") {
+  /** If the operation was successful */
+  if (res.code === "AUTH-ACCOUNT-LOGGEDIN") {
+    /** Reset the login page */
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
 
-		/** Reset the login page */
-		document.getElementById("email").value = "";
-		document.getElementById("password").value = "";
-		
-		/** Display device screen */
-		return displayDevice();
+    /** Display device screen */
+    return displayDevice();
+  }
 
-	}
-
-	/** otherwise display the login screen again */
-	displayLogin();
+  /** otherwise display the login screen again */
+  displayLogin();
 });
 
 /** Add event handler on logout icon */
 document.getElementById("logout").addEventListener("click", async () => {
-	/** Show the loader */
-	displayLoader();
+  /** Show the loader */
+  displayLoader();
 
-	/** and use the auth class of sdk to logout the user */
-	await project.auth().logout();
+  /** and use the auth class of sdk to logout the user */
+  await project.auth().logout();
 
-	/** Then call start again */
-	start();
+  /** Then call start again */
+  start();
 });
 
 /** Function to show laoder screen */
 function displayLoader() {
-	/** Display loader */
-	document.getElementById("loader").style.display = "flex";
+  /** Display loader */
+  document.getElementById("loader").style.display = "flex";
 
-	/** Hide login screen */
-	document.getElementById("login").style.display = "none";
+  /** Hide login screen */
+  document.getElementById("login").style.display = "none";
 
-	/** Hide device screen */
-	document.getElementById("device").style.display = "none";
-	document.getElementById("device-button").style.display = "none";
+  /** Hide device screen */
+  document.getElementById("device").style.display = "none";
+  document.getElementById("device-button").style.display = "none";
 }
 
 /** Function to show login screen */
 function displayLogin() {
-	/** Hide loader */
-	document.getElementById("loader").style.display = "none";
+  /** Hide loader */
+  document.getElementById("loader").style.display = "none";
 
-	/** Display login screen */
-	document.getElementById("login").style.display = "flex";
+  /** Display login screen */
+  document.getElementById("login").style.display = "flex";
 }
 
 /** Function to show device screen */
 async function displayDevice() {
-	/** Hide loader */
-	document.getElementById("loader").style.display = "none";
+  /** Hide loader */
+  document.getElementById("loader").style.display = "none";
 
-	/** Display button screen */
-	document.getElementById("device").style.display = "flex";
+  /** Display button screen */
+  document.getElementById("device").style.display = "flex";
 
-	/** Start loader on deivce */
-	document.getElementById("device-loading").style.display = "block";
+  /** Start loader on deivce */
+  document.getElementById("device-loading").style.display = "block";
 
-	/** Use sdk devices class */
-	var devices = project.devices();
+  /** Use sdk devices class */
+  var devices = project.devices();
 
-	/** Get device name */
-	var { device } = await devices.device(deviceID).get("name");
+  /** Get device name */
+  var { device } = await devices.device(deviceID).get("name");
 
-	/** And get device data */
-	var { data } = await devices.device(deviceID).data().get("state");
+  /** And get device data */
+  var { data } = await devices.device(deviceID).data().get("state");
 
-	/** Set device name */
-	document.getElementById("device-name").innerHTML = device.name;
+  /** Set device name */
+  document.getElementById("device-name").innerHTML = device.name;
 
-	/** Set button style */
-	document.getElementById("device-button-state").setAttribute("stroke", data ? "#74C365" : "#556382");
-	document.getElementById("device-button-state").setAttribute("data-state", data);
+  /** Set button style */
+  document
+    .getElementById("device-button-state")
+    .setAttribute("stroke", data ? "#74C365" : "#556382");
+  document
+    .getElementById("device-button-state")
+    .setAttribute("data-state", data);
 
-	// Display button
-	document.getElementById("device-loading").style.display = "none";
-	document.getElementById("device-button").style.display = "block";
+  // Display button
+  document.getElementById("device-loading").style.display = "none";
+  document.getElementById("device-button").style.display = "block";
 
-	/** Then also subscribe to the state update event of the device */
-	devices.device(deviceID).data().on("state", (path, state) => {
-
-		/** Update ui */
-		document.getElementById("device-button-state").setAttribute("stroke", state ? "#74C365" : "#556382");
-		document.getElementById("device-button-state").setAttribute("data-state", state);
-
-	});
+  /** Then also subscribe to the state update event of the device */
+  devices
+    .device(deviceID)
+    .data()
+    .on("state", (path, state) => {
+      /** Update ui */
+      document
+        .getElementById("device-button-state")
+        .setAttribute("stroke", state ? "#74C365" : "#556382");
+      document
+        .getElementById("device-button-state")
+        .setAttribute("data-state", state);
+    });
 }
 
 /** Function to update the state of a device */
 async function updateState() {
-	/** Create new state */
-	var newState = document.getElementById("device-button-state").getAttribute("data-state") === "1" ? 0 : 1;
+  /** Create new state */
+  var newState =
+    document
+      .getElementById("device-button-state")
+      .getAttribute("data-state") === "1"
+      ? 0
+      : 1;
 
-	/** Use the devices class of sdk to report the upgrade */
-	await project.devices().device(deviceID).data().set("state", newState);
+  /** Use the devices class of sdk to report the upgrade */
+  await project.devices().device(deviceID).data().set("state", newState);
 }
 
 /** Start the app */
 start();
-
 ```
+
 Here is how this app mainly works:
 
 ![State Diagram](/images/js-app/test.png)
 
-So in short, when the app loads it shows a login page through which we can log into our specified user account. 
+So in short, when the app loads it shows a login page through which we can log into our specified user account.
 After logging in, it establishes the communication channel with the Cloud using the API key, access key and token. And when the button clicking calls the `updateState` function, we send a request to the Cloud to update the state variable.
 Once the user has performed the required operation, he can logout and return to the login screen.
 
 We get the device name and device data through data.get() to work with. Later, we subscribe to the device-state by data.on() so that we can get notified in chase of change of any event,
-To learn more about them click [here](/references/client-sdk/devices/device-device/device-data/device-data-get). 
+To learn more about them click [here](/references/client-sdk/devices/device-device/device-data/device-data-get).
 
 ![Display Device](/images/js-app/display-device.webp)
 
-The event listener on a device toggles the state of that device. Also since the app subscribed to the device state, its listener is automatically fired once the state is updated on clicking on/off button, and updates the app's UI to represent that the state has been changed (Grandeur is event driven, remember!). 
+The event listener on a device toggles the state of that device. Also since the app subscribed to the device state, its listener is automatically fired once the state is updated on clicking on/off button, and updates the app's UI to represent that the state has been changed (Grandeur is event driven, remember!).
 
 ![Update State](/images/js-app/update-state.webp)
 
 This is how your complete app will look like and function:
 
-<Video src="/images/js-app/js-app.webm"/>
+<Video src="/images/js-app/js-app.webm" />
 
 ## Testing Locally
 
 Here we are finally. Let's test what we have build. We go to run our web app to send the data. For that we run a local server with the live server extension of our editing environment.
 
 <Callout emoji="ℹ️">
- [<ins>Live Server</ins>](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) is the go-to option in VS Code. Just install the extension and you can see a Go Live icon appear at the bottom.  
+  [<ins>Live Server</ins>
+  ](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) is
+  the go-to option in VS Code. Just install the extension and you can see a Go Live
+  icon appear at the bottom.
 </Callout>
 
 But there's a security measure. You cannot send data from your app to the Cloud unless you [whitelist your domain](/guides/security/cors) in the settings section. Your domain is the address that is shown in the browser's URL bar when you open your app. This prevents all the unidentified sources from accessing your Cloud project's data in case you lose your access key.
-
-
-
-
-
-

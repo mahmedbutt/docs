@@ -23,7 +23,10 @@ module.exports = {
 
 		// Fonts
 		fontFamily: {
-			sans: ['Poppins', 'sans-serif']
+			sans: ['Poppins', 'sans-serif'],
+			whyte: ['Whyte', 'sans-serif'],
+
+			
 		},
 
 		// Font size
@@ -47,6 +50,8 @@ module.exports = {
 				3 : '#24242e', // hsl(240, 12%, 16%)'
 				4 : '#2b2b36', // hsl(240, 12%, 19%)'
 				5 : '#31313f', // hsl(240, 12%, 22%)'
+	 
+
 				
 			},
 

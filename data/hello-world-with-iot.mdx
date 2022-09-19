@@ -1,5 +1,7 @@
 ---
 title: Hello World with IoT
+pinned: pinned
+emoji: 👋🏻
 ---
 
 # Hello World with IoT
@@ -8,8 +10,8 @@ In order to truly understand the potential of Grandeur, we are going to make a s
 
 In this tutorial, we will use the `ESP8266 - Espressif Wemos D1 Mini ` module and we will build an app with Grandeur to control the on-board LED of the ESP8266 module over the internet. This is one of the core use cases of IoT and can be extended for applications where control of a device or appliance is required over the internet.
 
-First, make sure you are all set up by following this [guideline](/getting-started). 
- 
+First, make sure you are all set up by following this [guideline](/getting-started).
+
 ### Setting up the Arduino Environment
 
 If you don't already have the Arduino IDE set up , [here's](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing) how you can do it.
@@ -101,7 +103,7 @@ void onConnection(bool status) {
     switch(status) {
         case CONNECTED:
             /* Device connected to the cloud */
-            
+
             Serial.println("Device is connected to the cloud.");
 
             /* Getting the previous state */
@@ -157,11 +159,11 @@ Here's what's essentially happening in this code:
 ![State Diagram](/images/js-app/internet-switch.webp)
 
 `loop` function is what runs the SDK: it connects the device with Grandeur; when disconnected, it automatically reconnects; pulls new messages from Grandeur; pushes messages to Grandeur; and so on. But trying to do any sort of communication on the internet is useless until the WiFi isn't connected. In this case, it would only run when the WiFi is connected. If while running, the WiFi gets disconnected, `WiFi.status() == WL_CONNECTED` would evaluate to false and the SDK would stop running (trying to send more messages or fetch data).
- You subscribe to a device variable, which means if an update occurs in that variable at any time, the device will instantly get it. To subscribe to a variable, you just need to pass the variable name and a function to `device(deviceId).data().on()`. The function you pass to `device(deviceId).data().on()` is set as an update handler for that variable, which means the code inside that function will be run whenever that variable is updated. The state is ultimately toggled in the update handler. 
+You subscribe to a device variable, which means if an update occurs in that variable at any time, the device will instantly get it. To subscribe to a variable, you just need to pass the variable name and a function to `device(deviceId).data().on()`. The function you pass to `device(deviceId).data().on()` is set as an update handler for that variable, which means the code inside that function will be run whenever that variable is updated. The state is ultimately toggled in the update handler.
 
-### What Next 
+### What Next
 
-Add your token, API key and deviceID into the Grandeur Credentials section of the code . Next add enter your WiFi Credentials and you are all good to go! [Here](/getting-started) is how you do it incase you have forgotten. 
+Add your token, API key and deviceID into the Grandeur Credentials section of the code . Next add enter your WiFi Credentials and you are all good to go! [Here](/getting-started) is how you do it incase you have forgotten.
 
 Now simply run your code in the Arduino IDE. After the upload is complete, the LED on ESP8266 will blink fast, indicating that the ESP is trying to connect to the WiFi network. As soon as the connection is established, the LED stops blinking. Inside your terminal, you'd see dots (.) printing while the ESP is connecting to WiFi. After successful connection, it prints the ESP's IP Address.
 
@@ -177,7 +179,7 @@ To control the on-board LED on the ESP8266, go the Grandeur Dashboard and creat
 
 <Video src="/images/guides/canvas-button.webm" />
 
-A Canvas guide is also lsited below. 
+A Canvas guide is also lsited below.
 
 <Callout emoji="📋">
     [Canvas Guide](/guides/canvas) 
@@ -186,5 +188,3 @@ A Canvas guide is also lsited below.
 Click the switch and look at the LED on the ESP8266. The LED on the ESP8266 should toggle every time you hit the switch button. Here is an example of how your canvas button will look like whle you are controlling the on-board LED.
 
 <Video src="/images/guides/button-control.webm" />
-
-

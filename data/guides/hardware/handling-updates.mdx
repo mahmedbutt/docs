@@ -11,8 +11,8 @@ Let's set an update handler for device voltage now:
 #include <Grandeur.h>
 #include <ESP8266WiFi.h>
 
-Grandeur::Project Project;
-Grandeur::Project::Device Device;
+Grandeur::Project project;
+Grandeur::Project::Device device;
 
 void setupWiFi(void) {
   Serial.begin(9600);
@@ -21,8 +21,8 @@ void setupWiFi(void) {
   // Setting it to Station mode which basically scans for nearby WiFi routers.
   WiFi.mode(WIFI_STA);
   // Begin connecting to WiFi.
-  WiFi.begin(YourWiFiSSID, YourWiFiPassphrase);
-  Serial.printf("\nDevice is connecting to WiFi using SSID %s and Passphrase %s.\n", ssid.c_str(), passphrase.c_str());
+  WiFi.begin(SSID, Password);
+  Serial.printf("\nDevice is connecting to WiFi using SSID %s and password %s.\n", ssid.c_str(), password.c_str());
 }
 
 void printUpdatedVoltage(const char* path, int voltage) {
@@ -34,15 +34,15 @@ void setup() {
   Serial.begin(9600);
   setupWiFi();
 
-  Project = grandeur.init(YourApiKey, AccessToken);
-  Device = Project.device(YourDeviceID);
+  project = grandeur.init(apiKey, token);
+  device = project.device(deviceID);
 
   Device.data().on("voltage", printUpdatedVoltage)
 }
 
 void loop() {
   // This runs the SDK when the device WiFi is connected.
-  if(WiFi.status() == WL_CONNECTED) Project.loop();
+  if(WiFi.status() == WL_CONNECTED) project.loop();
 }
 
 ```

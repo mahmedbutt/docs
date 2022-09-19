@@ -14,13 +14,13 @@ This method gets a device variable from Grandeur.
 | path         |    String	 | Path of the device variable using dot notation.|
 
 
-<Tabs group="tab-group-test">
+<Tabs group="tab-test">
 
   <Item value="arduino" label="Arduino">
 
 ```cpp
 Grandeur::Project project;
-Grandeur::Project::Device Device;
+Grandeur::Project::Device device;
 
 void getVoltageCallback(const char* code, int voltage) { // You can write any type int/double/bool/const char* in place of Var and it'll cast voltage to that type.
   // This method prints *voltage* variable from device data.
@@ -29,13 +29,13 @@ void getVoltageCallback(const char* code, int voltage) { // You can write any ty
 
 void setup() {
   project = grandeur.init(ApiKey, YourToken);
-  Device = project.device(DeviceID);
+  device = project.device(deviceID);
 }
 
 void loop() {
   // This requests to get "voltage" variable from device data on every loop and calls getVoltageCallback() function when the
   // data from Grandeur actually arrives.
-  Device.data().get("voltage", getVoltageCallback);
+  device.data().get("voltage", getVoltageCallback);
 
   if(WiFiIsConnected) project.loop();
 }
@@ -49,10 +49,10 @@ void loop() {
       import grandeur.device as grandeur
 
       # Init the sdk
-      project = grandeur.init(APIKey, Token)
+      project = grandeur.init(apiKey, token)
 
       # Get reference to device class
-      device = project.device(DeviceID)
+      device = project.device(deviceID)
 
       # Function to handle the response on get call
       def getCallback(code, res):

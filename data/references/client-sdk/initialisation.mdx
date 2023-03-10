@@ -1,6 +1,7 @@
 ---
 title: Initialization
 ---
+
 # Initialization
 
 <Tabs group="tab-group-test">
@@ -12,8 +13,8 @@ title: Initialization
 
     ```js
       // With global Grandeur object,
-      // you can simply initialize the SDK 
-      // with your API key and get reference 
+      // you can simply initialize the SDK
+      // with your API key and get reference
       // to your project
       var project = grandeur.init("YOUR-APIKEY", "SECRET-KEY");
     ```
@@ -23,7 +24,7 @@ title: Initialization
   <Item value="react" label="React">
 
     The installed package exports two things:
-    - a react component - use it as parent component to entire app code and init the SDK 
+    - a react component - use it as parent component to entire app code and init the SDK
     - HOC - wrap the component in which you want to access the Grandeur object to make request to Grandeur.
 
     It is shown in the sample code below
@@ -38,7 +39,7 @@ title: Initialization
       import App from './app';
 
       // and Import Grandeur Component
-      import {Grandeur} from 'grandeur-react';
+      import {Grandeur} from 'grandeur-js/react';
 
       // Your access credential
       // you can generate it through settings page
@@ -58,7 +59,7 @@ title: Initialization
       // Finally render
       ReactDOM.render(page, document.getElementById('root'));
       ```
-      Then in app.js 
+      Then in app.js
 
       ```js
       // app.js
@@ -68,7 +69,7 @@ title: Initialization
       import React, { Component } from 'react';
 
       // Import Grandeur HOC
-      import {withGrandeur} from 'grandeur-react';
+      import {withGrandeur} from 'grandeur-js/react';
 
       // Component
       class App extends Component {
@@ -84,13 +85,13 @@ title: Initialization
           componentDidMount() {
               // Component is Mounted
               // get reference to the grandeur
-              // through props. Which can be used to 
+              // through props. Which can be used to
               // access all the features of Grandeur
               var project = this.props.grandeur;
           }
-          
+
           // Render
-          render() { 
+          render() {
               // Render the Component
               return <p>Hello World</p>;
           }
@@ -99,6 +100,7 @@ title: Initialization
       // Export the Component after wrapping in HOC
       export default withGrandeur(App);
     ```
+
   </Item>
 
 </Tabs>
